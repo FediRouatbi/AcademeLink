@@ -7,7 +7,7 @@ export default function AuthLayout({
   params: { locale: string };
 }) {
   return (
-    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+    <div className="w-full lg:grid  lg:grid-cols-2 min-h-svh">
       {children}
       <div className="hidden bg-gray-100 lg:block dark:bg-gray-800">
         <Image

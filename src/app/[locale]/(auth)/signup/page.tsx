@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 const Signup = () => {
   return (
     <div className="flex items-center justify-center py-12">
@@ -15,30 +16,31 @@ const Signup = () => {
               <Input
                 id="signup-email"
                 placeholder="Enter your email"
-                required
                 type="email"
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="signup-username">Username</Label>
-              <Input
-                id="signup-username"
-                placeholder="Choose a username"
-                required
-              />
+              <Input id="signup-username" placeholder="Choose a username" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="signup-password">Password</Label>
-              <Input id="signup-password" required type="password" />
+              <Input id="signup-password" type="password" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="signup-password">Confirm Password</Label>
-              <Input id="signup-password" required type="password" />
+              <Input id="signup-password"  type="password" />
             </div>
 
             <Button className="w-full" type="submit">
               Sign Up
             </Button>
+            <div className="mt-4 text-center text-sm">
+              Already have an account?{" "}
+              <Link className="underline" href="/login">
+                Login
+              </Link>
+            </div>
           </form>
         </div>
       </div>

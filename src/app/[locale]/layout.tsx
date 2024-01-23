@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NextIntlClientProvider, useMessages } from "next-intl";
 import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
@@ -30,9 +31,18 @@ export default function RootLayout(props: {
   children: React.ReactNode;
   params: { locale: string };
 }) {
+  const messages = useMessages();
+
   return (
     <html lang={props.params.locale}>
-      <body>{props.children}</body>
+      <body>
+        <NextIntlClientProvider
+          locale={props.params.locale}
+          messages={messages}
+        >
+          {props.children}
+        </NextIntlClientProvider>
+      </body>
     </html>
   );
 }
