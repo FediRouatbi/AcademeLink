@@ -1,17 +1,10 @@
 import { api_url, auth } from "@/constants/utils";
-import { graphql } from "@/gql";
 import { useQuery } from "@tanstack/react-query";
 import request from "graphql-request";
+import { graphql } from "../../gql";
 const getProfile = graphql(`
-  query getMyProfile {
-    getMyProfile {
-      user_id
-      user_name
-      first_name
-      last_name
-      force_reset_password
-      two_factor_auth
-    }
+  query Hello {
+    Hello
   }
 `);
 

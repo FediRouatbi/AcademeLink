@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -5,8 +6,12 @@ import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import useCreateTeacher from "@/hooks/useCreateTeacher";
+import useGetMyProfile from "@/hooks/useGetMyProfile";
 const Login = () => {
   const t = useTranslations("RootLayout");
+  const { mutate } = useCreateTeacher();
+  const { data } = useGetMyProfile();
 
   return (
     <div className="flex items-center justify-center py-12">
@@ -29,7 +34,7 @@ const Login = () => {
                 Forgot your password?
               </Link>
             </div>
-            <Input id="password"  type="password" />
+            <Input id="password" type="password" />
           </div>
           <div className="flex items-center space-x-2">
             <Checkbox id="remember-me" />
@@ -37,7 +42,14 @@ const Login = () => {
               Remember me
             </Label>
           </div>
-          <Button className="w-full" type="submit">
+          <Button
+            className="w-full"
+            type="submit"
+            onClick={(e) => {
+              e.preventDefault();
+              mutate();
+            }}
+          >
             Login
           </Button>
           <div className="mt-4 text-center text-sm">

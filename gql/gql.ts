@@ -13,7 +13,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  query getMyProfile {\n    getMyProfile {\n      user_id\n      user_name\n      first_name\n      last_name\n      force_reset_password\n      two_factor_auth\n    }\n  }\n": types.GetMyProfileDocument,
+    "\n  mutation TestEndPoint($createTeacher: CreateTeacher!) {\n    TestEndPoint(createTeacher: $createTeacher) {\n      first_name\n      last_name\n      user_id\n      user_name\n    }\n  }\n": types.TestEndPointDocument,
+    "\n  query Hello {\n    Hello\n  }\n": types.HelloDocument,
 };
 
 /**
@@ -33,7 +34,11 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query getMyProfile {\n    getMyProfile {\n      user_id\n      user_name\n      first_name\n      last_name\n      force_reset_password\n      two_factor_auth\n    }\n  }\n"): (typeof documents)["\n  query getMyProfile {\n    getMyProfile {\n      user_id\n      user_name\n      first_name\n      last_name\n      force_reset_password\n      two_factor_auth\n    }\n  }\n"];
+export function graphql(source: "\n  mutation TestEndPoint($createTeacher: CreateTeacher!) {\n    TestEndPoint(createTeacher: $createTeacher) {\n      first_name\n      last_name\n      user_id\n      user_name\n    }\n  }\n"): (typeof documents)["\n  mutation TestEndPoint($createTeacher: CreateTeacher!) {\n    TestEndPoint(createTeacher: $createTeacher) {\n      first_name\n      last_name\n      user_id\n      user_name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query Hello {\n    Hello\n  }\n"): (typeof documents)["\n  query Hello {\n    Hello\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
