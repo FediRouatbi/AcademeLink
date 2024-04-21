@@ -1,17 +1,13 @@
-"use client";
 import React from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
-import { useTranslations } from "next-intl";
-import useCreateTeacher from "@/hooks/useCreateTeacher";
-import useGetMyProfile from "@/hooks/useGetMyProfile";
-const Login = () => {
-  const t = useTranslations("RootLayout");
-  const { mutate } = useCreateTeacher();
-  const { data } = useGetMyProfile();
+import Form from "./components/Form";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getTranslations } from "next-intl/server";
+const Login = async () => {
+  const session = await getServerSession(authOptions);
+  const t = await getTranslations("RootLayout");
+  if (session) return redirect("/fr/");
 
   return (
     <div className="flex items-center justify-center py-12">
@@ -22,43 +18,7 @@ const Login = () => {
             Enter your email below to login to your account
           </p>
         </div>
-        <form className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" placeholder="m@example.com" type="email" />
-          </div>
-          <div className="space-y-2">
-            <div className="flex items-center">
-              <Label htmlFor="password">Password</Label>
-              <Link className="ml-auto inline-block text-sm underline" href="#">
-                Forgot your password?
-              </Link>
-            </div>
-            <Input id="password" type="password" />
-          </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox id="remember-me" />
-            <Label className="text-sm" htmlFor="remember-me">
-              Remember me
-            </Label>
-          </div>
-          <Button
-            className="w-full"
-            type="submit"
-            onClick={(e) => {
-              e.preventDefault();
-              mutate();
-            }}
-          >
-            Login
-          </Button>
-          <div className="mt-4 text-center text-sm">
-            Don't have an account?{" "}
-            <Link className="underline" href="/signup">
-              Sign up
-            </Link>
-          </div>
-        </form>
+        <Form />
       </div>
     </div>
   );

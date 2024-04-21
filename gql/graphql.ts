@@ -14,51 +14,273 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
+  DateTime: { input: any; output: any; }
+  /** A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction. */
+  JWT: { input: any; output: any; }
 };
 
-export type CreateTeacher = {
-  email?: InputMaybe<Scalars['String']['input']>;
+export type Auth = {
+  __typename?: 'Auth';
+  /** JWT access token */
+  accessToken: Scalars['JWT']['output'];
+  /** JWT refresh token */
+  refreshToken: Scalars['JWT']['output'];
+};
+
+export type Classroom = {
+  __typename?: 'Classroom';
+  classroom_id: Scalars['String']['output'];
+  classroom_name: Scalars['String']['output'];
+  createdAt: Scalars['String']['output'];
+  student?: Maybe<Array<Student>>;
+  subject?: Maybe<Array<Scalars['String']['output']>>;
+  teacher?: Maybe<Array<Teacher>>;
+};
+
+export type ClassroomTest = {
+  __typename?: 'ClassroomTest';
+  classroom_id: Scalars['Float']['output'];
+  classroom_name: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+};
+
+export type CreateStudent = {
+  classroom_id?: InputMaybe<Scalars['Float']['input']>;
+  email: Scalars['String']['input'];
   first_name: Scalars['String']['input'];
   last_name: Scalars['String']['input'];
   password: Scalars['String']['input'];
   user_name: Scalars['String']['input'];
 };
 
-export type Mutation = {
-  __typename?: 'Mutation';
-  TestEndPoint: Teacher;
+export type CreateTeacher = {
+  email: Scalars['String']['input'];
+  first_name: Scalars['String']['input'];
+  last_name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  user_name: Scalars['String']['input'];
 };
 
-
-export type MutationTestEndPointArgs = {
-  createTeacher: CreateTeacher;
-};
-
-export type Query = {
-  __typename?: 'Query';
-  Hello: Scalars['String']['output'];
-};
-
-export type Teacher = {
-  __typename?: 'Teacher';
+export type CurrentUser = {
+  __typename?: 'CurrentUser';
+  createdAt: Scalars['DateTime']['output'];
   first_name: Scalars['String']['output'];
   last_name: Scalars['String']['output'];
+  role: RoleCodeEnum;
+  updatedAt: Scalars['DateTime']['output'];
   user_id: Scalars['Int']['output'];
   user_name: Scalars['String']['output'];
 };
 
-export type TestEndPointMutationVariables = Exact<{
+export type LoginInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  CreateStudent: Student;
+  CreateTeacher: Teacher;
+  EditStudent: Student;
+  EditTeacher: Teacher;
+  creatClassroom: Classroom;
+  deleteClassroom: Classroom;
+  deleteStudent: Student;
+  deleteTeacher: Teacher;
+  editClassromm: Classroom;
+  login: Auth;
+  refreshToken: Token;
+  signup: Auth;
+};
+
+
+export type MutationCreateStudentArgs = {
+  createStudent: CreateStudent;
+};
+
+
+export type MutationCreateTeacherArgs = {
   createTeacher: CreateTeacher;
+};
+
+
+export type MutationEditStudentArgs = {
+  editStudent: UpdateStudent;
+  id: Scalars['Int']['input'];
+};
+
+
+export type MutationEditTeacherArgs = {
+  editTeacher: UpdateTeacher;
+  id: Scalars['Int']['input'];
+};
+
+
+export type MutationCreatClassroomArgs = {
+  classroom: Scalars['String']['input'];
+  studentsId?: Array<Scalars['Int']['input']>;
+  teachersId?: Array<Scalars['Int']['input']>;
+};
+
+
+export type MutationDeleteClassroomArgs = {
+  classroomId: Scalars['Float']['input'];
+};
+
+
+export type MutationDeleteStudentArgs = {
+  teacherId: Scalars['Float']['input'];
+};
+
+
+export type MutationDeleteTeacherArgs = {
+  teacherId: Scalars['Float']['input'];
+};
+
+
+export type MutationEditClassrommArgs = {
+  editClassromm: UpdateClassroom;
+  id: Scalars['Int']['input'];
+};
+
+
+export type MutationLoginArgs = {
+  data: LoginInput;
+};
+
+
+export type MutationRefreshTokenArgs = {
+  token: Scalars['JWT']['input'];
+};
+
+
+export type MutationSignupArgs = {
+  data: SignupInput;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  GetStudents: Array<Student>;
+  GetTeacher: Teacher;
+  GetTeachers: Array<Teacher>;
+  getClassromm: Classroom;
+  getClassromms: Array<Classroom>;
+  getCurrentUser: CurrentUser;
+  getStudent: Student;
+};
+
+
+export type QueryGetTeacherArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+export type QueryGetClassrommArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+export type QueryGetStudentArgs = {
+  id: Scalars['Int']['input'];
+};
+
+export enum RoleCodeEnum {
+  Admin = 'ADMIN',
+  Student = 'STUDENT',
+  Teacher = 'TEACHER'
+}
+
+export type SignupInput = {
+  email: Scalars['String']['input'];
+  first_name: Scalars['String']['input'];
+  last_name: Scalars['String']['input'];
+  role: RoleCodeEnum;
+  user_name: Scalars['String']['input'];
+};
+
+export type Student = {
+  __typename?: 'Student';
+  classroom?: Maybe<ClassroomTest>;
+  student_id: Scalars['Float']['output'];
+  user: User;
+};
+
+export type Teacher = {
+  __typename?: 'Teacher';
+  teacher_id: Scalars['Int']['output'];
+  user: User;
+};
+
+export type Token = {
+  __typename?: 'Token';
+  /** JWT access token */
+  accessToken: Scalars['JWT']['output'];
+  /** JWT refresh token */
+  refreshToken: Scalars['JWT']['output'];
+};
+
+export type UpdateClassroom = {
+  classroom_name?: InputMaybe<Scalars['String']['input']>;
+  students?: InputMaybe<Array<Scalars['String']['input']>>;
+  subjects?: InputMaybe<Array<Scalars['String']['input']>>;
+  teachers?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type UpdateStudent = {
+  classroom_id?: InputMaybe<Scalars['Float']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  first_name?: InputMaybe<Scalars['String']['input']>;
+  last_name?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  user_name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateTeacher = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  first_name?: InputMaybe<Scalars['String']['input']>;
+  last_name?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  user_name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type User = {
+  __typename?: 'User';
+  createdAt: Scalars['DateTime']['output'];
+  email: Scalars['String']['output'];
+  first_name: Scalars['String']['output'];
+  last_name: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+  user_id: Scalars['Int']['output'];
+  user_name: Scalars['String']['output'];
+};
+
+export type LoginMutationVariables = Exact<{
+  data: LoginInput;
 }>;
 
 
-export type TestEndPointMutation = { __typename?: 'Mutation', TestEndPoint: { __typename?: 'Teacher', first_name: string, last_name: string, user_id: number, user_name: string } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'Auth', accessToken: any, refreshToken: any } };
 
-export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetStudentQueryVariables = Exact<{
+  getStudentId: Scalars['Int']['input'];
+}>;
 
 
-export type HelloQuery = { __typename?: 'Query', Hello: string };
+export type GetStudentQuery = { __typename?: 'Query', getStudent: { __typename?: 'Student', student_id: number, classroom?: { __typename?: 'ClassroomTest', classroom_id: number, classroom_name: string, createdAt: any } | null, user: { __typename?: 'User', createdAt: any, email: string, first_name: string, last_name: string, updatedAt: any, user_id: number, user_name: string } } };
+
+export type GetStudentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export const TestEndPointDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"TestEndPoint"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createTeacher"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateTeacher"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"TestEndPoint"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createTeacher"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createTeacher"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"user_name"}}]}}]}}]} as unknown as DocumentNode<TestEndPointMutation, TestEndPointMutationVariables>;
-export const HelloDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Hello"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Hello"}}]}}]} as unknown as DocumentNode<HelloQuery, HelloQueryVariables>;
+export type GetStudentsQuery = { __typename?: 'Query', GetStudents: Array<{ __typename?: 'Student', student_id: number, classroom?: { __typename?: 'ClassroomTest', classroom_id: number, classroom_name: string, createdAt: any } | null, user: { __typename?: 'User', user_id: number, createdAt: any, first_name: string, last_name: string, updatedAt: any, user_name: string, email: string } }> };
+
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'CurrentUser', createdAt: any, first_name: string, last_name: string, updatedAt: any, role: RoleCodeEnum, user_id: number, user_name: string } };
+
+
+export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"refreshToken"}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
+export const GetStudentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetStudent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getStudentId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getStudent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getStudentId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"classroom"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"classroom_id"}},{"kind":"Field","name":{"kind":"Name","value":"classroom_name"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"student_id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"user_name"}}]}}]}}]}}]} as unknown as DocumentNode<GetStudentQuery, GetStudentQueryVariables>;
+export const GetStudentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetStudents"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"GetStudents"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"student_id"}},{"kind":"Field","name":{"kind":"Name","value":"classroom"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"classroom_id"}},{"kind":"Field","name":{"kind":"Name","value":"classroom_name"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"user_name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<GetStudentsQuery, GetStudentsQueryVariables>;
+export const GetCurrentUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"user_id"}},{"kind":"Field","name":{"kind":"Name","value":"user_name"}}]}}]}}]} as unknown as DocumentNode<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
