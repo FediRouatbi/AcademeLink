@@ -2,11 +2,9 @@ import React from "react";
 import Form from "./components/Form";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { getTranslations } from "next-intl/server";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
 const Login = async () => {
   const session = await getServerSession(authOptions);
-  const t = await getTranslations("RootLayout");
   if (session) return redirect("/fr/");
 
   return (

@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { SearchIcon } from "../assets/svg";
 import { Input } from "@/components/ui/input";
 import { FormProvider, useForm } from "react-hook-form";
+import { SearchIcon } from "@/assets/svg";
 
 const Search = () => {
   const methods = useForm();

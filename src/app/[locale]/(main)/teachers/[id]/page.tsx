@@ -42,25 +42,29 @@ import {
 } from "@tanstack/react-query";
 import Header from "./components/Header";
 import { getStudent } from "@/services/student";
+import { getTeacher } from "@/services/teacher";
+import TeacherProfileCard from "./components/TeacherProfileCard";
 type Props = {
   params: { locale: "fr" | "en"; id: string };
 };
 export default async function page({ params }: Props) {
   const queryClient = new QueryClient();
-  const studentId = +params.id;
+  const teacherId = +params.id;
 
   await queryClient.prefetchQuery({
-    queryKey: ["students", studentId],
-    queryFn: () => getStudent(studentId),
+    queryKey: ["teachers", teacherId],
+    queryFn: () => getTeacher(teacherId),
     staleTime: 500,
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className=" grid  mr-auto  auto-rows-max gap-4">
-        <Header studentId={studentId} />
+        <Header teacherId={teacherId} />
         <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
           <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+            <TeacherProfileCard teacherId={teacherId} />
+
             <Card x-chunk="dashboard-07-chunk-0">
               <CardHeader>
                 <CardTitle>Product Details</CardTitle>

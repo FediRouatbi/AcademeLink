@@ -1,11 +1,15 @@
+import { unstable_setRequestLocale } from "next-intl/server";
 import Image from "next/image";
 
 export default function AuthLayout({
   children,
+  params: { locale },
 }: {
   children: React.ReactNode;
   params: { locale: string };
 }) {
+  unstable_setRequestLocale(locale);
+
   return (
     <div className="w-full lg:grid  lg:grid-cols-2 min-h-svh overflow-hidden">
       {children}
@@ -20,6 +24,7 @@ export default function AuthLayout({
             objectFit: "cover",
           }}
           width="1920"
+          priority
         />
       </div>
     </div>

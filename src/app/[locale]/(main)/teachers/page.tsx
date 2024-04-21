@@ -4,20 +4,20 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import StudentsTabel from "./components/Table";
-import { getStudents } from "@/services/student";
+import { getTeachers } from "@/services/teacher";
+import TeachersTabel from "./components/Table";
 
 const page = async () => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["students"],
-    queryFn: getStudents,
+    queryKey: ["teachers"],
+    queryFn: getTeachers,
     staleTime: 500,
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <StudentsTabel />
+      <TeachersTabel />
     </HydrationBoundary>
   );
 };

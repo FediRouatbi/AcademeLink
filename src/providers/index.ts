@@ -1,4 +1,4 @@
 import { AuthProvider } from "./auth-provider";
 import { ReactQueryProvider } from "./react-query-provider";
-
-export { AuthProvider, ReactQueryProvider };
+import { ThemeProvider } from "./theme-provider";
+export { AuthProvider, ReactQueryProvider, ThemeProvider };

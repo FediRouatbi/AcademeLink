@@ -10,7 +10,6 @@ import {
   DropdownMenu,
 } from "@/components/ui/dropdown-menu";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import LogoutButton from "@/components/LogoutButton";
 import {
@@ -19,12 +18,14 @@ import {
   LineChartIcon,
   Package2Icon,
   PackageIcon,
-  ShoppingCartIcon,
+  Teacher,
   UsersIcon,
-} from "./assets/svg";
+} from "@/assets/svg";
 import LinkItem from "./components/LinkItem";
 import Search from "./components/Search";
 import Image from "next/image";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
+import { Palette } from "lucide-react";
 const routes = [
   {
     isActive: "home",
@@ -33,6 +34,16 @@ const routes = [
       <>
         <HomeIcon className="h-4 w-4" />
         Home
+      </>
+    ),
+  },
+  {
+    href: "/teachers",
+    isActive: "teachers",
+    item: (
+      <>
+        <Teacher className="h-4 w-4" />
+        Teachers
       </>
     ),
   },
@@ -49,16 +60,6 @@ const routes = [
       </>
     ),
   },
-  {
-    href: "/products",
-    isActive: "Products",
-    item: (
-      <>
-        <PackageIcon className="h-4 w-4" />
-        Products
-      </>
-    ),
-  },
 
   {
     href: "/analytics",
@@ -67,6 +68,16 @@ const routes = [
       <>
         <LineChartIcon className="h-4 w-4" />
         Analytics
+      </>
+    ),
+  },
+  {
+    href: "/appearance",
+    isActive: "appearance",
+    item: (
+      <>
+        <Palette className="h-4 w-4" />
+        Appearance
       </>
     ),
   },
@@ -112,7 +123,7 @@ export default async function Layout({
         </div>
       </div>
       <div className="flex flex-col   overflow-auto">
-        <header className="sticky min-h-[60px] backdrop-blur-sm top-0 flex   items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
+        <header className="z-10  sticky min-h-[60px] backdrop-blur-sm top-0 flex   items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
           <Link className="lg:hidden" href="#">
             <Package2Icon className="h-6 w-6" />
             <span className="sr-only">Home</span>
