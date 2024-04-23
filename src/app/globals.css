@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer no-tailwindcss {
+  /* This layer is disabled */
+  @variants {
+    .no-tailwindcss {
+      all: unset;
+    }
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

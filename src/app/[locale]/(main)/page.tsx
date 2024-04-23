@@ -1,209 +1,71 @@
-import { useTranslations } from "next-intl";
-import Image from "next/image";
+'use client';
+import React, { useState } from 'react';
 
-export default async function AAA() {
+import Editor from '@/components/Editor';
+import { SortableList } from '@/components/common/SortableList';
+import { Button } from '@/components/ui/button';
+import { BadgePlus } from 'lucide-react';
+import { CustomDialog } from '@/components/Dialog';
+
+const Page = () => {
+  const [items, setItems] = useState([{ id: 1 }, { id: 2 }]);
 
   return (
     <>
-      <Image
-        src="/assets/images/nextjs-starter-banner.png"
-        alt="Nextjs starter banner"
-        width={600}
-        height={315}
-        unoptimized
+      <div className="flex justify-end">
+        <CustomDialog
+          buttonText={
+            <>
+              <BadgePlus className="mr-2 h-4 w-4" />
+              Add New Article
+            </>
+          }
+          title="Edit profile"
+          description="Make changes to your profile here. Click save when you're done."
+          content={<Editor content="dsqdqsd" editable={true} hideButton />}
+          actionText="Publish"
+        />
+      </div>
+      <SortableList
+        items={items}
+        onChange={setItems}
+        renderItem={(item) => (
+          <SortableList.Item id={item.id}>
+            <SortableList.DragHandle />
+            <Editor
+              content='<h2>
+  Hi there,
+</h2>
+<p>
+  this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
+</p>
+<ul>
+  <li>
+    That’s a bullet list with one …
+  </li>
+  <li>
+    … or two list items.
+  </li>
+</ul>
+<p>
+  Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
+</p>
+<pre><code class="language-css">body {
+display: none;
+}</code></pre>
+<p>
+  I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
+</p>
+<blockquote>
+  Wow, that’s amazing. Good work, boy! 👏
+  <br />
+  — Mom
+</blockquote>'
+            />
+          </SortableList.Item>
+        )}
       />
-      GitHub repository:{" "}
-      <a href="https://github.com/ixartz/Next-js-Boilerplate">
-        NextJS Boilerplate
-      </a>
-      <h2 className="mt-5 text-2xl font-bold">Sponsors</h2>
-      <h2 className="mt-5 text-2xl font-bold">
-        Boilerplate code for your Nextjs project with Tailwind CSS
-      </h2>
-      <p>
-        <span role="img" aria-label="rocket">
-          🚀
-        </span>{" "}
-        Next.js Boilerplate is a starter code for your Next js project by
-        putting developer experience first .{" "}
-        <span role="img" aria-label="zap">
-          ⚡️
-        </span>{" "}
-        Made with Next.js, TypeScript, ESLint, Prettier, Husky, Lint-Staged,
-        VSCode, Netlify, PostCSS, Tailwind CSS, Authentication with Clerk,
-        Database with DrizzleORM (SQLite, PostgreSQL, and MySQL) and Turso.
-      </p>
-      <h3 className="text-lg font-semibold">Next js Boilerplate Features</h3>
-      <p>Developer experience first:</p>
-      <ul>
-        <li>
-          <span role="img" aria-label="fire">
-            🔥
-          </span>{" "}
-          <a href="https://nextjs.org" rel="nofollow">
-            Next.js
-          </a>{" "}
-          for Static Site Generator
-        </li>
-        <li>
-          <span role="img" aria-label="art">
-            🎨
-          </span>{" "}
-          Integrate with{" "}
-          <a href="https://tailwindcss.com" rel="nofollow">
-            Tailwind CSS
-          </a>
-        </li>
-        <li>
-          <span role="img" aria-label="nail_care">
-            💅
-          </span>{" "}
-          PostCSS for processing Tailwind CSS
-        </li>
-        <li>
-          <span role="img" aria-label="tada">
-            🎉
-          </span>{" "}
-          Type checking Typescript
-        </li>
-        <li>
-          <span role="img" aria-label="pencil2">
-            ✏️
-          </span>{" "}
-          Linter with{" "}
-          <a href="https://eslint.org" rel="nofollow">
-            ESLint
-          </a>
-        </li>
-        <li>
-          <span role="img" aria-label="hammer_and_wrench">
-            🛠
-          </span>{" "}
-          Code Formatter with{" "}
-          <a href="https://prettier.io" rel="nofollow">
-            Prettier
-          </a>
-        </li>
-        <li>
-          <span role="img" aria-label="fox_face">
-            🦊
-          </span>{" "}
-          Husky for Git Hooks
-        </li>
-        <li>
-          <span role="img" aria-label="no_entry_sign">
-            🚫
-          </span>{" "}
-          Lint-staged for running linters on Git staged files
-        </li>
-        <li>
-          <span role="img" aria-label="lock">
-            🔒
-          </span>{" "}
-          Authentication with{" "}
-          <a href="https://clerk.com?utm_source=github&utm_medium=sponsorship&utm_campaign=nextjs-boilerplate">
-            Clerk
-          </a>
-        </li>
-        <li>
-          <span role="img" aria-label="package">
-            📦
-          </span>{" "}
-          Type-safe ORM with DrizzleORM, compatible with SQLite, PostgreSQL, and
-          MySQL
-        </li>
-        <li>
-          <span role="img" aria-label="computer_disk">
-            💽
-          </span>{" "}
-          Global Database with{" "}
-          <a href="https://turso.tech/?utm_source=nextjsstarterbp">Turso</a>
-        </li>
-        <li>
-          <span role="img" aria-label="gyrophare">
-            🚨
-          </span>{" "}
-          Monitoring with{" "}
-          <a href="https://www.checklyhq.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate">
-            Checkly
-          </a>
-        </li>
-        <li>
-          <span role="img" aria-label="no_entry_sign">
-            🗂
-          </span>{" "}
-          VSCode configuration: Debug, Settings, Tasks and extension for
-          PostCSS, ESLint, Prettier, TypeScript
-        </li>
-        <li>
-          <span role="img" aria-label="robot">
-            🤖
-          </span>{" "}
-          SEO metadata, JSON-LD and Open Graph tags with Next SEO
-        </li>
-        <li>
-          <span role="img" aria-label="robot">
-            ⚙️
-          </span>{" "}
-          <a
-            href="https://www.npmjs.com/package/@next/bundle-analyzer"
-            rel="nofollow"
-          >
-            Bundler Analyzer
-          </a>
-        </li>
-        <li>
-          <span role="img" aria-label="rainbow">
-            🌈
-          </span>{" "}
-          Include a FREE minimalist theme
-        </li>
-        <li>
-          <span role="img" aria-label="hundred">
-            💯
-          </span>{" "}
-          Maximize lighthouse score
-        </li>
-      </ul>
-      <p>Built-in feature from Next.js:</p>
-      <ul>
-        <li>
-          <span role="img" aria-label="coffee">
-            ☕
-          </span>{" "}
-          Minify HTML &amp; CSS
-        </li>
-        <li>
-          <span role="img" aria-label="dash">
-            💨
-          </span>{" "}
-          Live reload
-        </li>
-        <li>
-          <span role="img" aria-label="white_check_mark">
-            ✅
-          </span>{" "}
-          Cache busting
-        </li>
-      </ul>
-      <h3 className="text-lg font-semibold">Our Starter code Philosophy</h3>
-      <ul>
-        <li>Minimal code</li>
-        <li>SEO-friendly</li>
-        <li>
-          <span role="img" aria-label="rocket">
-            🚀
-          </span>{" "}
-          Production-ready
-        </li>
-      </ul>
-      <p>
-        Check our GitHub project for more information about{" "}
-        <a href="https://github.com/ixartz/Next-js-Boilerplate">
-          Nextjs Boilerplate
-        </a>
-        .
-      </p>
     </>
   );
-}
+};
+export default Page;
