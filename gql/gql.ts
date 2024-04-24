@@ -20,6 +20,9 @@ const documents = {
     "\n  mutation DeleteStudent($studentId: Float!) {\n    deleteStudent(studentId: $studentId) {\n      student_id\n    }\n  }\n": types.DeleteStudentDocument,
     "\n  query GetTeacher($getTeacherId: Int!) {\n    GetTeacher(id: $getTeacherId) {\n      teacher_id\n      user {\n        createdAt\n        email\n        first_name\n        last_name\n        updatedAt\n        user_id\n        user_name\n      }\n    }\n  }\n": types.GetTeacherDocument,
     "\n  query GetTeachers {\n    GetTeachers {\n      teacher_id\n      user {\n        createdAt\n        email\n        first_name\n        last_name\n        updatedAt\n        user_id\n        user_name\n      }\n    }\n  }\n": types.GetTeachersDocument,
+    "\n  mutation CreateTopic($createTopic: CreateTopic!) {\n    CreateTopic(createTopic: $createTopic) {\n      content\n    }\n  }\n": types.CreateTopicDocument,
+    "\n  query getTopicsByAuthor {\n    getTopicsByAuthor {\n      content\n    }\n  }\n": types.GetTopicsByAuthorDocument,
+    "\n  mutation EditTopic($editTopic: UpdateTopic!, $topicId: Int!) {\n    EditTopic(editTopic: $editTopic, topicId: $topicId) {\n      content\n    }\n  }\n": types.EditTopicDocument,
 };
 
 /**
@@ -64,6 +67,18 @@ export function graphql(source: "\n  query GetTeacher($getTeacherId: Int!) {\n  
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetTeachers {\n    GetTeachers {\n      teacher_id\n      user {\n        createdAt\n        email\n        first_name\n        last_name\n        updatedAt\n        user_id\n        user_name\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetTeachers {\n    GetTeachers {\n      teacher_id\n      user {\n        createdAt\n        email\n        first_name\n        last_name\n        updatedAt\n        user_id\n        user_name\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation CreateTopic($createTopic: CreateTopic!) {\n    CreateTopic(createTopic: $createTopic) {\n      content\n    }\n  }\n"): (typeof documents)["\n  mutation CreateTopic($createTopic: CreateTopic!) {\n    CreateTopic(createTopic: $createTopic) {\n      content\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query getTopicsByAuthor {\n    getTopicsByAuthor {\n      content\n    }\n  }\n"): (typeof documents)["\n  query getTopicsByAuthor {\n    getTopicsByAuthor {\n      content\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation EditTopic($editTopic: UpdateTopic!, $topicId: Int!) {\n    EditTopic(editTopic: $editTopic, topicId: $topicId) {\n      content\n    }\n  }\n"): (typeof documents)["\n  mutation EditTopic($editTopic: UpdateTopic!, $topicId: Int!) {\n    EditTopic(editTopic: $editTopic, topicId: $topicId) {\n      content\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

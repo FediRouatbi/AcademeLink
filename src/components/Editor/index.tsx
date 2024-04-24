@@ -10,13 +10,26 @@ import ListItem from '@tiptap/extension-list-item';
 import TextStyle from '@tiptap/extension-text-style';
 import StarterKit from '@tiptap/starter-kit';
 import { cn } from '@/lib/utils';
+import { DialogClose } from '../ui/dialog';
 
 type Props = {
   content: string;
   editable?: boolean;
   hideButton?: boolean;
+  actionText?: string;
+  onClickActionText?: (content: string) => void;
+  actionButtonDisabled?: boolean;
+  showAddButton?: boolean;
 };
-const Editor = ({ content, editable = false, hideButton = false }: Props) => {
+const Editor = ({
+  content,
+  editable = false,
+  hideButton = false,
+  actionText,
+  onClickActionText,
+  actionButtonDisabled,
+  showAddButton = false,
+}: Props) => {
   const editor = useEditor({
     editable: editable,
     extensions: [
@@ -49,63 +62,50 @@ const Editor = ({ content, editable = false, hideButton = false }: Props) => {
     edit && 'outline-emerald-600 hover:outline-emerald-600',
     edit && 'max-h-full'
   );
-  return (
-    <div className={editStyles}>
-      {!hideButton && (
-        <Button
-          onClick={onClickEdit}
-          variant="ghost"
-          size="icon"
-          className="active:scale-95   absolute z-20 group-hover:opacity-100 transition-all opacity-0 top-5 right-5"
-        >
-          {edit ? <Save className="size-4" /> : <Pencil className="size-4" />}
 
-          <span className="sr-only">Delete {edit ? 'Delete' : 'Save'}</span>
-        </Button>
-      )}
-      <div className={cn('min-h-16 ', !hideButton && 'max-w-[90%]')}>
-        <MenuBar editor={editor} />
-      </div>
-      <div
-        className={cn(
-          'max-h-[400px] overflow-auto',
-          edit && !hideButton && 'max-h-full'
+  return (
+    <div className="flex flex-col gap-9 w-full">
+      <div className={editStyles}>
+        {!hideButton && (
+          <Button
+            onClick={onClickEdit}
+            variant="ghost"
+            size="icon"
+            className="active:scale-95   absolute z-20 group-hover:opacity-100 transition-all opacity-0 top-5 right-5"
+          >
+            {edit ? <Save className="size-4" /> : <Pencil className="size-4" />}
+
+            <span className="sr-only">Delete {edit ? 'Delete' : 'Save'}</span>
+          </Button>
         )}
-      >
-        <EditorContent editor={editor} />
-      </div>
+        <div className={cn('min-h-16 ', !hideButton && 'max-w-[90%]')}>
+          <MenuBar editor={editor} />
+        </div>
+        <div
+          className={cn(
+            'max-h-[400px] overflow-auto',
+            edit && !hideButton && 'max-h-full'
+          )}
+        >
+          <EditorContent editor={editor} />
+        </div>
+      </div>{' '}
+      {showAddButton && (
+        <DialogClose asChild>
+          <Button
+            type="submit"
+            className="self-end"
+            onClick={() => {
+              onClickActionText?.(editor?.getHTML() || '');
+            }}
+            disabled={actionButtonDisabled}
+          >
+            {actionText}
+          </Button>
+        </DialogClose>
+      )}
     </div>
   );
 };
 
 export default Editor;
-const content = `
-<h2>
-  Hi there,
-</h2>
-<p>
-  this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-</p>
-<ul>
-  <li>
-    That’s a bullet list with one …
-  </li>
-  <li>
-    … or two list items.
-  </li>
-</ul>
-<p>
-  Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-</p>
-<pre><code class="language-css">body {
-display: none;
-}</code></pre>
-<p>
-  I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-</p>
-<blockquote>
-  Wow, that’s amazing. Good work, boy! 👏
-  <br />
-  — Mom
-</blockquote>
-`;

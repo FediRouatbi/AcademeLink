@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   DropdownMenuTrigger,
   DropdownMenuLabel,
@@ -8,10 +8,10 @@ import {
   DropdownMenuItem,
   DropdownMenuContent,
   DropdownMenu,
-} from "@/components/ui/dropdown-menu";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import LogoutButton from "@/components/LogoutButton";
+} from '@/components/ui/dropdown-menu';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
+import LogoutButton from '@/components/LogoutButton';
 import {
   BellIcon,
   HomeIcon,
@@ -20,16 +20,17 @@ import {
   PackageIcon,
   Teacher,
   UsersIcon,
-} from "@/assets/svg";
-import LinkItem from "./components/LinkItem";
-import Search from "./components/Search";
-import Image from "next/image";
-import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
-import { Palette } from "lucide-react";
+} from '@/assets/svg';
+import LinkItem from './components/LinkItem';
+import Search from './components/Search';
+import Image from 'next/image';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
+import { Palette, Settings, Shapes } from 'lucide-react';
+import { graphQLClient } from '@/constants/utils';
 const routes = [
   {
-    isActive: "home",
-    href: "/",
+    isActive: 'home',
+    href: '/',
     item: (
       <>
         <HomeIcon className="h-4 w-4" />
@@ -38,8 +39,18 @@ const routes = [
     ),
   },
   {
-    href: "/teachers",
-    isActive: "teachers",
+    href: '/classrooms',
+    isActive: 'classrooms',
+    item: (
+      <>
+        <Shapes className="h-4 w-4" />
+        Classrooms
+      </>
+    ),
+  },
+  {
+    href: '/teachers',
+    isActive: 'teachers',
     item: (
       <>
         <Teacher className="h-4 w-4" />
@@ -47,9 +58,10 @@ const routes = [
       </>
     ),
   },
+
   {
-    href: "/students",
-    isActive: "students",
+    href: '/students',
+    isActive: 'students',
     item: (
       <>
         <UsersIcon className="h-4 w-4" />
@@ -62,22 +74,22 @@ const routes = [
   },
 
   {
-    href: "/analytics",
-    isActive: "Analytics",
-    item: (
-      <>
-        <LineChartIcon className="h-4 w-4" />
-        Analytics
-      </>
-    ),
-  },
-  {
-    href: "/appearance",
-    isActive: "appearance",
+    href: '/appearance',
+    isActive: 'appearance',
     item: (
       <>
         <Palette className="h-4 w-4" />
         Appearance
+      </>
+    ),
+  },
+  {
+    href: '/settings',
+    isActive: 'settings',
+    item: (
+      <>
+        <Settings className="h-4 w-4" />
+        Settings
       </>
     ),
   },
@@ -89,7 +101,8 @@ export default async function Layout({
 }) {
   const session = await getServerSession(authOptions);
 
-  if (!session) return redirect("fr/login");
+  if (!session) return redirect('fr/login');
+
   return (
     <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr] h-svh overflow-hidden">
       <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
@@ -110,14 +123,6 @@ export default async function Layout({
                   item={el?.item}
                 />
               ))}
-
-              <Link
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                href="#"
-              >
-                <LineChartIcon className="h-4 w-4" />
-                Analytics
-              </Link>
             </nav>
           </div>
         </div>
@@ -144,8 +149,8 @@ export default async function Layout({
                   height="32"
                   src="/user.svg"
                   style={{
-                    aspectRatio: "32/32",
-                    objectFit: "cover",
+                    aspectRatio: '32/32',
+                    objectFit: 'cover',
                   }}
                   width="32"
                 />

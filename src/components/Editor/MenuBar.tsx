@@ -1,4 +1,6 @@
-import { Editor, useCurrentEditor } from '@tiptap/react';
+'use client';
+import { Editor } from '@tiptap/react';
+import { ChangeEvent } from 'react';
 
 const MenuBar = ({ editor }: { editor: Editor | null }) => {
   if (!editor?.isEditable || !editor) {
@@ -9,8 +11,8 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
     <>
       <input
         type="color"
-        onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
-          editor.chain().focus().setColor(event?.target?.value).run()
+        onInput={(event: any) =>
+          editor.chain().focus().setColor(event?.target?.value)?.run()
         }
         value={editor.getAttributes('textStyle').color}
         data-testid="setColor"

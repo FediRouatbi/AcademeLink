@@ -9,7 +9,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-import Editor from '../Editor';
 import { ReactNode } from 'react';
 type Props = {
   buttonText: ReactNode;
@@ -17,17 +16,13 @@ type Props = {
   title: string;
   description: string;
   content: ReactNode;
-  actionText: string;
-  onClickActionText?: () => void;
 };
 export function CustomDialog({
   buttonText,
   onClickbuttonText,
   title,
   description,
-  actionText,
   content,
-  onClickActionText,
 }: Props) {
   return (
     <Dialog>
@@ -43,9 +38,7 @@ export function CustomDialog({
         </DialogHeader>
         <div className="grid gap-4 py-4">{content}</div>
         <DialogFooter>
-          <Button type="submit" onClick={onClickActionText}>
-            {actionText}
-          </Button>
+          <Button type="submit">actionText</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
