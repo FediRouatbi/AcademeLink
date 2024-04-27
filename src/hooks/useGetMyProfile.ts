@@ -1,24 +1,26 @@
-import { api_url, auth } from "@/constants/utils";
-import { graphql } from "@/gql";
-import { useQuery } from "@tanstack/react-query";
-import request from "graphql-request";
-const getProfile = graphql(`
-  query getMyProfile {
-    getMyProfile {
-      user_id
-      user_name
+'use client';
+import { api_url } from '@/constants/utils';
+import { useQuery } from '@tanstack/react-query';
+import request from 'graphql-request';
+import { graphql } from '../../gql';
+const GetCurrentUser = graphql(`
+  query getCurrentUser {
+    getCurrentUser {
+      createdAt
       first_name
       last_name
-      force_reset_password
-      two_factor_auth
+      updatedAt
+      role
+      user_id
+      user_name
     }
   }
 `);
 
 const useGetMyProfile = () => {
   const query = useQuery({
-    queryKey: ["getProfile"],
-    queryFn: async () => request(api_url, getProfile, undefined, auth),
+    queryKey: ['GetCurrentUser'],
+    queryFn: async () => request(api_url, GetCurrentUser, undefined),
   });
   return query;
 };
