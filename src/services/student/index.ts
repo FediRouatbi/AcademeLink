@@ -1,6 +1,7 @@
-import { api_url, graphQLClient } from "@/constants/utils";
-import { graphql } from "@/gql/gql";
-import { GraphQLClient } from "graphql-request";
+import { api_url, graphQLClient } from '@/constants/utils';
+import { graphql } from '@/gql/gql';
+import { CreateStudent as CreateStudentInput } from '@/gql/graphql';
+import { GraphQLClient } from 'graphql-request';
 
 const GetStudent = graphql(`
   query GetStudent($getStudentId: Int!) {
@@ -46,6 +47,13 @@ const GetStudents = graphql(`
   }
 `);
 
+const CreateStudent = graphql(`
+  mutation CreateStudent($createStudent: CreateStudent!) {
+    CreateStudent(createStudent: $createStudent) {
+      student_id
+    }
+  }
+`);
 const DeleteStudent = graphql(`
   mutation DeleteStudent($studentId: Float!) {
     deleteStudent(studentId: $studentId) {
@@ -57,8 +65,10 @@ const getStudents = () => graphQLClient?.request(GetStudents);
 
 const getStudent = (id: number) =>
   graphQLClient?.request(GetStudent, { getStudentId: id });
+const createStudent = (student: CreateStudentInput) =>
+  graphQLClient?.request(CreateStudent, { createStudent: student });
 
 const deleteStudent = (id: number) =>
   graphQLClient?.request(DeleteStudent, { studentId: id });
 
-export { getStudents, getStudent, deleteStudent };
+export { getStudents, getStudent, deleteStudent, createStudent };

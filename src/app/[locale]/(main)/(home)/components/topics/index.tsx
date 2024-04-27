@@ -16,6 +16,7 @@ const Topcis = () => {
       );
   }, [topics]);
 
+  
   if (!topics && isLoading)
     return (
       <div className="min-h-52 flex justify-center items-center">

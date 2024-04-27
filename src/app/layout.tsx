@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { NextIntlClientProvider, useMessages } from "next-intl";
-import { Toaster } from "sonner";
-import { AuthProvider, ReactQueryProvider, ThemeProvider } from "@/providers";
-
-const inter = Inter({ subsets: ["latin"] });
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { NextIntlClientProvider, useMessages } from 'next-intl';
+import { Toaster } from 'sonner';
+import { AuthProvider, ReactQueryProvider, ThemeProvider } from '@/providers';
+import NextTopLoader from 'nextjs-toploader';
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "AcademeLink",
-  description: "AcademeLink Platform",
+  title: 'AcademeLink',
+  description: 'AcademeLink Platform',
 };
-const locales = ["en", "fr"];
+const locales = ['en', 'fr'];
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -21,11 +21,12 @@ export default function RootLayout({
   params: { locale },
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: "en" | "fr" };
+  params: { locale: 'en' | 'fr' };
 }>) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={inter.className}>
+        <NextTopLoader color="#63e6be" />
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -33,8 +34,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-              <ReactQueryProvider>{children}</ReactQueryProvider>
-              <Toaster richColors position="bottom-left" />
+            <ReactQueryProvider>{children}</ReactQueryProvider>
+            <Toaster richColors position="bottom-left" />
           </AuthProvider>
         </ThemeProvider>
       </body>

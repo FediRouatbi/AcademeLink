@@ -29,9 +29,9 @@ const AddArticle = () => {
     setEdit(false);
   };
   return (
-    <Dialog >
+    <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" >
+        <Button variant="outline">
           <BadgePlus className="mr-2 h-4 w-4" />
           Add New Article
         </Button>
@@ -40,7 +40,7 @@ const AddArticle = () => {
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+            Make changes to your profile here. Click save when you&#39;re done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">

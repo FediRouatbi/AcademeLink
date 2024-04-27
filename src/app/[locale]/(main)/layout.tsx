@@ -15,9 +15,7 @@ import LogoutButton from '@/components/LogoutButton';
 import {
   BellIcon,
   HomeIcon,
-  LineChartIcon,
   Package2Icon,
-  PackageIcon,
   Teacher,
   UsersIcon,
 } from '@/assets/svg';
@@ -25,8 +23,7 @@ import LinkItem from './components/LinkItem';
 import Search from './components/Search';
 import Image from 'next/image';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
-import { Palette, Settings, Shapes } from 'lucide-react';
-import { graphQLClient } from '@/constants/utils';
+import { Library, Palette, Settings, Shapes } from 'lucide-react';
 const routes = [
   {
     isActive: 'home',
@@ -69,6 +66,16 @@ const routes = [
         <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
           6
         </Badge>
+      </>
+    ),
+  },
+  {
+    href: '/subjects',
+    isActive: 'subjects',
+    item: (
+      <>
+        <Library className="h-4 w-4" />
+        Subjects
       </>
     ),
   },

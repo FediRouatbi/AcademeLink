@@ -1,6 +1,6 @@
-import { api_url } from "@/constants/utils";
-import { AuthOptions, NextAuthOptions, User } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import { api_url } from '@/constants/utils';
+import { AuthOptions, NextAuthOptions, User } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 const mutation = `
     mutation Login($data: LoginInput!) {
       login(data: $data) {
@@ -26,21 +26,21 @@ const query = `
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
         email: {
-          label: "Email",
-          type: "email",
-          placeholder: "jsmith@gmail.com",
+          label: 'Email',
+          type: 'email',
+          placeholder: 'jsmith@gmail.com',
         },
-        password: { label: "Password", type: "password" },
+        password: { label: 'Password', type: 'password' },
       },
 
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) return null;
         const { email, password } = credentials;
         const res = await fetch(api_url, {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify({
             query: mutation,
             variables: {
@@ -51,8 +51,8 @@ export const authOptions: AuthOptions = {
             },
           }),
           headers: {
-            "Content-Type": "application/json",
-            credentials: "include",
+            'Content-Type': 'application/json',
+            credentials: 'include',
           },
         });
         const tokens = await res.json();
@@ -62,14 +62,14 @@ export const authOptions: AuthOptions = {
         }
 
         const userRes = await fetch(api_url, {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify({
             query: query,
           }),
           headers: {
             Authorization: `Bearer ${tokens.data.login.accessToken}`,
-            "Content-Type": "application/json",
-            credentials: "include",
+            'Content-Type': 'application/json',
+            credentials: 'include',
           },
         });
         const userdata = await userRes.json();
