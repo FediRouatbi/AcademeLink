@@ -79,7 +79,7 @@ const AddStudent = ({ className }: { className?: string }) => {
             Add Student
           </Button>
         </SheetTrigger>
-        <SheetContent className="min-w-[25%]">
+        <SheetContent className="min-w-[25%] overflow-y-auto">
           <SheetHeader>
             <SheetTitle> Add Student</SheetTitle>
             <SheetDescription>

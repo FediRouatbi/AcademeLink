@@ -64,7 +64,7 @@ const AddClass = () => {
           Add Class
         </Button>
       </SheetTrigger>
-      <SheetContent className="!max-w-fit">
+      <SheetContent className="!max-w-fit overflow-y-auto">
         <SheetHeader>
           <SheetTitle> Add Class</SheetTitle>
           <SheetDescription>

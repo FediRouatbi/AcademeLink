@@ -20,7 +20,7 @@ type Props = {
 
 export default function ClassCard({ classroom, onClickDelete }: Props) {
   return (
-    <Card className="max-w-sm mt-5 relative group">
+    <Card className=" min-w-[350px] mt-5 relative group w-fit">
       <Button
         onClick={() => onClickDelete(classroom)}
         variant="ghost"

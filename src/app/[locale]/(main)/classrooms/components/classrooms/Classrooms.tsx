@@ -45,14 +45,19 @@ const Classrooms = () => {
     setOpen(false);
   };
   return (
-    <div className="grid md:grid-cols-4 gap-4 xl:gap-8">
-      {classrooms?.map((classroom) => (
-        <ClassCard
-          classroom={classroom}
-          key={classroom?.classroom_id}
-          onClickDelete={onClickDelete}
-        />
-      ))}
+    <>
+      <div>
+        <div className="flex gap-4  flex-wrap">
+          {classrooms?.map((classroom) => (
+            <ClassCard
+              classroom={classroom}
+              key={classroom?.classroom_id}
+              onClickDelete={onClickDelete}
+            />
+          ))}
+        </div>
+      </div>
+
       <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -71,7 +76,7 @@ const Classrooms = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </>
   );
 };
 
