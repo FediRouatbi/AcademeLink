@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { BadgePlus, Loader2 } from 'lucide-react';
+import { BadgePlus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
@@ -17,10 +17,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { queryClient } from '@/providers/react-query-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
 import { toast } from 'sonner';
 import { useCreateTeacherMutation } from '@/hooks/teacher';
+import TeacherClassrooms from './teacherClassrooms/TeacherClassrooms';
 
 const createTeacherSchema = z.object({
   firstName: z.string().min(3),
@@ -28,6 +29,12 @@ const createTeacherSchema = z.object({
   userName: z.string().min(3),
   email: z.string().email(),
   password: z.string().min(6),
+  classrooms: z.array(
+    z.object({
+      classroomId: z.number(),
+      subjectId: z.number(),
+    })
+  ),
 });
 const defaultValues = {
   email: '',
@@ -35,8 +42,10 @@ const defaultValues = {
   lastName: '',
   password: '',
   userName: '',
+  classrooms: [],
 };
-type createTeachermType = z.infer<typeof createTeacherSchema>;
+export type createTeachermType = z.infer<typeof createTeacherSchema>;
+
 const AddTeacher = ({ className }: { className?: string }) => {
   const { mutate, isPending } = useCreateTeacherMutation({
     onSuccess() {
@@ -54,12 +63,17 @@ const AddTeacher = ({ className }: { className?: string }) => {
   });
 
   const onSubmit = (data: createTeachermType) => {
+    const classrooms = data?.classrooms?.map((el) => ({
+      classroom_id: el.classroomId,
+      subject_id: el.subjectId,
+    }));
     mutate({
       email: data?.email,
       first_name: data?.firstName,
       last_name: data?.lastName,
       password: data?.password,
       user_name: data?.userName,
+      classrooms: classrooms,
     });
   };
   const [open, setOpen] = useState(false);
@@ -109,18 +123,14 @@ const AddTeacher = ({ className }: { className?: string }) => {
                   <Label htmlFor="password">Password</Label>
                   <Input id="password" name="password" />
                 </div>
-
+                <TeacherClassrooms />
                 <SheetFooter>
                   <Button
                     type="submit"
                     className="min-w-16"
-                    disabled={isPending}
+                    isPending={isPending}
                   >
-                    {isPending ? (
-                      <Loader2 className="size-5  animate-spin" />
-                    ) : (
-                      'ADD'
-                    )}
+                    ADD
                   </Button>
                 </SheetFooter>
               </form>

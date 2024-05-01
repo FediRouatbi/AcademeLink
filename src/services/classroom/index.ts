@@ -35,8 +35,23 @@ const GetClassrooms = graphql(`
       student {
         student_id
       }
-      teacher {
-        teacher_id
+      course {
+        subject {
+          name
+          id
+        }
+        teacher {
+          teacher_id
+          user {
+            createdAt
+            email
+            first_name
+            last_name
+            updatedAt
+            user_id
+            user_name
+          }
+        }
       }
     }
   }

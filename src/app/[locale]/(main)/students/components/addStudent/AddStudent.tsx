@@ -17,10 +17,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { queryClient } from '@/providers/react-query-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
 import { toast } from 'sonner';
 import { useCreateStudentMutation } from '@/hooks/student/useCreateStudentMudation';
+import { ClassCombobox } from './classCombobox/ClassCombobox';
 
 const createStudentSchema = z.object({
   firstName: z.string().min(3),
@@ -28,6 +29,7 @@ const createStudentSchema = z.object({
   userName: z.string().min(3),
   email: z.string().email(),
   password: z.string().min(6),
+  classroomId: z.string(),
 });
 const defaultValues = {
   email: '',
@@ -35,6 +37,7 @@ const defaultValues = {
   lastName: '',
   password: '',
   userName: '',
+  classroomId: undefined,
 };
 type createStudentmType = z.infer<typeof createStudentSchema>;
 const AddStudent = ({ className }: { className?: string }) => {
@@ -54,12 +57,15 @@ const AddStudent = ({ className }: { className?: string }) => {
   });
 
   const onSubmit = (data: createStudentmType) => {
+
+  
     mutate({
       email: data?.email,
       first_name: data?.firstName,
       last_name: data?.lastName,
       password: data?.password,
       user_name: data?.userName,
+      classroom_id: +data?.classroomId,
     });
   };
   const [open, setOpen] = useState(false);
@@ -90,37 +96,37 @@ const AddStudent = ({ className }: { className?: string }) => {
             <FormProvider {...methods}>
               <form onSubmit={methods.handleSubmit(onSubmit)}>
                 <div className="space-y-2 ">
-                  <Label htmlFor="firstName">First name</Label>
+                  <Label htmlFor="firstName">First name*</Label>
                   <Input id="firstName" name="firstName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="lastName">Last name</Label>
+                  <Label htmlFor="lastName">Last name*</Label>
                   <Input id="lastName" name="lastName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="userName">User name</Label>
+                  <Label htmlFor="userName">User name*</Label>
                   <Input id="userName" name="userName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">Email*</Label>
                   <Input id="email" name="email" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">Password*</Label>
                   <Input id="password" name="password" />
+                </div>
+                <div className="space-y-2 flex flex-col">
+                  <Label htmlFor="password">Classroom</Label>
+                  <ClassCombobox />
                 </div>
 
                 <SheetFooter>
                   <Button
                     type="submit"
                     className="min-w-16"
-                    disabled={isPending}
+                    isPending={isPending}
                   >
-                    {isPending ? (
-                      <Loader2 className="size-5  animate-spin" />
-                    ) : (
-                      'ADD'
-                    )}
+                    ADD
                   </Button>
                 </SheetFooter>
               </form>

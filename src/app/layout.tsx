@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={inter.className}>
-        <NextTopLoader color="#63e6be" />
+        <NextTopLoader color="#63e6be" showSpinner={false} />
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

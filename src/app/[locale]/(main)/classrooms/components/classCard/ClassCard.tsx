@@ -9,8 +9,8 @@ import {
 } from '@/components/ui/hover-card';
 import { Button } from '@/components/ui/button';
 import React from 'react';
+import dayjs from 'dayjs';
 
-const subjects = ['powerBI', 'machine learning', 'mobile development', 'TOEIC'];
 
 export type ClassroomType = GetClassroomsQuery['getClassrooms'][0];
 type Props = {
@@ -49,11 +49,11 @@ export default function ClassCard({ classroom, onClickDelete }: Props) {
         <div className="mt-4 space-y-2">
           <h3 className="text-lg font-medium">Subjects :</h3>
           <ul className="list-disc pl-6 space-y-1">
-            {subjects.map((subject) => {
+            {classroom?.course?.map((cours, i) => {
               return (
-                <li className="" key={subject}>
+                <li className="" key={i}>
                   <div className="flex items-center gap-5">
-                    {subject}
+                    {cours?.subject?.name}
                     <HoverCard>
                       <HoverCardTrigger>
                         <Avatar className="size-6 cursor-pointer">
@@ -68,14 +68,19 @@ export default function ClassCard({ classroom, onClickDelete }: Props) {
                             <AvatarFallback>VC</AvatarFallback>
                           </Avatar>
                           <div className="space-y-1">
-                            <h4 className="text-sm font-semibold">@khaled</h4>
+                            <h4 className="text-sm font-semibold">
+                              @{cours?.teacher?.user?.user_name}
+                            </h4>
                             <p className="text-sm">
                               Eng. Dr. HDR., Assistant Professor at INSAT
                             </p>
                             <div className="flex items-center pt-2">
                               <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{' '}
                               <span className="text-xs text-muted-foreground">
-                                Joined December 2021
+                                Joined{' '}
+                                {dayjs(cours?.teacher?.user?.createdAt).format(
+                                  'MMMM YYYY'
+                                )}
                               </span>
                             </div>
                           </div>
