@@ -1,7 +1,6 @@
-import { Classroom, CreatClassroomMutation } from './../../../gql/graphql';
 import { graphQLClient } from '@/constants/utils';
 import { graphql } from '@/gql/gql';
-import { CreateClassroom } from '@/types/classroom';
+import { CreateClassroom } from '@/gql/graphql';
 import { GraphQLClient } from 'graphql-request';
 
 const GetClassroom = graphql(`
@@ -58,16 +57,8 @@ const GetClassrooms = graphql(`
 `);
 
 const CreatClassroom = graphql(`
-  mutation CreatClassroom(
-    $classroom: String!
-    $teachersId: [Int!]!
-    $studentsId: [Int!]!
-  ) {
-    creatClassroom(
-      classroom: $classroom
-      teachersId: $teachersId
-      studentsId: $studentsId
-    ) {
+  mutation Mutation($createClassromm: CreateClassroom!) {
+    creatClassroom(createClassromm: $createClassromm) {
       classroom_id
     }
   }
@@ -87,17 +78,15 @@ const getClassrooms = (accessToken: string) =>
   });
 
 const creatClassroom = ({
-  classroom,
-  studentsId = [],
-  teachersId = [],
   accessToken,
+  classroom_name,
+  studentsIds,
+  teachersIds,
 }: CreateClassroom & { accessToken: string }) => {
   return graphQLClient?.request(
     CreatClassroom,
     {
-      classroom,
-      studentsId,
-      teachersId,
+      createClassromm: { classroom_name, studentsIds, teachersIds },
     },
     { Authorization: `Bearer ${accessToken}` }
   );

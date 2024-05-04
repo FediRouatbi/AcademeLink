@@ -1,9 +1,9 @@
-"use client"
+'use client';
 
-import React from "react";
-import ProfileCard from "@/app/[locale]/(main)/components/ProfileCard";
-import { useGetTeacherQuery } from "@/hooks/teacher";
-import { useRouter } from "next/navigation";
+import React from 'react';
+import ProfileCard from '@/components/common/ProfileCard';
+import { useGetTeacherQuery } from '@/hooks/teacher';
+import { useRouter } from 'next/navigation';
 const TeacherProfileCard = ({ teacherId }: { teacherId: number }) => {
   const { data } = useGetTeacherQuery({ id: teacherId });
   const { push } = useRouter();

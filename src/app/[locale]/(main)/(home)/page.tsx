@@ -1,7 +1,5 @@
 import React from 'react';
 
-import AddArticle from './components/dialog';
-import Topcis from './components/topics';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import {
@@ -10,6 +8,7 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 import { getTopicsByAuthor } from '@/services/topic';
+import { AddArticle, Topcis } from '@/components/pages/home';
 
 const Page = async () => {
   const session = await getServerSession(authOptions);

@@ -1,10 +1,13 @@
 import React from 'react';
-import AddClass from './components/AddClass';
-import Classrooms from './components/classrooms/Classrooms';
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from '@tanstack/react-query';
 import { getClassrooms } from '@/services/classroom';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
+import { AddClass, Classrooms } from '@/components/pages/classrooms';
 
 const page = async () => {
   const session = await getServerSession(authOptions);

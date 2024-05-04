@@ -1,8 +1,8 @@
 import { GraphQLError } from 'graphql';
 import { creatClassroom } from '@/services/classroom';
-import { CreateClassroom } from '@/types/classroom';
 import { useMutation } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
+import { CreateClassroom } from '@/gql/graphql';
 type Props = {
   onSuccess?: () => void;
   onError?: (error: GraphQLError) => void;

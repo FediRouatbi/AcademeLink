@@ -1,9 +1,7 @@
-import Image from "next/image";
-import { ChevronLeft, PlusCircle, Upload } from "lucide-react";
+import Image from 'next/image';
+import { PlusCircle, Upload } from 'lucide-react';
 
-import { Badge } from "@/components/ui/badge";
-
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -11,10 +9,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 import {
   Table,
@@ -23,34 +21,32 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Textarea } from "@/components/ui/textarea";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+} from '@/components/ui/table';
+import { Textarea } from '@/components/ui/textarea';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { redirect } from "next/navigation";
-import Link from "next/link";
+} from '@/components/ui/select';
 import {
   HydrationBoundary,
   QueryClient,
   dehydrate,
-} from "@tanstack/react-query";
-import Header from "./components/Header";
-import { getStudent } from "@/services/student";
+} from '@tanstack/react-query';
+import { getStudent } from '@/services/student';
+import { Header } from '@/components/pages/student';
 type Props = {
-  params: { locale: "fr" | "en"; id: string };
+  params: { locale: 'fr' | 'en'; id: string };
 };
 export default async function page({ params }: Props) {
   const queryClient = new QueryClient();
   const studentId = +params.id;
 
   await queryClient.prefetchQuery({
-    queryKey: ["students", studentId],
+    queryKey: ['students', studentId],
     queryFn: () => getStudent(studentId),
     staleTime: 500,
   });

@@ -24,6 +24,12 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { toast } from 'sonner';
 import { ComboboxDemo } from '../input/Input';
+import { useGetStudentsQuery } from '@/hooks/student';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+import { useGetSubjectsQuery } from '@/hooks/subject';
+import { CreateClassroom } from '@/gql/graphql';
+const animatedComponents = makeAnimated();
 
 const createClassroomSchema = z.object({
   name: z.string().min(3),
@@ -34,10 +40,27 @@ const createClassroomSchema = z.object({
 });
 
 type createClassroomType = z.infer<typeof createClassroomSchema>;
+
+type StudentsIds = CreateClassroom['studentsIds'];
+
 const AddClass = () => {
+  const [studentsIds, setStudentsIds] = useState<StudentsIds>([]);
+  const { data } = useGetStudentsQuery(false);
+  const { data: dataSubjects } = useGetSubjectsQuery();
+
+  const studentsWithoutClass = data?.GetStudents?.map((student) => ({
+    value: student?.student_id,
+    label: student?.user?.user_name,
+  }));
+
+  const subjects = dataSubjects?.getSubjects?.map((subject) => ({
+    value: subject?.id,
+    label: subject?.name,
+  }));
   const { mutate } = useCreateClassroomMutation({
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['classrooms'] });
+      queryClient.invalidateQueries({ queryKey: ['students'] });
       toast?.success('Classroom add Successfully');
 
       setOpen(false);
@@ -52,7 +75,7 @@ const AddClass = () => {
   });
 
   const onSubmit = (data: createClassroomType) => {
-    mutate({ classroom: data.name });
+    mutate({ classroom_name: data?.name, studentsIds: studentsIds });
   };
   const [open, setOpen] = useState(false);
 
@@ -64,7 +87,7 @@ const AddClass = () => {
           Add Class
         </Button>
       </SheetTrigger>
-      <SheetContent className="!max-w-fit">
+      <SheetContent className="!max-w-fit min-w-[25%]">
         <SheetHeader>
           <SheetTitle> Add Class</SheetTitle>
           <SheetDescription>
@@ -89,38 +112,14 @@ const AddClass = () => {
               <div className="space-y-2">
                 <Label>Teachers</Label>
                 <div className="flex flex-col space-y-2">
-                  <div className="flex gap-2  w-full items-center">
-                    <Image
-                      alt="Avatar"
-                      className="rounded-full"
-                      height="32"
-                      src="/placeholder-user.jpg"
-                      style={{
-                        aspectRatio: '32/32',
-                        objectFit: 'cover',
-                      }}
-                      width="32"
-                    />
-
-                    <ComboboxDemo />
-                    <Input
-                      className="w-[200px]"
-                      placeholder="Subject"
-                      type="text"
-                      hideError
-                      name="subject"
-                    />
-
-                    <Button
-                      className="ml-auto"
-                      size="icon"
-                      type="button"
-                      variant="outline"
-                    >
-                      <PlusIcon className="h-4 w-4 flex-shrink-0" />
-                      <span className="sr-only">Add teacher</span>
-                    </Button>
-                  </div>
+                  <ComboboxDemo />
+                  <Select
+                    className="flex-1"
+                    closeMenuOnSelect={false}
+                    components={animatedComponents}
+                    isMulti
+                    options={subjects}
+                  />
                 </div>
               </div>
               <div className="space-y-2">
@@ -138,21 +137,18 @@ const AddClass = () => {
                       }}
                       width="32"
                     />
-                    <Input
-                      placeholder="Email"
-                      type="email"
-                      hideError
-                      name="studentemail"
+                    <Select
+                      className="flex-1"
+                      closeMenuOnSelect={false}
+                      components={animatedComponents}
+                      isMulti
+                      onChange={(choice) => {
+                        setStudentsIds(
+                          choice?.map((el) => ({ student_id: el?.value }))
+                        );
+                      }}
+                      options={studentsWithoutClass}
                     />
-                    <Button
-                      className="ml-auto"
-                      size="icon"
-                      variant="outline"
-                      type="button"
-                    >
-                      <PlusIcon className="h-4 w-4" />
-                      <span className="sr-only">Add student</span>
-                    </Button>
                   </div>
                 </div>
               </div>

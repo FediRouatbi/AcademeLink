@@ -19,8 +19,8 @@ import {
   Teacher,
   UsersIcon,
 } from '@/assets/svg';
-import LinkItem from './components/LinkItem';
-import Search from './components/Search';
+import LinkItem from '../../../components/common/LinkItem';
+import Search from '../../../components/common/Search';
 import Image from 'next/image';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { Library, Palette, Settings, Shapes } from 'lucide-react';

@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -16,15 +16,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useDeleteStudentMutation, useGetStudentsQuery } from "@/hooks/student";
-import dayjs from "dayjs";
-import { Pencil, Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { Alert } from "../../components/Alert";
-import { useState } from "react";
-import { GetStudentsQuery } from "@/gql/graphql";
-import { toast } from "sonner";
+} from '@/components/ui/table';
+import { useDeleteStudentMutation, useGetStudentsQuery } from '@/hooks/student';
+import dayjs from 'dayjs';
+import { Pencil, Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { GetStudentsQuery } from '@/gql/graphql';
+import { toast } from 'sonner';
+import { Alert } from '@/components/common/Alert';
 export default function StudentsTabel() {
   const { data, refetch } = useGetStudentsQuery();
   const { mutate: deleteStudent } = useDeleteStudentMutation({
@@ -36,7 +36,7 @@ export default function StudentsTabel() {
   });
   const students = data?.GetStudents;
 
-  type Student = GetStudentsQuery["GetStudents"][0];
+  type Student = GetStudentsQuery['GetStudents'][0];
   const [open, setOpen] = useState(false);
   const [student, setStudent] = useState<Student | null>(null);
   const { push } = useRouter();
@@ -75,7 +75,7 @@ export default function StudentsTabel() {
           <CardDescription>Students on Academe</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
+          <Table total={students?.length} emptyMessage='No Students Found'>
             <TableHeader>
               <TableRow>
                 <TableHead>ID</TableHead>
@@ -109,13 +109,13 @@ export default function StudentsTabel() {
                     <TableCell className="hidden sm:table-cell">
                       <Badge
                         className="text-xs"
-                        variant={student?.classroom ? "success" : "outline"}
+                        variant={student?.classroom ? 'success' : 'outline'}
                       >
-                        {student?.classroom ? "active" : "inactive"}
+                        {student?.classroom ? 'active' : 'inactive'}
                       </Badge>
                     </TableCell>
                     <TableCell className="hidden md:table-cell ">
-                      {dayjs(student?.user?.createdAt).format("DD/MM/YYYY")}
+                      {dayjs(student?.user?.createdAt).format('DD/MM/YYYY')}
                     </TableCell>
                     <TableCell className="hidden md:table-cell text-right space-x-4">
                       <Button

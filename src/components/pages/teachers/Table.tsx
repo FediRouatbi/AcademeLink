@@ -30,7 +30,7 @@ export default function TeachersTabel() {
         <CardDescription>Teachers on Academe</CardDescription>
       </CardHeader>
       <CardContent>
-        <Table>
+        <Table total={teachers?.length} emptyMessage="No Teachers Found">
           <TableHeader>
             <TableRow>
               <TableHead>ID</TableHead>
@@ -65,11 +65,11 @@ export default function TeachersTabel() {
                       className="text-xs"
                       // variant={teacher?.classroom ? "success" : "outline"}
                     >
-                      {true ? "active" : "inactive"}
+                      {true ? 'active' : 'inactive'}
                     </Badge>
                   </TableCell>
                   <TableCell className="hidden md:table-cell text-right">
-                    {dayjs(teacher?.user?.createdAt).format("DD/MM/YYYY")}
+                    {dayjs(teacher?.user?.createdAt).format('DD/MM/YYYY')}
                   </TableCell>
                 </TableRow>
               );

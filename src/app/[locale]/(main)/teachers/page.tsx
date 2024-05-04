@@ -5,8 +5,7 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 import { getTeachers } from '@/services/teacher';
-import TeachersTabel from './components/Table';
-import AddTeacher from './components/addTeacher';
+import { AddTeacher, TeachersTabel } from '@/components/pages/teachers';
 
 const page = async () => {
   const queryClient = new QueryClient();

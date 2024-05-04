@@ -1,7 +1,7 @@
 export const revalidate = false;
 
-import React, { Suspense } from "react";
-import Form from "./components/Form";
+import { Form } from '@/components/pages/login';
+import React, { Suspense } from 'react';
 const Login = () => {
   return (
     <div className="flex items-center justify-center py-12">
@@ -12,7 +12,7 @@ const Login = () => {
             Enter your email below to login to your account
           </p>
         </div>
-        <Suspense fallback={"..."}>
+        <Suspense fallback={'...'}>
           <Form />
         </Suspense>
       </div>

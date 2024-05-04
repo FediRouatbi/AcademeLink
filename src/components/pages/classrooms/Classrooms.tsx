@@ -1,7 +1,6 @@
 'use client';
 import { useGetClassroomsQuery } from '@/hooks/classroom/useGetClassroomsQuery';
 import React, { useState } from 'react';
-import ClassCard from '../classCard';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -12,14 +11,15 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { ClassroomType } from '../classCard/ClassCard';
 import { useDeleteClassroomMutation } from '@/hooks/classroom';
 import { queryClient } from '@/providers/react-query-provider';
 import { toast } from 'sonner';
+import ClassCard, { ClassroomType } from './classCard/ClassCard';
 const Classrooms = () => {
   const { mutate } = useDeleteClassroomMutation({
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['classrooms'] });
+      queryClient.invalidateQueries({ queryKey: ['students'] });
       toast?.success(
         `Classroom ${classroom?.classroom_name} deleted Successfully`
       );

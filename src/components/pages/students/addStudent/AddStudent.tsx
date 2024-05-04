@@ -29,7 +29,7 @@ const createStudentSchema = z.object({
   userName: z.string().min(3),
   email: z.string().email(),
   password: z.string().min(6),
-  classroomId: z.string(),
+  classroomId: z.optional(z.string()),
 });
 const defaultValues = {
   email: '',
@@ -57,15 +57,16 @@ const AddStudent = ({ className }: { className?: string }) => {
   });
 
   const onSubmit = (data: createStudentmType) => {
-
-  
+    const classroom = !!data?.classroomId && {
+      classroom_id: +data?.classroomId,
+    };
     mutate({
       email: data?.email,
       first_name: data?.firstName,
       last_name: data?.lastName,
       password: data?.password,
       user_name: data?.userName,
-      classroom_id: +data?.classroomId,
+      ...classroom,
     });
   };
   const [open, setOpen] = useState(false);

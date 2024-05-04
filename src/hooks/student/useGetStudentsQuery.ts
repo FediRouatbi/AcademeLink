@@ -1,10 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import { getStudents } from "@/services/student";
+import { useQuery } from '@tanstack/react-query';
+import { getStudents } from '@/services/student';
 
-const useGetStudentsQuery = () => {
+const useGetStudentsQuery = (hasClassroom?: boolean) => {
   const query = useQuery({
-    queryKey: ["students"],
-    queryFn: getStudents,
+    queryKey: ['students', hasClassroom],
+    queryFn: () => getStudents(hasClassroom),
   });
   return query;
 };
