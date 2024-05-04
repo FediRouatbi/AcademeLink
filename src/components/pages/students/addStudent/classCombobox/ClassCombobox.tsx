@@ -1,8 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
   Command,
@@ -19,12 +18,14 @@ import {
 } from '@/components/ui/popover';
 import { useGetClassroomsQuery } from '@/hooks/classroom';
 import { useController, useFormContext } from 'react-hook-form';
+import { useEditStudentAtom } from '@/hooks/student/useEditStudentAtom';
 
 export function ClassCombobox() {
   const { data } = useGetClassroomsQuery();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const classromms = data?.getClassrooms;
+  const [student] = useEditStudentAtom();
 
   const { control } = useFormContext();
   const { field, fieldState } = useController({
@@ -32,6 +33,11 @@ export function ClassCombobox() {
     control,
   });
 
+  useEffect(() => {
+    if (student?.action === 'EDIT') {
+      setValue(student?.classroom?.classroom_name);
+    }
+  }, [student?.action]);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -45,12 +51,12 @@ export function ClassCombobox() {
             ? classromms?.find(
                 (classromm) => classromm.classroom_name === value
               )?.classroom_name
-            : 'Email'}
+            : 'choose classroom'}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." className="h-9" />
+          <CommandInput placeholder="Search classroom..." className="h-9" />
           <CommandList>
             <CommandEmpty>No Classroom found.</CommandEmpty>
             <CommandGroup>

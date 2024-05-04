@@ -17,11 +17,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { queryClient } from '@/providers/react-query-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, useForm, useWatch } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { toast } from 'sonner';
 import { useCreateTeacherMutation } from '@/hooks/teacher';
 import TeacherClassrooms from './teacherClassrooms/TeacherClassrooms';
+import { useTeachersAtom } from '@/hooks/teacher/useTeacherAtom';
 
 const createTeacherSchema = z.object({
   firstName: z.string().min(3),
@@ -62,11 +63,8 @@ const AddTeacher = ({ className }: { className?: string }) => {
     defaultValues,
   });
 
+  const [classrooms] = useTeachersAtom();
   const onSubmit = (data: createTeachermType) => {
-    const classrooms = data?.classrooms?.map((el) => ({
-      classroom_id: el.classroomId,
-      subject_id: el.subjectId,
-    }));
     mutate({
       email: data?.email,
       first_name: data?.firstName,
@@ -93,7 +91,7 @@ const AddTeacher = ({ className }: { className?: string }) => {
             Add Teacher
           </Button>
         </SheetTrigger>
-        <SheetContent className="min-w-[25%]">
+        <SheetContent className="min-w-[25%] overflow-y-auto">
           <SheetHeader>
             <SheetTitle> Add Teacher</SheetTitle>
             <SheetDescription>
@@ -104,27 +102,27 @@ const AddTeacher = ({ className }: { className?: string }) => {
             <FormProvider {...methods}>
               <form onSubmit={methods.handleSubmit(onSubmit)}>
                 <div className="space-y-2 ">
-                  <Label htmlFor="firstName">First name</Label>
+                  <Label htmlFor="firstName">First name*</Label>
                   <Input id="firstName" name="firstName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="lastName">Last name</Label>
+                  <Label htmlFor="lastName">Last name*</Label>
                   <Input id="lastName" name="lastName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="userName">User name</Label>
+                  <Label htmlFor="userName">User name*</Label>
                   <Input id="userName" name="userName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">Email*</Label>
                   <Input id="email" name="email" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">Password*</Label>
                   <Input id="password" name="password" />
                 </div>
                 <TeacherClassrooms />
-                <SheetFooter>
+                <SheetFooter className="pt-10">
                   <Button
                     type="submit"
                     className="min-w-16"

@@ -19,12 +19,21 @@ import {
 } from '@/components/ui/popover';
 import { useGetTeachersQuery } from '@/hooks/teacher';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-
-export function TeachersCombobox() {
-  const { data } = useGetTeachersQuery();
+import { GetTeachersQuery } from '@/gql/graphql';
+import { useClassroomsAtom } from '@/hooks/classroom/useClassroomsAtom';
+type Props = {
+  dataTeachers?: GetTeachersQuery;
+  setSelectedTeacher: React.Dispatch<React.SetStateAction<number>>;
+};
+export function Combobox({ dataTeachers, setSelectedTeacher }: Props) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
-  const teachers = data?.GetTeachers;
+
+  const [teachersAtom, setTeachers] = useClassroomsAtom();
+
+  const ids = teachersAtom?.map((item) => item?.teacher_id);
+
+  const teachers = dataTeachers?.GetTeachers;
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -37,7 +46,7 @@ export function TeachersCombobox() {
           {value
             ? teachers?.find((teacher) => teacher.user?.user_name === value)
                 ?.user?.user_name
-            : 'Email'}
+            : 'Teacher name'}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
@@ -50,19 +59,36 @@ export function TeachersCombobox() {
           <CommandList>
             <CommandEmpty>No teacher found.</CommandEmpty>
             <CommandGroup>
-              {teachers?.map((teachers) => (
+              {teachers?.map((teacher) => (
                 <CommandItem
-                  key={teachers.user?.user_name}
-                  value={teachers.user?.user_name}
+                  disabled={ids?.includes(+teacher?.teacher_id)}
+                  key={teacher.user?.user_name}
+                  value={teacher.user?.user_name}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? '' : currentValue);
                     setOpen(false);
+
+                    const oldId = teachers?.find(
+                      (teacher) => teacher.user?.user_name === value
+                    )?.teacher_id;
+
+                    const newArray = teachersAtom.map((teacher) => {
+                      if (oldId && teacher.teacher_id === +oldId)
+                        return {
+                          ...teacher,
+                          teacher_id: +teacher.teacher_id,
+                        };
+                      return teacher;
+                    });
+                    setTeachers(newArray);
+
+                    setSelectedTeacher(+teacher.teacher_id);
                   }}
                 >
                   <Avatar className="size-5 mr-2">
                     <AvatarImage alt="User Avatar" src="/teacher.png" />{' '}
                   </Avatar>
-                  {teachers.user?.user_name}
+                  {teacher.user?.user_name}
                 </CommandItem>
               ))}
             </CommandGroup>

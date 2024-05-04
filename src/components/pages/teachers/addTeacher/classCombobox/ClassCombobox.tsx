@@ -16,26 +16,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { useGetClassroomsQuery } from '@/hooks/classroom';
-import { useClassroomsAtom } from '@/hooks/teacher/useClassroomsAtom';
-import { useController, useFormContext } from 'react-hook-form';
+import { useTeachersAtom } from '@/hooks/teacher/useTeacherAtom';
+import { GetClassroomsQuery } from '@/gql/graphql';
 
-export function ClassCombobox({
-  setSelectedClassroom,
-}: {
+type Props = {
   setSelectedClassroom: React.Dispatch<React.SetStateAction<number>>;
-}) {
-  const { data } = useGetClassroomsQuery();
+  allClassrooms?: GetClassroomsQuery;
+};
+
+export function ClassCombobox({ allClassrooms, setSelectedClassroom }: Props) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
-  const classromms = data?.getClassrooms;
-  const [classrooms, setClassrooms] = useClassroomsAtom();
-
-  const { control } = useFormContext();
-  const { field, fieldState } = useController({
-    name: 'classrooms',
-    control,
-  });
+  const classromms = allClassrooms?.getClassrooms;
+  const [classrooms, setClassrooms] = useTeachersAtom();
+  const ids = classrooms?.map((item) => item?.classroom_id);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -61,6 +55,7 @@ export function ClassCombobox({
             <CommandGroup>
               {classromms?.map((classromm) => (
                 <CommandItem
+                  disabled={ids?.includes(+classromm?.classroom_id)}
                   key={classromm.classroom_id}
                   value={classromm.classroom_name}
                   onSelect={(currentValue) => {
@@ -71,16 +66,15 @@ export function ClassCombobox({
                     )?.classroom_id;
 
                     const newArray = classrooms.map((classroom) => {
-                      if (oldId && classroom.classroomId === +oldId)
+                      if (oldId && classroom.classroom_id === +oldId)
                         return {
                           ...classroom,
-                          classroomId: +classromm.classroom_id,
+                          classroom_id: +classromm.classroom_id,
                         };
-
                       return classroom;
                     });
-                    field.onChange(newArray);
                     setClassrooms(newArray);
+
                     setSelectedClassroom(+classromm.classroom_id);
                   }}
                 >

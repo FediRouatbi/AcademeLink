@@ -25,6 +25,7 @@ import { useState } from 'react';
 import { GetStudentsQuery } from '@/gql/graphql';
 import { toast } from 'sonner';
 import { Alert } from '@/components/common/Alert';
+import { useEditStudentAtom } from '@/hooks/student/useEditStudentAtom';
 export default function StudentsTabel() {
   const { data, refetch } = useGetStudentsQuery();
   const { mutate: deleteStudent } = useDeleteStudentMutation({
@@ -34,11 +35,11 @@ export default function StudentsTabel() {
       refetch();
     },
   });
+  const [student, setStudent] = useEditStudentAtom();
   const students = data?.GetStudents;
 
   type Student = GetStudentsQuery['GetStudents'][0];
   const [open, setOpen] = useState(false);
-  const [student, setStudent] = useState<Student | null>(null);
   const { push } = useRouter();
 
   const onClickEdit = (
@@ -46,7 +47,7 @@ export default function StudentsTabel() {
     student: Student
   ) => {
     e.stopPropagation();
-    setStudent(student);
+    setStudent({ ...student, action: 'EDIT' });
   };
   const onClickDelete = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -54,7 +55,7 @@ export default function StudentsTabel() {
   ) => {
     e.stopPropagation();
     setOpen(true);
-    setStudent(student);
+    setStudent({ ...student, action: 'DELETE' });
   };
 
   const onClickCancel = () => {
@@ -75,7 +76,7 @@ export default function StudentsTabel() {
           <CardDescription>Students on Academe</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table total={students?.length} emptyMessage='No Students Found'>
+          <Table total={students?.length} emptyMessage="No Students Found">
             <TableHeader>
               <TableRow>
                 <TableHead>ID</TableHead>

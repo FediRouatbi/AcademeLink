@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 export default function TeachersTabel() {
   const { push } = useRouter();
   const { data } = useGetTeachersQuery();
+  
   const teachers = data?.GetTeachers;
   return (
     <Card>
