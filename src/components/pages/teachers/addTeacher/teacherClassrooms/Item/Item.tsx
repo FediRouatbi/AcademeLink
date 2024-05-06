@@ -1,75 +1,96 @@
 import React, { useState } from 'react';
-import { useGetSubjectsQuery } from '@/hooks/subject';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import { ClassCombobox } from '../../classCombobox/ClassCombobox';
+import { ClassCombobox } from './classCombobox/ClassCombobox';
 import { useTeachersAtom } from '@/hooks/teacher/useTeacherAtom';
 import { Button } from '@/components/ui/button';
-import { useController, useFormContext } from 'react-hook-form';
-import { PlusIcon, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { GetClassroomsQuery, GetSubjectsQuery } from '@/gql/graphql';
+import { useEditTeacherAtom } from '@/hooks/teacher/useEditTeacherAtom';
 const animatedComponents = makeAnimated();
 
 type Props = {
   allClassrooms?: GetClassroomsQuery;
   subjects?: GetSubjectsQuery;
   index: number;
-  setItems: React.Dispatch<React.SetStateAction<number[]>>;
 };
 
-const Item = ({ allClassrooms, subjects, index, setItems }: Props) => {
-  const [selectedClassroom, setSelectedClassroom] = useState<number>(0);
+const Item = ({ allClassrooms, subjects, index }: Props) => {
+  const [teacher] = useEditTeacherAtom();
+
+  const [classrooms, setClassrooms] = useTeachersAtom();
+
+  const [classroomId, setClassroomId] = useState(
+    classrooms?.[index]?.[0]?.classroom_id || 0
+  );
+
+  const defaultValue =
+    index !== -1
+      ? classrooms[index].map((el) => {
+          const subject = subjects?.getSubjects?.find(
+            (sub) => sub.id === el.subject_id
+          );
+
+          return { label: subject?.name, value: el?.subject_id };
+        })
+      : [];
 
   const classroomData = allClassrooms?.getClassrooms?.find(
-    (el) => +el?.classroom_id === selectedClassroom
+    (el) => +el?.classroom_id === classroomId
   );
   const classroomSubjects = classroomData?.course?.map((el) => el?.subject?.id);
+  const currentTeacherSubjects = teacher?.course
+    ?.filter((el) => el?.classroom_id === classroomId)
+    .map((el) => el?.subject_id);
+  const filterMySubjects = classroomSubjects?.filter(
+    (el) => !currentTeacherSubjects?.includes(el)
+  );
 
   const options = subjects?.getSubjects?.map((subject) => {
-    const subjectTaked = classroomSubjects?.includes(subject?.id);
+    const subjectTaked = filterMySubjects?.includes(subject?.id);
+
     const course = classroomData?.course?.find(
       (el) => el?.subject?.id === subject?.id
     );
     const teacherName = course?.teacher?.user?.user_name;
+
     return {
       value: subject?.id,
       label: subjectTaked ? `${subject?.name} (${teacherName})` : subject?.name,
       disabled: subjectTaked,
     };
   });
-  const [classrooms, setClassrooms] = useTeachersAtom();
 
   const onChange = (newValue: { value: string; label: string }[]) => {
-    if (!selectedClassroom) return;
-    const oldList = classrooms.filter(
-      (classroom) => classroom?.classroom_id !== selectedClassroom
-    );
+    if (!classroomId) return;
+    const newArray = [...classrooms];
 
-    const newList = newValue?.map((val) => ({
-      classroom_id: selectedClassroom,
+    const newData = newValue?.map((val) => ({
+      classroom_id: classroomId,
       subject_id: +val.value,
     }));
 
-    const data = [...oldList, ...newList];
-    setClassrooms(data);
+    newArray[index] = newData;
+
+    setClassrooms(newArray);
   };
+
   const onClickDelete = () => {
-    setClassrooms(
-      classrooms.filter(
-        (classroom) => classroom.classroom_id !== selectedClassroom
-      )
-    );
-    setItems((prev) => prev?.filter((el) => el !== index));
+    const newArray = [...classrooms];
+    newArray.splice(index, 1);
+
+    setClassrooms(newArray);
   };
   return (
     <div className="space-y-2 ">
       <div className="flex gap-5">
         <ClassCombobox
           allClassrooms={allClassrooms}
-          setSelectedClassroom={setSelectedClassroom}
+          setClassroomId={setClassroomId}
+          classroomId={classroomId}
         />
 
-        {index !== 1 && (
+        {classrooms?.length > 1 && (
           <Button
             className="ml-auto"
             size="icon"
@@ -85,11 +106,12 @@ const Item = ({ allClassrooms, subjects, index, setItems }: Props) => {
       <Select
         //@ts-ignore
         isOptionDisabled={(option) => option.disabled}
-        isDisabled={!selectedClassroom}
+        isDisabled={!classroomId}
         className="flex-1"
         closeMenuOnSelect={false}
         components={animatedComponents}
         isMulti
+        defaultValue={defaultValue}
         options={options}
         //@ts-ignore
         onChange={onChange}

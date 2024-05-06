@@ -1,11 +1,11 @@
 import { ClassroomInput, Subject } from '@/gql/graphql';
 import { atom, useAtom } from 'jotai';
 
-const classrooms = atom<ClassroomInput[]>([]);
+const classrooms = atom<ClassroomInput[][]>([[]]);
 
 const onClickEdit = atom(
   (get) => get(classrooms),
-  (get, set, update: ClassroomInput[]) => {
+  (get, set, update: ClassroomInput[][]) => {
     set(classrooms, update);
   }
 );

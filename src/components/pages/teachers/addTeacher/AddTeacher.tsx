@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BadgePlus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -23,6 +23,8 @@ import { toast } from 'sonner';
 import { useCreateTeacherMutation } from '@/hooks/teacher';
 import TeacherClassrooms from './teacherClassrooms/TeacherClassrooms';
 import { useTeachersAtom } from '@/hooks/teacher/useTeacherAtom';
+import { useEditTeacherAtom } from '@/hooks/teacher/useEditTeacherAtom';
+import { splitArrayById } from '@/utils/splitArrayByid';
 
 const createTeacherSchema = z.object({
   firstName: z.string().min(3),
@@ -48,10 +50,13 @@ const defaultValues = {
 export type createTeachermType = z.infer<typeof createTeacherSchema>;
 
 const AddTeacher = ({ className }: { className?: string }) => {
+  const [teacher, setTeacher] = useEditTeacherAtom();
+
   const { mutate, isPending } = useCreateTeacherMutation({
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['teachers'] });
       setOpen(false);
+      setTeacher(null);
       toast?.success('Teacher add Successfully');
     },
     onError(error) {
@@ -63,7 +68,7 @@ const AddTeacher = ({ className }: { className?: string }) => {
     defaultValues,
   });
 
-  const [classrooms] = useTeachersAtom();
+  const [classrooms, setClassrooms] = useTeachersAtom();
   const onSubmit = (data: createTeachermType) => {
     mutate({
       email: data?.email,
@@ -71,9 +76,24 @@ const AddTeacher = ({ className }: { className?: string }) => {
       last_name: data?.lastName,
       password: data?.password,
       user_name: data?.userName,
-      classrooms: classrooms,
+      classrooms: classrooms?.flat(),
     });
   };
+
+  useEffect(() => {
+    if (teacher?.action === 'EDIT') {
+      setOpen(true);
+      methods?.reset({
+        email: teacher?.user?.email,
+        firstName: teacher?.user?.first_name,
+        lastName: teacher?.user?.last_name,
+        password: '',
+        userName: teacher?.user?.user_name,
+      });
+      const data = splitArrayById(teacher?.course);
+      setClassrooms(data?.length ? data : [[]]);
+    }
+  }, [teacher?.action]);
   const [open, setOpen] = useState(false);
 
   return (
@@ -83,6 +103,7 @@ const AddTeacher = ({ className }: { className?: string }) => {
         onOpenChange={(open) => {
           setOpen(open);
           methods?.reset(defaultValues);
+          setTeacher(null);
         }}
       >
         <SheetTrigger asChild>

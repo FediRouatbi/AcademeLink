@@ -35,7 +35,7 @@ export function ClassCombobox() {
 
   useEffect(() => {
     if (student?.action === 'EDIT') {
-      setValue(student?.classroom?.classroom_name);
+      setValue(student?.classroom?.classroom_name || '');
     }
   }, [student?.action]);
   return (
@@ -70,7 +70,7 @@ export function ClassCombobox() {
                     field.onChange(classromm?.classroom_id);
                   }}
                 >
-                  {classromm.classroom_name}
+                  {`${classromm.classroom_name} (${classromm?.student?.length})`}
                 </CommandItem>
               ))}
             </CommandGroup>

@@ -20,17 +20,21 @@ import { useTeachersAtom } from '@/hooks/teacher/useTeacherAtom';
 import { GetClassroomsQuery } from '@/gql/graphql';
 
 type Props = {
-  setSelectedClassroom: React.Dispatch<React.SetStateAction<number>>;
   allClassrooms?: GetClassroomsQuery;
+  setClassroomId: React.Dispatch<React.SetStateAction<number>>;
+  classroomId: number;
 };
 
-export function ClassCombobox({ allClassrooms, setSelectedClassroom }: Props) {
+export function ClassCombobox({
+  allClassrooms,
+  setClassroomId,
+  classroomId,
+}: Props) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
   const classromms = allClassrooms?.getClassrooms;
   const [classrooms, setClassrooms] = useTeachersAtom();
-  const ids = classrooms?.map((item) => item?.classroom_id);
-
+  const ids = classrooms?.flat().map((el) => el?.classroom_id);
+  
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -40,11 +44,9 @@ export function ClassCombobox({ allClassrooms, setSelectedClassroom }: Props) {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value
-            ? classromms?.find(
-                (classromm) => classromm.classroom_name === value
-              )?.classroom_name
-            : 'Classroom'}
+          {classromms?.find(
+            (classromm) => classromm.classroom_id === classroomId
+          )?.classroom_name || 'Classroom'}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
@@ -59,23 +61,21 @@ export function ClassCombobox({ allClassrooms, setSelectedClassroom }: Props) {
                   key={classromm.classroom_id}
                   value={classromm.classroom_name}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? '' : currentValue);
+                    if (currentValue) setClassroomId(+classromm.classroom_id);
+
                     setOpen(false);
-                    const oldId = classromms?.find(
-                      (classromm) => classromm.classroom_name === value
-                    )?.classroom_id;
 
-                    const newArray = classrooms.map((classroom) => {
-                      if (oldId && classroom.classroom_id === +oldId)
-                        return {
-                          ...classroom,
-                          classroom_id: +classromm.classroom_id,
-                        };
-                      return classroom;
-                    });
-                    setClassrooms(newArray);
+                    const index = classrooms?.findIndex(
+                      (el) => el?.[0]?.classroom_id === classroomId
+                    );
+                    if (index === -1) return;
+                    const newClassrooms = [...classrooms];
 
-                    setSelectedClassroom(+classromm.classroom_id);
+                    newClassrooms[index] = newClassrooms[index]?.map((el) => ({
+                      ...el,
+                      classroom_id: +classromm.classroom_id,
+                    }));
+                    setClassrooms(newClassrooms);
                   }}
                 >
                   {classromm.classroom_name}

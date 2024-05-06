@@ -9,52 +9,50 @@ import { useGetSubjectsQuery } from '@/hooks/subject';
 import { useGetClassroomsQuery } from '@/hooks/classroom';
 
 const TeacherClassrooms = () => {
-  const { data: subjects } = useGetSubjectsQuery();
-  const { data: allClassrooms } = useGetClassroomsQuery();
+  const { data: subjects, isPending: subjectsPending } = useGetSubjectsQuery();
+  const { data: allClassrooms, isPending: classroomsPending } =
+    useGetClassroomsQuery();
 
   const [classromms, setClassrooms] = useTeachersAtom();
-  const [items, setItems] = useState([1]);
 
-  useEffect(() => {
-    return () => setClassrooms([]);
-  }, []);
-  const numberOfClasses = new Set(classromms.map((el) => el?.classroom_id))
-    .size;
-  const addDisabled = numberOfClasses !== items.length;
+  const addDisabled = Boolean(classromms?.at(0)?.length);
+  const a = { s: [] };
   return (
     <div className="space-y-2 pt-5">
       <div className="flex justify-between">
         <Label className="block">Classrooms</Label>
         <Button
-          disabled={addDisabled}
+          disabled={!addDisabled}
           className="ml-auto"
           size="icon"
           type="button"
           variant="outline"
           onClick={() => {
-            setItems((prev) => {
-              const lastNumber = prev[0];
-              return [lastNumber + 1, ...prev];
-            });
+            const newArray = [[], ...classromms];
+            setClassrooms(newArray);
           }}
         >
           <PlusIcon className="h-4 w-4 flex-shrink-0" />
           <span className="sr-only">Add classroom</span>
         </Button>
       </div>
-      <div className="flex  gap-10 flex-col">
-        {items.map((el, i) => {
-          return (
-            <Item
-              key={el}
-              index={el}
-              setItems={setItems}
-              subjects={subjects}
-              allClassrooms={allClassrooms}
-            />
-          );
-        })}
-      </div>
+      {subjectsPending || classroomsPending ? (
+        <></>
+      ) : (
+        <div className="flex  gap-10 flex-col">
+          {classromms.map((el, i) => {
+            console.log(el?.[0]?.classroom_id);
+            return (
+              <Item
+                index={i}
+                key={el?.[0]?.classroom_id || 0}
+                subjects={subjects}
+                allClassrooms={allClassrooms}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

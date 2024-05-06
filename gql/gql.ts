@@ -30,8 +30,10 @@ const documents = {
     "\n  mutation editSubject(\n    $editSubjectId: Int!\n    $editSubject: UpdateSubjectInput!\n  ) {\n    editSubject(id: $editSubjectId, editSubject: $editSubject) {\n      id\n    }\n  }\n": types.EditSubjectDocument,
     "\n  mutation DeleteSubject($deleteSubjectId: Int!) {\n    deleteSubject(id: $deleteSubjectId) {\n      id\n    }\n  }\n": types.DeleteSubjectDocument,
     "\n  query GetTeacher($getTeacherId: Int!) {\n    GetTeacher(id: $getTeacherId) {\n      teacher_id\n      user {\n        createdAt\n        email\n        first_name\n        last_name\n        updatedAt\n        user_id\n        user_name\n      }\n    }\n  }\n": types.GetTeacherDocument,
-    "\n  query GetTeachers {\n    GetTeachers {\n      teacher_id\n      user {\n        createdAt\n        email\n        first_name\n        last_name\n        updatedAt\n        user_id\n        user_name\n      }\n    }\n  }\n": types.GetTeachersDocument,
+    "\n  query GetTeachers {\n    GetTeachers {\n      teacher_id\n      user {\n        createdAt\n        email\n        first_name\n        last_name\n        updatedAt\n        user_id\n        user_name\n      }\n      course {\n        classroom_id\n        subject_id\n      }\n    }\n  }\n": types.GetTeachersDocument,
     "\n  mutation CreateTeacher($createTeacher: CreateTeacher!) {\n    CreateTeacher(createTeacher: $createTeacher) {\n      teacher_id\n    }\n  }\n": types.CreateTeacherDocument,
+    "\n  mutation EditTeacher($editTeacher: UpdateTeacher!) {\n    EditTeacher(editTeacher: $editTeacher) {\n      teacher_id\n    }\n  }\n": types.EditTeacherDocument,
+    "\n  mutation DeleteTeacher($teacherId: Float!) {\n    deleteTeacher(teacherId: $teacherId) {\n      teacher_id\n    }\n  }\n": types.DeleteTeacherDocument,
     "\n  mutation CreateTopic($createTopic: CreateTopic!) {\n    CreateTopic(createTopic: $createTopic) {\n      content\n    }\n  }\n": types.CreateTopicDocument,
     "\n  query getTopicsByAuthor {\n    getTopicsByAuthor {\n      content\n    }\n  }\n": types.GetTopicsByAuthorDocument,
     "\n  mutation EditTopic($editTopic: UpdateTopic!, $topicId: Int!) {\n    EditTopic(editTopic: $editTopic, topicId: $topicId) {\n      content\n    }\n  }\n": types.EditTopicDocument,
@@ -122,11 +124,19 @@ export function graphql(source: "\n  query GetTeacher($getTeacherId: Int!) {\n  
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetTeachers {\n    GetTeachers {\n      teacher_id\n      user {\n        createdAt\n        email\n        first_name\n        last_name\n        updatedAt\n        user_id\n        user_name\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetTeachers {\n    GetTeachers {\n      teacher_id\n      user {\n        createdAt\n        email\n        first_name\n        last_name\n        updatedAt\n        user_id\n        user_name\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  query GetTeachers {\n    GetTeachers {\n      teacher_id\n      user {\n        createdAt\n        email\n        first_name\n        last_name\n        updatedAt\n        user_id\n        user_name\n      }\n      course {\n        classroom_id\n        subject_id\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetTeachers {\n    GetTeachers {\n      teacher_id\n      user {\n        createdAt\n        email\n        first_name\n        last_name\n        updatedAt\n        user_id\n        user_name\n      }\n      course {\n        classroom_id\n        subject_id\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation CreateTeacher($createTeacher: CreateTeacher!) {\n    CreateTeacher(createTeacher: $createTeacher) {\n      teacher_id\n    }\n  }\n"): (typeof documents)["\n  mutation CreateTeacher($createTeacher: CreateTeacher!) {\n    CreateTeacher(createTeacher: $createTeacher) {\n      teacher_id\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation EditTeacher($editTeacher: UpdateTeacher!) {\n    EditTeacher(editTeacher: $editTeacher) {\n      teacher_id\n    }\n  }\n"): (typeof documents)["\n  mutation EditTeacher($editTeacher: UpdateTeacher!) {\n    EditTeacher(editTeacher: $editTeacher) {\n      teacher_id\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation DeleteTeacher($teacherId: Float!) {\n    deleteTeacher(teacherId: $teacherId) {\n      teacher_id\n    }\n  }\n"): (typeof documents)["\n  mutation DeleteTeacher($teacherId: Float!) {\n    deleteTeacher(teacherId: $teacherId) {\n      teacher_id\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

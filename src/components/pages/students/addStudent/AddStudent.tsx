@@ -109,7 +109,7 @@ const AddStudent = ({ className }: { className?: string }) => {
       ...classroom,
     });
   };
-  const onError = (error) => {
+  const onError = (error: any) => {
     console.log(error);
   };
   const [open, setOpen] = useState(false);
@@ -126,7 +126,6 @@ const AddStudent = ({ className }: { className?: string }) => {
       });
     }
   }, [student?.action]);
-  console.log(student);
 
   return (
     <div className={className}>
