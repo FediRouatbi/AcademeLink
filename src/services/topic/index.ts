@@ -9,8 +9,15 @@ const CreateTopic = graphql(`
   }
 `);
 const GetTopicsByAuthor = graphql(`
-  query getTopicsByAuthor {
-    getTopicsByAuthor {
+  query GetTopicsByAuthor($authorId: Int!) {
+    getTopicsByAuthor(authorID: $authorId) {
+      content
+    }
+  }
+`);
+const GetTopicsByCourseId = graphql(`
+  query GetTopicsByCourseId($courseId: Int!) {
+    getTopicsByCourseId(courseID: $courseId) {
       content
     }
   }
@@ -23,10 +30,22 @@ const EditTopic = graphql(`
   }
 `);
 
-const getTopicsByAuthor = (accessToken: string) =>
-  graphQLClient?.request(GetTopicsByAuthor, undefined, {
-    Authorization: `Bearer ${accessToken}`,
-  });
+const getTopicsByAuthor = (authorId: number, accessToken: string) =>
+  graphQLClient?.request(
+    GetTopicsByAuthor,
+    { authorId },
+    {
+      Authorization: `Bearer ${accessToken}`,
+    }
+  );
+const getTopicsByCourseId = (courseId: number, accessToken: string) =>
+  graphQLClient?.request(
+    GetTopicsByCourseId,
+    { courseId },
+    {
+      Authorization: `Bearer ${accessToken}`,
+    }
+  );
 
 const createTopic = (content: string, accessToken: string) =>
   graphQLClient?.request(
@@ -38,4 +57,4 @@ const createTopic = (content: string, accessToken: string) =>
 const editTopic = (content: string, topicId: number) =>
   graphQLClient?.request(EditTopic, { editTopic: { content }, topicId });
 
-export { createTopic, getTopicsByAuthor, editTopic };
+export { getTopicsByAuthor, getTopicsByCourseId, createTopic, editTopic };

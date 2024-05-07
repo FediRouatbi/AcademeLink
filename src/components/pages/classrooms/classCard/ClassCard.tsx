@@ -1,6 +1,6 @@
 import { CardTitle, CardHeader, CardContent, Card } from '@/components/ui/card';
 import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar';
-import { CalendarIcon, Trash2, UsersIcon } from 'lucide-react';
+import { CalendarIcon, Edit, Edit2, Trash2, UsersIcon } from 'lucide-react';
 import { GetClassroomsQuery } from '@/gql/graphql';
 import {
   HoverCard,
@@ -10,29 +10,53 @@ import {
 import { Button } from '@/components/ui/button';
 import React from 'react';
 import dayjs from 'dayjs';
-
+import Link from 'next/link';
 
 export type ClassroomType = GetClassroomsQuery['getClassrooms'][0];
 type Props = {
   classroom: ClassroomType;
   onClickDelete: (classroom: ClassroomType) => void;
+  onClickEdit: (classroom: ClassroomType) => void;
 };
 
-export default function ClassCard({ classroom, onClickDelete }: Props) {
+export default function ClassCard({
+  classroom,
+  onClickDelete,
+  onClickEdit,
+}: Props) {
   return (
-    <Card className="max-w-sm mt-5 relative group">
-      <Button
-        onClick={() => onClickDelete(classroom)}
-        variant="ghost"
-        size="icon"
-        className="active:scale-95   absolute z-20 group-hover:opacity-100 transition-all opacity-0 top-5 right-5"
-      >
-        <Trash2 className="size-4" />
+    <Card className="max-w-sm mt-5 relative group hover:shadow-md transition-all">
+      <div className="absolute z-20 group-hover:opacity-100 transition-all opacity-0 top-5 right-5 flex gap-2">
+        <Button
+          onClick={() => onClickEdit(classroom)}
+          variant="ghost"
+          size="icon"
+          className="active:scale-95   "
+        >
+          <Edit2 className="size-4" />
 
-        <span className="sr-only">Delete </span>
-      </Button>
+          <span className="sr-only">Edit </span>
+        </Button>
+        <Button
+          onClick={() => onClickDelete(classroom)}
+          variant="ghost"
+          size="icon"
+          className="active:scale-95  "
+        >
+          <Trash2 className="size-4" />
+
+          <span className="sr-only">Delete </span>
+        </Button>
+      </div>
       <CardHeader className="pb-0">
-        <CardTitle className="text-2xl">{classroom?.classroom_name}</CardTitle>
+        <CardTitle className="text-2xl ">
+          <Link
+            href={`/fr/classrooms/${classroom?.classroom_id}`}
+            className="hover:underline"
+          >
+            {classroom?.classroom_name}
+          </Link>
+        </CardTitle>
         <div className="flex items-center space-x-2 text-sm font-medium">
           <div className="flex items-center space-x-1">
             <UsersIcon className="w-4 h-4" />
@@ -41,11 +65,8 @@ export default function ClassCard({ classroom, onClickDelete }: Props) {
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        <p>
-          Mathematics class for 7th-grade students. Focuses on pre-algebra
-          skills and problem-solving. The class covers topics such as linear
-          equations.
-        </p>
+        <strong>description : </strong>
+        <p> {classroom?.description}</p>
         <div className="mt-4 space-y-2">
           <h3 className="text-lg font-medium">Subjects :</h3>
           <ul className="list-disc pl-6 space-y-1">

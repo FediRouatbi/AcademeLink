@@ -77,11 +77,7 @@ export default async function page({ params }: Props) {
                   </div>
                   <div className="grid gap-3">
                     <Label htmlFor="description">Description</Label>
-                    <Textarea
-                      id="description"
-                      defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc."
-                      className="min-h-32"
-                    />
+                
                   </div>
                 </div>
               </CardContent>

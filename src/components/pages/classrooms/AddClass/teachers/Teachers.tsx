@@ -18,7 +18,7 @@ const Teachers = () => {
   }, []);
 
   const numberOfTeachers = new Set(teachers.map((el) => el?.teacher_id)).size;
-  const addDisabled = numberOfTeachers !== items.length;
+  const addDisabled = numberOfTeachers !== items.length 
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center">

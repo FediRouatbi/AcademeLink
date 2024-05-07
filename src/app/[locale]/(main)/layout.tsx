@@ -23,7 +23,7 @@ import LinkItem from '../../../components/common/LinkItem';
 import Search from '../../../components/common/Search';
 import Image from 'next/image';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
-import { Library, Palette, Settings, Shapes } from 'lucide-react';
+import { Library, Palette, Presentation, Settings, Shapes } from 'lucide-react';
 const routes = [
   {
     isActive: 'home',
@@ -66,6 +66,16 @@ const routes = [
         <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
           6
         </Badge>
+      </>
+    ),
+  },
+  {
+    href: '/courses',
+    isActive: 'courses',
+    item: (
+      <>
+        <Presentation className="h-4 w-4" />
+        Courses
       </>
     ),
   },

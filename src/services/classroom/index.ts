@@ -1,13 +1,13 @@
 import { graphQLClient } from '@/constants/utils';
 import { graphql } from '@/gql/gql';
-import { CreateClassroom } from '@/gql/graphql';
-import { GraphQLClient } from 'graphql-request';
+import { CreateClassroom, UpdateClassroom } from '@/gql/graphql';
 
 const GetClassroom = graphql(`
   query GetClassroom($getClassrommId: Int!) {
     getClassroom(id: $getClassrommId) {
       classroom_id
       classroom_name
+      description
       createdAt
       student {
         student_id
@@ -21,6 +21,27 @@ const GetClassroom = graphql(`
           user_name
         }
       }
+      course {
+        id
+        createdAt
+        subject {
+          name
+          id
+        }
+        teacher {
+          teacher_id
+          user {
+            createdAt
+            email
+            first_name
+            last_name
+            updatedAt
+            user_id
+            user_name
+          }
+        }
+        updatedAt
+      }
     }
   }
 `);
@@ -30,9 +51,13 @@ const GetClassrooms = graphql(`
     getClassrooms {
       classroom_id
       classroom_name
+      description
       createdAt
       student {
         student_id
+        user {
+          user_name
+        }
       }
       course {
         subject {
@@ -63,6 +88,13 @@ const CreatClassroom = graphql(`
     }
   }
 `);
+const EditClassromm = graphql(`
+  mutation EditClassromm($editClassromm: UpdateClassroom!) {
+    editClassromm(editClassromm: $editClassromm) {
+      classroom_id
+    }
+  }
+`);
 
 const DeleteClassroom = graphql(`
   mutation DeleteClassroom($classroomId: Float!) {
@@ -76,22 +108,48 @@ const getClassrooms = (accessToken: string) =>
   graphQLClient?.request(GetClassrooms, undefined, {
     Authorization: `Bearer ${accessToken}`,
   });
+const getClassroom = (getClassrommId: number, accessToken: string) =>
+  graphQLClient?.request(
+    GetClassroom,
+    { getClassrommId },
+    {
+      Authorization: `Bearer ${accessToken}`,
+    }
+  );
 
 const creatClassroom = ({
   accessToken,
   classroom_name,
   studentsIds,
   teachersIds,
+  description,
 }: CreateClassroom & { accessToken: string }) => {
   return graphQLClient?.request(
     CreatClassroom,
     {
-      createClassromm: { classroom_name, studentsIds, teachersIds },
+      createClassromm: {
+        classroom_name,
+        studentsIds,
+        teachersIds,
+        description,
+      },
     },
     { Authorization: `Bearer ${accessToken}` }
   );
 };
 
+const editClassroom = (classroom: UpdateClassroom, accessToken: string) =>
+  graphQLClient?.request(
+    EditClassromm,
+    {
+      editClassromm: {
+        classroom_id: classroom?.classroom_id,
+        classroom_name: classroom?.classroom_name,
+        description: classroom?.description,
+      },
+    },
+    { Authorization: `Bearer ${accessToken}` }
+  );
 const deleteClassroom = (classroomId: number, accessToken: string) =>
   graphQLClient?.request(
     DeleteClassroom,
@@ -99,4 +157,10 @@ const deleteClassroom = (classroomId: number, accessToken: string) =>
     { Authorization: `Bearer ${accessToken}` }
   );
 
-export { getClassrooms, creatClassroom, deleteClassroom };
+export {
+  getClassrooms,
+  getClassroom,
+  creatClassroom,
+  editClassroom,
+  deleteClassroom,
+};

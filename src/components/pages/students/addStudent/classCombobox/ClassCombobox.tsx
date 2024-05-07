@@ -67,7 +67,8 @@ export function ClassCombobox() {
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? '' : currentValue);
                     setOpen(false);
-                    field.onChange(classromm?.classroom_id);
+                    
+                    field.onChange({ classroom_id: classromm?.classroom_id });
                   }}
                 >
                   {`${classromm.classroom_name} (${classromm?.student?.length})`}

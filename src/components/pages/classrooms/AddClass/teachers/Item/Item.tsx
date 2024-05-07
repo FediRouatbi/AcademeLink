@@ -53,16 +53,18 @@ const Item = ({ dataSubjects, dataTeachers, index, setItems }: Props) => {
           dataTeachers={dataTeachers}
           setSelectedTeacher={setSelectedTeacher}
         />
-        <Button
-          className="ml-auto"
-          size="icon"
-          type="button"
-          variant="outline"
-          onClick={onClickDelete}
-        >
-          <Trash2 className="h-4 w-4 flex-shrink-0" />
-          <span className="sr-only">delete classroom</span>
-        </Button>
+        {teachers?.length > 1 && (
+          <Button
+            className="ml-auto"
+            size="icon"
+            type="button"
+            variant="outline"
+            onClick={onClickDelete}
+          >
+            <Trash2 className="h-4 w-4 flex-shrink-0" />
+            <span className="sr-only">delete classroom</span>
+          </Button>
+        )}
       </div>
 
       <Select

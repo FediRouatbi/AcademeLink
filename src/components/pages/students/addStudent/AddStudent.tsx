@@ -20,35 +20,35 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
 import { toast } from 'sonner';
-import { useCreateStudentMutation } from '@/hooks/student/useCreateStudentMudation';
 import { ClassCombobox } from './classCombobox/ClassCombobox';
 import { useEditStudentAtom } from '@/hooks/student/useEditStudentAtom';
-import { useEditStudentMudation } from '@/hooks/student';
-const createSchema = (editMode: boolean) => {
-  return z.object({
-    firstName: z.string().min(3),
-    lastName: z.string().min(3),
-    userName: z.string().min(3),
-    email: z.string().email(),
-    password: z.string().min(6),
-    classroomId: z.optional(z.string()),
-  });
-};
+import {
+  useEditStudentMutation,
+  useCreateStudentMutation,
+} from '@/hooks/student/';
+const schema = z.object({
+  firstName: z.string().min(3),
+  lastName: z.string().min(3),
+  userName: z.string().min(3),
+  email: z.string().email(),
+  password: z.string().min(6),
+  classroomId: z.optional(z.object({ classroom_id: z.number() })),
+});
 
-type createSchemaReturnType = ReturnType<typeof createSchema>;
-type createStudentmType = z.infer<createSchemaReturnType>;
+type createStudentmType = z.infer<typeof schema>;
 
 const AddStudent = ({ className }: { className?: string }) => {
   const [student, setStudent] = useEditStudentAtom();
 
   const defaultValues = {
-    email: '' || student?.user?.email,
-    firstName: '' || student?.user?.first_name,
-    lastName: '' || student?.user?.last_name,
+    email: student?.user?.email || '',
+    firstName: student?.user?.first_name || '',
+    lastName: student?.user?.last_name || '',
     password: '',
-    userName: '' || student?.user?.user_name,
-    classroomId:
-      undefined || student?.classroom?.classroom_id.toString() || '0',
+    userName: student?.user?.user_name || '',
+    classroomId: {
+      classroom_id: student?.classroom?.classroom_id || 0,
+    },
   };
   const { mutate: createStudent, isPending: createPending } =
     useCreateStudentMutation({
@@ -63,7 +63,7 @@ const AddStudent = ({ className }: { className?: string }) => {
       },
     });
   const { mutate: editStudent, isPending: editPending } =
-    useEditStudentMudation({
+    useEditStudentMutation({
       onSuccess() {
         queryClient.invalidateQueries({ queryKey: ['students'] });
         setOpen(false);
@@ -75,17 +75,13 @@ const AddStudent = ({ className }: { className?: string }) => {
       },
     });
 
-  const schema = createSchema(student?.action === 'EDIT');
-
   const methods = useForm<createStudentmType>({
     resolver: zodResolver(schema),
     defaultValues,
   });
 
   const onSubmit = (data: createStudentmType) => {
-    const classroom = !!data?.classroomId && {
-      classroom_id: +data?.classroomId,
-    };
+    const classroom = !!data?.classroomId && data?.classroomId;
 
     if (student?.action === 'EDIT') {
       editStudent({
@@ -99,6 +95,7 @@ const AddStudent = ({ className }: { className?: string }) => {
       });
       return;
     }
+    console.log(classroom);
 
     createStudent({
       email: data?.email,
@@ -122,7 +119,9 @@ const AddStudent = ({ className }: { className?: string }) => {
         lastName: student?.user?.last_name,
         password: '',
         userName: student?.user?.user_name,
-        classroomId: student?.classroom?.classroom_id.toString() || '0',
+        classroomId: {
+          classroom_id: student?.classroom?.classroom_id || 0,
+        },
       });
     }
   }, [student?.action]);

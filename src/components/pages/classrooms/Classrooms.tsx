@@ -15,6 +15,7 @@ import { useDeleteClassroomMutation } from '@/hooks/classroom';
 import { queryClient } from '@/providers/react-query-provider';
 import { toast } from 'sonner';
 import ClassCard, { ClassroomType } from './classCard/ClassCard';
+import { useEditClassroomAtom } from '@/hooks/classroom/useEditClassroomAtom';
 const Classrooms = () => {
   const { mutate } = useDeleteClassroomMutation({
     onSuccess() {
@@ -31,13 +32,16 @@ const Classrooms = () => {
     },
   });
   const [open, setOpen] = useState(false);
-  const [classroom, setClassroom] = useState<ClassroomType | null>(null);
+  const [classroom, setClassroom] = useEditClassroomAtom();
   const { data } = useGetClassroomsQuery();
   const classrooms = data?.getClassrooms;
 
   const onClickDelete = (classroom: ClassroomType) => {
-    setClassroom(classroom);
+    setClassroom({ ...classroom, action: 'DELETE' });
     setOpen(true);
+  };
+  const onClickEdit = (classroom: ClassroomType) => {
+    setClassroom({ ...classroom, action: 'EDIT' });
   };
   const onClickConfirm = () => {
     if (!classroom?.classroom_id) return;
@@ -51,6 +55,7 @@ const Classrooms = () => {
           classroom={classroom}
           key={classroom?.classroom_id}
           onClickDelete={onClickDelete}
+          onClickEdit={onClickEdit}
         />
       ))}
       <AlertDialog open={open} onOpenChange={setOpen}>

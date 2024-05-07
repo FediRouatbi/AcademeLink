@@ -15,9 +15,12 @@ import {
 import { Button } from '@/components/ui/button';
 import { queryClient } from '@/providers/react-query-provider';
 import { toast } from 'sonner';
+import { useEditSubject } from '@/hooks/subject/useEditAtom';
 
 const Subjects = () => {
   const [open, setOpen] = useState(false);
+  const [, setEditSubject] = useEditSubject();
+
   const { mutate } = useDeleteSubjectMutation({
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['subjects'] });
@@ -40,6 +43,7 @@ const Subjects = () => {
     if (!subject?.id) return;
     mutate(subject?.id);
     setOpen(false);
+    setEditSubject(null);
   };
   return (
     <>

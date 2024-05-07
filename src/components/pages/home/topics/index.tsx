@@ -5,9 +5,14 @@ import { useGetTopicsByAuthor } from '@/hooks/topic/useGetTopicsByAuthor';
 import React, { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 import { Loader2 } from 'lucide-react';
+import { TracingBeam } from '@/components/ui/tracing-beam';
+import { useSession } from 'next-auth/react';
 
 const Topcis = () => {
-  const { data: topics, isLoading } = useGetTopicsByAuthor();
+  const { data } = useSession();
+  const { data: topics, isLoading } = useGetTopicsByAuthor(
+    +(data?.user?.user_id || 0)
+  );
   const [items, setItems] = useState<{ id: number; content: string }[]>([]);
   useEffect(() => {
     if (topics)
@@ -16,7 +21,6 @@ const Topcis = () => {
       );
   }, [topics]);
 
-  
   if (!topics && isLoading)
     return (
       <div className="min-h-52 flex justify-center items-center">
@@ -25,7 +29,7 @@ const Topcis = () => {
     );
 
   return (
-    <div className="prose  lg:prose-xl">
+    <div className="prose  lg:prose-xl max-w-full">
       {topics?.getTopicsByAuthor
         .map((topic, i) => <div key={i}>{parse(topic.content)}</div>)
         .reverse()}

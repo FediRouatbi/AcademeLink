@@ -94,6 +94,7 @@ const AddTeacher = ({ className }: { className?: string }) => {
       setClassrooms(data?.length ? data : [[]]);
     }
   }, [teacher?.action]);
+  
   const [open, setOpen] = useState(false);
 
   return (

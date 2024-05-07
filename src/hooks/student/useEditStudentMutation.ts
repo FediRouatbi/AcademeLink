@@ -9,7 +9,7 @@ type Props = {
   onError?: (error: GraphQLError) => void;
 };
 
-const useEditStudentMudation = ({ onSuccess, onError }: Props) => {
+const useEditStudentMutation = ({ onSuccess, onError }: Props) => {
   const session = useSession();
   const accessToken = session.data?.token?.accessToken;
   const mutation = useMutation({
@@ -24,4 +24,4 @@ const useEditStudentMudation = ({ onSuccess, onError }: Props) => {
   return mutation;
 };
 
-export { useEditStudentMudation };
+export { useEditStudentMutation };

@@ -17,7 +17,8 @@ const Page = async () => {
 
   await queryClient.prefetchQuery({
     queryKey: ['topics'],
-    queryFn: () => getTopicsByAuthor(accessToken || ''),
+    queryFn: () =>
+      getTopicsByAuthor(+(session?.user?.user_id || 0), accessToken || ''),
     staleTime: 500,
   });
   return (

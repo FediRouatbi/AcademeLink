@@ -2,11 +2,12 @@ import { useGetStudentQuery } from './useGetStudentQuery';
 import { useGetStudentsQuery } from './useGetStudentsQuery';
 import { useDeleteStudentMutation } from './useDeleteStudentMutation';
 import { useCreateStudentMutation } from './useCreateStudentMudation';
-import { useEditStudentMudation } from './useEditStudentMudation';
+import { useEditStudentMutation } from './useEditStudentMutation';
 
 export {
-  useGetStudentQuery,
   useGetStudentsQuery,
+  useGetStudentQuery,
+  useCreateStudentMutation,
+  useEditStudentMutation,
   useDeleteStudentMutation,
-  useEditStudentMudation,
 };
