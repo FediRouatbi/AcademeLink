@@ -5,6 +5,7 @@ import { CreateCourseInput, UpdateCourseInput } from '@/gql/graphql';
 const GetCourses = graphql(`
   query getCourses {
     getCourses {
+      id
       createdAt
       updatedAt
       classroom {
@@ -40,6 +41,9 @@ const GetCourse = graphql(`
     getCourse(id: $getCourseId) {
       createdAt
       updatedAt
+      topic {
+        content
+      }
       classroom {
         classroom_id
         classroom_name

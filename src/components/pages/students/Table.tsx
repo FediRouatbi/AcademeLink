@@ -26,7 +26,10 @@ import { GetStudentsQuery } from '@/gql/graphql';
 import { toast } from 'sonner';
 import { Alert } from '@/components/common/Alert';
 import { useEditStudentAtom } from '@/hooks/student/useEditStudentAtom';
+import { useSession } from 'next-auth/react';
 export default function StudentsTabel() {
+  const { data: session } = useSession();
+
   const { data, refetch } = useGetStudentsQuery();
   const { mutate: deleteStudent } = useDeleteStudentMutation({
     onSuccess() {
@@ -68,6 +71,7 @@ export default function StudentsTabel() {
 
     deleteStudent(student?.student_id);
   };
+  const role = session?.user?.role;
   return (
     <>
       <Card>
@@ -118,26 +122,28 @@ export default function StudentsTabel() {
                     <TableCell className="hidden md:table-cell ">
                       {dayjs(student?.user?.createdAt).format('DD/MM/YYYY')}
                     </TableCell>
-                    <TableCell className="hidden md:table-cell text-right space-x-4">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="active:scale-95"
-                        onClick={(e) => onClickEdit(e, student)}
-                      >
-                        <Pencil className="size-4" />
-                        <span className="sr-only">Edit</span>
-                      </Button>
-                      <Button
-                        onClick={(e) => onClickDelete(e, student)}
-                        variant="ghost"
-                        size="icon"
-                        className="active:scale-95"
-                      >
-                        <Trash2 className="size-4" />
-                        <span className="sr-only">Delete</span>
-                      </Button>
-                    </TableCell>
+                    {role === 'ADMIN' && (
+                      <TableCell className="hidden md:table-cell text-right space-x-4">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="active:scale-95"
+                          onClick={(e) => onClickEdit(e, student)}
+                        >
+                          <Pencil className="size-4" />
+                          <span className="sr-only">Edit</span>
+                        </Button>
+                        <Button
+                          onClick={(e) => onClickDelete(e, student)}
+                          variant="ghost"
+                          size="icon"
+                          className="active:scale-95"
+                        >
+                          <Trash2 className="size-4" />
+                          <span className="sr-only">Delete</span>
+                        </Button>
+                      </TableCell>
+                    )}
                   </TableRow>
                 );
               })}

@@ -40,7 +40,6 @@ const Subjects = ({ courses }: { courses: Courses }) => {
                 </Avatar>
                 {course?.teacher?.user?.user_name}
               </div>
-              <div>{0} </div>
             </div>
           </Link>
         ))}

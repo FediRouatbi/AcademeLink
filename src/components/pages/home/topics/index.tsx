@@ -5,14 +5,11 @@ import { useGetTopicsByAuthor } from '@/hooks/topic/useGetTopicsByAuthor';
 import React, { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 import { Loader2 } from 'lucide-react';
-import { TracingBeam } from '@/components/ui/tracing-beam';
 import { useSession } from 'next-auth/react';
 
 const Topcis = () => {
   const { data } = useSession();
-  const { data: topics, isLoading } = useGetTopicsByAuthor(
-    +(data?.user?.user_id || 0)
-  );
+  const { data: topics, isLoading } = useGetTopicsByAuthor(1);
   const [items, setItems] = useState<{ id: number; content: string }[]>([]);
   useEffect(() => {
     if (topics)

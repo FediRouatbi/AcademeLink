@@ -32,6 +32,7 @@ import makeAnimated from 'react-select/animated';
 import { useClassroomsAtom } from '@/hooks/classroom/useClassroomsAtom';
 import { useEditClassroomAtom } from '@/hooks/classroom/useEditClassroomAtom';
 import { Textarea } from '@/components/ui/textarea';
+import { useSession } from 'next-auth/react';
 const animatedComponents = makeAnimated();
 
 const createClassroomSchema = z.object({
@@ -44,6 +45,8 @@ type createClassroomType = z.infer<typeof createClassroomSchema>;
 type StudentsIds = CreateClassroom['studentsIds'];
 
 const AddClass = () => {
+  const { data: session } = useSession();
+
   const [teachers, setTeachers] = useClassroomsAtom();
 
   const [studentsIds, setStudentsIds] = useState<StudentsIds>([]);
@@ -119,6 +122,10 @@ const AddClass = () => {
   }, [classroom?.action]);
 
   const [open, setOpen] = useState(false);
+
+  const role = session?.user?.role;
+
+  if (role !== 'ADMIN') return null;
 
   return (
     <Sheet

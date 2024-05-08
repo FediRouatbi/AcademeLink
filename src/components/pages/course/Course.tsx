@@ -1,19 +1,23 @@
 'use client';
 import Editor from '@/components/Editor';
 import { SortableList } from '@/components/common/SortableList';
-import { useGetTopicsByAuthor } from '@/hooks/topic/useGetTopicsByAuthor';
 import React, { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 import { Loader2 } from 'lucide-react';
-import { useGetTopicsByCourse } from '@/hooks/topic';
+import AddTopic from './addTopic/AddTopic';
+import { useGetCourseQuery } from '@/hooks/courses';
 
 const Course = ({ id }: { id: number }) => {
-  const { data: topics, isLoading } = useGetTopicsByCourse(id);
+  const { data: topics, isLoading } = useGetCourseQuery({ id });
   const [items, setItems] = useState<{ id: number; content: string }[]>([]);
   useEffect(() => {
     if (topics)
       setItems(
-        topics?.getTopicsByCourseId?.map((el, i) => ({ ...el, id: i })).reverse()
+        topics?.getCourse?.topic
+          ? topics?.getCourse?.topic
+              .map((el, i) => ({ ...el, id: i }))
+              .reverse()
+          : []
       );
   }, [topics]);
 
@@ -23,13 +27,22 @@ const Course = ({ id }: { id: number }) => {
         <Loader2 className="size-14  animate-spin" />
       </div>
     );
-
+  const classroom_id = topics?.getCourse?.classroom?.classroom_id;
+  const teacher_id = topics?.getCourse?.teacher?.teacher_id;
+  const subject_id = topics?.getCourse?.subject?.id;
   return (
-    <div className="prose  lg:prose-xl px-10 max-w-full">
-      {topics?.getTopicsByCourseId
-        .map((topic, i) => <div key={i}>{parse(topic.content)}</div>)
-        .reverse()}
-    </div>
+    <>
+      <AddTopic
+        classroom_id={classroom_id}
+        teacher_id={teacher_id}
+        subject_id={subject_id}
+      />
+      <div className="prose  lg:prose-xl px-10 max-w-full">
+        {items.map((topic, i) => (
+          <div key={i}>{parse(topic.content)}</div>
+        ))}
+      </div>
+    </>
   );
 
   return (

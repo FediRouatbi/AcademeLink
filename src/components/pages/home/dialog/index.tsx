@@ -13,11 +13,13 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useQueryClient } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 
 const AddArticle = () => {
+  const { data } = useSession();
   const [edit, setEdit] = useState(false);
   const queryClient = useQueryClient();
-
+  const role = data?.user?.role;
   const { isPending, mutate } = useCreateTopicMutation({
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['topics'] });
@@ -28,6 +30,9 @@ const AddArticle = () => {
     mutate({ content });
     setEdit(false);
   };
+  
+  if (role !== 'ADMIN') return null;
+
   return (
     <Dialog>
       <DialogTrigger asChild>

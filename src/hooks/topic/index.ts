@@ -1,4 +1,11 @@
+import { useCreateTopicMutation } from './useCreateTopicMutation';
+import { useEditTopicMutation } from './useEditTopicMutation';
 import { useGetTopicsByAuthor } from './useGetTopicsByAuthor';
 import { useGetTopicsByCourse } from './useGetTopicsByCourse';
 
-export { useGetTopicsByCourse, useGetTopicsByAuthor };
+export {
+  useEditTopicMutation,
+  useGetTopicsByAuthor,
+  useCreateTopicMutation,
+  useGetTopicsByCourse,
+};

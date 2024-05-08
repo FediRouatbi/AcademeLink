@@ -1,9 +1,10 @@
 import { graphQLClient } from '@/constants/utils';
 import { graphql } from '@/gql/gql';
+import { CourseId } from '@/gql/graphql';
 
 const CreateTopic = graphql(`
-  mutation CreateTopic($createTopic: CreateTopic!) {
-    CreateTopic(createTopic: $createTopic) {
+  mutation CreateTopic($createTopic: CreateTopic!, $courseId: CourseId) {
+    CreateTopic(createTopic: $createTopic, courseId: $courseId) {
       content
     }
   }
@@ -47,10 +48,16 @@ const getTopicsByCourseId = (courseId: number, accessToken: string) =>
     }
   );
 
-const createTopic = (content: string, accessToken: string) =>
+const createTopic = (
+  content: string,
+  accessToken: string,
+  courseId?: CourseId
+) =>
   graphQLClient?.request(
     CreateTopic,
-    { createTopic: { content } },
+    {
+      createTopic: { content },courseId
+    },
     { Authorization: `Bearer ${accessToken}` }
   );
 

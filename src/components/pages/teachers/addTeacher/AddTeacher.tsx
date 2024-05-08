@@ -25,6 +25,7 @@ import TeacherClassrooms from './teacherClassrooms/TeacherClassrooms';
 import { useTeachersAtom } from '@/hooks/teacher/useTeacherAtom';
 import { useEditTeacherAtom } from '@/hooks/teacher/useEditTeacherAtom';
 import { splitArrayById } from '@/utils/splitArrayByid';
+import { useSession } from 'next-auth/react';
 
 const createTeacherSchema = z.object({
   firstName: z.string().min(3),
@@ -50,6 +51,8 @@ const defaultValues = {
 export type createTeachermType = z.infer<typeof createTeacherSchema>;
 
 const AddTeacher = ({ className }: { className?: string }) => {
+  const { data } = useSession();
+
   const [teacher, setTeacher] = useEditTeacherAtom();
 
   const { mutate, isPending } = useCreateTeacherMutation({
@@ -79,6 +82,9 @@ const AddTeacher = ({ className }: { className?: string }) => {
       classrooms: classrooms?.flat(),
     });
   };
+  const onError = (error: any) => {
+    console.log(error);
+  };
 
   useEffect(() => {
     if (teacher?.action === 'EDIT') {
@@ -91,12 +97,15 @@ const AddTeacher = ({ className }: { className?: string }) => {
         userName: teacher?.user?.user_name,
       });
       const data = splitArrayById(teacher?.course);
-      setClassrooms(data?.length ? data : [[]]);
+      const classes = data?.length ? data : [[]];
+      setClassrooms(classes);
     }
   }, [teacher?.action]);
-  
-  const [open, setOpen] = useState(false);
 
+  const [open, setOpen] = useState(false);
+  const role = data?.user?.role;
+
+  if (role !== 'ADMIN') return null;
   return (
     <div className={className}>
       <Sheet
@@ -122,7 +131,7 @@ const AddTeacher = ({ className }: { className?: string }) => {
           </SheetHeader>
           <div className="grid gap-4 py-4">
             <FormProvider {...methods}>
-              <form onSubmit={methods.handleSubmit(onSubmit)}>
+              <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
                 <div className="space-y-2 ">
                   <Label htmlFor="firstName">First name*</Label>
                   <Input id="firstName" name="firstName" />

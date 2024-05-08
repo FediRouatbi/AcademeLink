@@ -26,6 +26,7 @@ import {
   useEditStudentMutation,
   useCreateStudentMutation,
 } from '@/hooks/student/';
+import { useSession } from 'next-auth/react';
 const schema = z.object({
   firstName: z.string().min(3),
   lastName: z.string().min(3),
@@ -38,6 +39,8 @@ const schema = z.object({
 type createStudentmType = z.infer<typeof schema>;
 
 const AddStudent = ({ className }: { className?: string }) => {
+  const { data } = useSession();
+
   const [student, setStudent] = useEditStudentAtom();
 
   const defaultValues = {
@@ -46,9 +49,6 @@ const AddStudent = ({ className }: { className?: string }) => {
     lastName: student?.user?.last_name || '',
     password: '',
     userName: student?.user?.user_name || '',
-    classroomId: {
-      classroom_id: student?.classroom?.classroom_id || 0,
-    },
   };
   const { mutate: createStudent, isPending: createPending } =
     useCreateStudentMutation({
@@ -81,7 +81,7 @@ const AddStudent = ({ className }: { className?: string }) => {
   });
 
   const onSubmit = (data: createStudentmType) => {
-    const classroom = !!data?.classroomId && data?.classroomId;
+    const classroom = !!data?.classroomId ? data?.classroomId : {};
 
     if (student?.action === 'EDIT') {
       editStudent({
@@ -95,7 +95,6 @@ const AddStudent = ({ className }: { className?: string }) => {
       });
       return;
     }
-    console.log(classroom);
 
     createStudent({
       email: data?.email,
@@ -125,6 +124,9 @@ const AddStudent = ({ className }: { className?: string }) => {
       });
     }
   }, [student?.action]);
+  
+  const role = data?.user?.role;
+  if (role !== 'ADMIN') return null;
 
   return (
     <div className={className}>
