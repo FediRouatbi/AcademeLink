@@ -1,6 +1,9 @@
 import { api_url, graphQLClient } from '@/constants/utils';
 import { graphql } from '@/gql/gql';
-import { CreateStudent as CreateStudentInput } from '@/gql/graphql';
+import {
+  CreateStudent as CreateStudentInput,
+  UpdateStudent,
+} from '@/gql/graphql';
 import { GraphQLClient } from 'graphql-request';
 
 const GetStudent = graphql(`
@@ -26,8 +29,8 @@ const GetStudent = graphql(`
 `);
 
 const GetStudents = graphql(`
-  query GetStudents {
-    GetStudents {
+  query GetStudents($hasClassroom: Boolean) {
+    GetStudents(hasClassroom: $hasClassroom) {
       student_id
       classroom {
         classroom_id
@@ -54,6 +57,13 @@ const CreateStudent = graphql(`
     }
   }
 `);
+const EditStudent = graphql(`
+  mutation EditStudent($editStudent: UpdateStudent!) {
+    EditStudent(editStudent: $editStudent) {
+      student_id
+    }
+  }
+`);
 const DeleteStudent = graphql(`
   mutation DeleteStudent($studentId: Float!) {
     deleteStudent(studentId: $studentId) {
@@ -61,14 +71,19 @@ const DeleteStudent = graphql(`
     }
   }
 `);
-const getStudents = () => graphQLClient?.request(GetStudents);
+const getStudents = (hasClassroom?: boolean) =>
+  graphQLClient?.request(GetStudents, { hasClassroom });
 
 const getStudent = (id: number) =>
   graphQLClient?.request(GetStudent, { getStudentId: id });
 const createStudent = (student: CreateStudentInput) =>
   graphQLClient?.request(CreateStudent, { createStudent: student });
+const editStudent = (student: UpdateStudent) =>
+  graphQLClient?.request(EditStudent, {
+    editStudent: student,
+  });
 
 const deleteStudent = (id: number) =>
   graphQLClient?.request(DeleteStudent, { studentId: id });
 
-export { getStudents, getStudent, deleteStudent, createStudent };
+export { getStudents, getStudent, deleteStudent, createStudent, editStudent };

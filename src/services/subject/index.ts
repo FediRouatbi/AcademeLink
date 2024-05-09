@@ -1,5 +1,6 @@
 import { graphQLClient } from '@/constants/utils';
 import { graphql } from '@/gql/gql';
+import { Subject } from '@/gql/graphql';
 
 const GetSubject = graphql(`
   query GetSubject($getSubjectId: Int!) {
@@ -27,6 +28,16 @@ const CreateSubject = graphql(`
     }
   }
 `);
+const EditSubject = graphql(`
+  mutation editSubject(
+    $editSubjectId: Int!
+    $editSubject: UpdateSubjectInput!
+  ) {
+    editSubject(id: $editSubjectId, editSubject: $editSubject) {
+      id
+    }
+  }
+`);
 
 const DeleteSubject = graphql(`
   mutation DeleteSubject($deleteSubjectId: Int!) {
@@ -40,6 +51,14 @@ const createSubject = (name: string, accessToken: string) =>
   graphQLClient?.request(
     CreateSubject,
     { createSubject: { name } },
+    {
+      Authorization: `Bearer ${accessToken}`,
+    }
+  );
+const editSubject = (subject: Subject, accessToken: string) =>
+  graphQLClient?.request(
+    EditSubject,
+    { editSubject: { name: subject?.name }, editSubjectId: subject?.id },
     {
       Authorization: `Bearer ${accessToken}`,
     }
@@ -66,4 +85,4 @@ const deleteSubject = (deleteSubjectId: number, accessToken: string) =>
     { Authorization: `Bearer ${accessToken}` }
   );
 
-export { deleteSubject, getSubject, getSubjects, createSubject };
+export { deleteSubject, getSubject, getSubjects, createSubject, editSubject };

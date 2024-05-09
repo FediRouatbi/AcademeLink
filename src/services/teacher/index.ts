@@ -1,6 +1,10 @@
 import { graphQLClient } from '@/constants/utils';
 import { graphql } from '@/gql/gql';
-import { CreateTeacher as CreateTeacherType, Teacher } from '@/gql/graphql';
+import {
+  CreateTeacher as CreateTeacherType,
+  Teacher,
+  UpdateTeacher,
+} from '@/gql/graphql';
 
 const GetTeacher = graphql(`
   query GetTeacher($getTeacherId: Int!) {
@@ -32,6 +36,10 @@ const GetTeachers = graphql(`
         user_id
         user_name
       }
+      course {
+        classroom_id
+        subject_id
+      }
     }
   }
 `);
@@ -39,6 +47,20 @@ const GetTeachers = graphql(`
 const CreateTeacher = graphql(`
   mutation CreateTeacher($createTeacher: CreateTeacher!) {
     CreateTeacher(createTeacher: $createTeacher) {
+      teacher_id
+    }
+  }
+`);
+const EditTeacher = graphql(`
+  mutation EditTeacher($editTeacher: UpdateTeacher!) {
+    EditTeacher(editTeacher: $editTeacher) {
+      teacher_id
+    }
+  }
+`);
+const DeleteTeacher = graphql(`
+  mutation DeleteTeacher($teacherId: Float!) {
+    deleteTeacher(teacherId: $teacherId) {
       teacher_id
     }
   }
@@ -52,4 +74,10 @@ const getTeacher = (id: number) =>
 const createTeacher = (teacher: CreateTeacherType) =>
   graphQLClient?.request(CreateTeacher, { createTeacher: teacher });
 
-export { getTeachers, getTeacher, createTeacher };
+const editTeacher = (teacher: UpdateTeacher) =>
+  graphQLClient?.request(EditTeacher, { editTeacher: teacher });
+
+const deleteTeacher = (teacherId: number) =>
+  graphQLClient?.request(DeleteTeacher, { teacherId });
+
+export { getTeachers, getTeacher, createTeacher, editTeacher, deleteTeacher };

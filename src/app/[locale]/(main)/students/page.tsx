@@ -4,16 +4,15 @@ import {
   QueryClient,
   dehydrate,
 } from '@tanstack/react-query';
-import StudentsTabel from './components/Table';
 import { getStudents } from '@/services/student';
-import AddStudent from './components/addStudent';
+import { AddStudent, StudentsTabel } from '@/components/pages/students';
 
 const page = async () => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
     queryKey: ['students'],
-    queryFn: getStudents,
+    queryFn: () => getStudents(),
     staleTime: 500,
   });
   return (

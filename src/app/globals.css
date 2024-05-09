@@ -89,3 +89,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+.border-gradient {
+  border-image: fill 0 linear-gradient(#0002,#000000ca);
+  background: url('/background.jpg') center/cover;
+}
+
+html {
+  overflow: hidden;
+}
