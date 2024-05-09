@@ -19,11 +19,11 @@ import {
   Teacher,
   UsersIcon,
 } from '@/assets/svg';
-import LinkItem from './components/LinkItem';
-import Search from './components/Search';
+import LinkItem from '../../../components/common/LinkItem';
+import Search from '../../../components/common/Search';
 import Image from 'next/image';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
-import { Library, Palette, Settings, Shapes } from 'lucide-react';
+import { Library, Palette, Presentation, Settings, Shapes } from 'lucide-react';
 const routes = [
   {
     isActive: 'home',
@@ -70,6 +70,16 @@ const routes = [
     ),
   },
   {
+    href: '/courses',
+    isActive: 'courses',
+    item: (
+      <>
+        <Presentation className="h-4 w-4" />
+        Courses
+      </>
+    ),
+  },
+  {
     href: '/subjects',
     isActive: 'subjects',
     item: (
@@ -109,7 +119,7 @@ export default async function Layout({
   const session = await getServerSession(authOptions);
 
   if (!session) return redirect('fr/login');
-
+  const userName = session?.user?.user_name;
   return (
     <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr] h-svh overflow-hidden">
       <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
@@ -143,6 +153,7 @@ export default async function Layout({
           <div className="w-full flex-1">
             <Search />
           </div>
+          <div>{userName}</div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button

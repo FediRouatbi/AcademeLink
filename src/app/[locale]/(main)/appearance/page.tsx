@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FormProvider, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from '@/lib/utils';
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
   FormControl,
   FormDescription,
@@ -13,9 +13,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { ChevronDownIcon } from "lucide-react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+} from '@/components/ui/form';
+import { ChevronDownIcon } from 'lucide-react';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Select,
   SelectContent,
@@ -24,12 +24,12 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useTheme } from "next-themes";
+} from '@/components/ui/select';
+import { useTheme } from 'next-themes';
 
 const appearanceFormSchema = z.object({
-  theme: z.enum(["light", "dark"], {
-    required_error: "Please select a theme.",
+  theme: z.enum(['light', 'dark'], {
+    required_error: 'Please select a theme.',
   }),
   //   font: z.enum(["inter", "manrope", "system"], {
   //     invalid_type_error: "Select a font",
@@ -41,9 +41,9 @@ type AppearanceFormValues = z.infer<typeof appearanceFormSchema>;
 
 // This can come from your database or API.
 
-const currentTheme = (localStorage.getItem("theme") || "light") as
-  | "dark"
-  | "light";
+const currentTheme = (localStorage.getItem('theme') || 'light') as
+  | 'dark'
+  | 'light';
 
 const defaultValues: Partial<AppearanceFormValues> = {
   theme: currentTheme,
@@ -58,46 +58,15 @@ export default function AppearanceForm() {
   });
 
   function onSubmit(data: AppearanceFormValues) {
-    const html = document.getElementsByTagName("html")[0];
+    const html = document.getElementsByTagName('html')[0];
     html.className = data.theme;
-    localStorage.setItem("theme", data.theme);
+    localStorage.setItem('theme', data.theme);
     setTheme(data.theme);
   }
 
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {/* <FormField
-          control={form.control}
-          name="font"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Font</FormLabel>
-              <div className="relative w-max">
-                <FormControl>
-                  <Select {...field}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select a font" />
-                    </SelectTrigger>
-                    <SelectContent {...field}>
-                      <SelectGroup>
-                        <SelectLabel>Fonts</SelectLabel>
-                        <SelectItem value="inter">Inter</SelectItem>
-                        <SelectItem value="manrope">Manrope</SelectItem>
-                        <SelectItem value="mystem">System</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <ChevronDownIcon className="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
-              </div>
-              <FormDescription>
-                Set the font you want to use in the dashboard.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
         <FormField
           control={form.control}
           name="theme"

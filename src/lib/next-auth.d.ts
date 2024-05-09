@@ -1,23 +1,23 @@
-import { Token } from "./../../gql/graphql";
-import NextAuth, { type User } from "next-auth";
+import { RoleCodeEnum, Token } from './../../gql/graphql';
+import NextAuth, { type User } from 'next-auth';
+type RoleCodeType = 'ADMIN' | 'STUDENT' | 'TEACHER';
+declare module 'next-auth' {
+  interface User {
+    user: {
+      user_id: string;
+      createdAt: number;
+      first_name: string;
+      last_name: string;
+      updatedAt: string;
+      role: RoleCodeType;
+      user_name: string;
+    };
 
-declare module "next-auth" {
-    interface User {
-      user: {
-        user_id: string;
-        createdAt: number;
-        first_name: string;
-        last_name: string;
-        updatedAt: string;
-        role: string;
-        user_name: string;
-      };
-
-      token: {
-        accessToken: string;
-        refreshToken: string;
-      };
-    }
+    token: {
+      accessToken: string;
+      refreshToken: string;
+    };
+  }
   interface Session {
     user: {
       user_id: string;
@@ -25,7 +25,7 @@ declare module "next-auth" {
       first_name: string;
       last_name: string;
       updatedAt: string;
-      role: string;
+      role: RoleCodeType;
       user_name: string;
     };
 
@@ -36,9 +36,9 @@ declare module "next-auth" {
   }
 }
 
-import { JWT } from "next-auth/jwt";
+import { JWT } from 'next-auth/jwt';
 
-declare module "next-auth/jwt" {
+declare module 'next-auth/jwt' {
   interface JWT {
     user: {
       user_id: string;
@@ -46,7 +46,7 @@ declare module "next-auth/jwt" {
       first_name: string;
       last_name: string;
       updatedAt: string;
-      role: string;
+      role: RoleCodeType;
       user_name: string;
     };
 

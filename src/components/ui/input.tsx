@@ -20,8 +20,7 @@ const Input: React.FC<InputProps> = ({
   const { field, fieldState } = useController({
     name,
     control,
-  });
-
+  });  
   return (
     <div>
       <input

@@ -1,6 +1,5 @@
+import { AddSubject, Subjects } from '@/components/pages/subjects';
 import React from 'react';
-import AddSubject from './components/addSubject/AddSubject';
-import Subjects from './components/subjects/Subjects';
 
 const page = () => {
   return (
