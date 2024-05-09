@@ -23,7 +23,6 @@ import Image from 'next/image';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { toast } from 'sonner';
-import { ComboboxDemo } from '../input/Input';
 
 const createClassroomSchema = z.object({
   name: z.string().min(3),
@@ -52,7 +51,7 @@ const AddClass = () => {
   });
 
   const onSubmit = (data: createClassroomType) => {
-    mutate({ classroom: data.name });
+    mutate({ classroom_name: data.name, description: '' });
   };
   const [open, setOpen] = useState(false);
 
@@ -102,7 +101,7 @@ const AddClass = () => {
                       width="32"
                     />
 
-                    <ComboboxDemo />
+                    {/* <ComboboxDemo /> */}
                     <Input
                       className="w-[200px]"
                       placeholder="Subject"
