@@ -27,7 +27,7 @@ const AddArticle = () => {
   });
 
   const onClickActionText = (content: string) => {
-    mutate({ content });
+    // mutate({ content: content, });
     setEdit(false);
   };
   
