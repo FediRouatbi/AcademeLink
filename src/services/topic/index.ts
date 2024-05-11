@@ -30,6 +30,13 @@ const EditTopic = graphql(`
     }
   }
 `);
+const DeleteTopic = graphql(`
+  mutation deleteTopic($topicId: Float!) {
+    deleteTopic(topicId: $topicId) {
+      content
+    }
+  }
+`);
 
 const getTopicsByAuthor = (authorId: number, accessToken: string) =>
   graphQLClient?.request(
@@ -56,7 +63,8 @@ const createTopic = (
   graphQLClient?.request(
     CreateTopic,
     {
-      createTopic: { content },courseId
+      createTopic: { content },
+      courseId,
     },
     { Authorization: `Bearer ${accessToken}` }
   );
@@ -64,4 +72,19 @@ const createTopic = (
 const editTopic = (content: string, topicId: number) =>
   graphQLClient?.request(EditTopic, { editTopic: { content }, topicId });
 
-export { getTopicsByAuthor, getTopicsByCourseId, createTopic, editTopic };
+const deleteTopic = (topicId: number, accessToken: string) =>
+  graphQLClient?.request(
+    DeleteTopic,
+    { topicId },
+    {
+      Authorization: `Bearer ${accessToken}`,
+    }
+  );
+
+export {
+  getTopicsByAuthor,
+  getTopicsByCourseId,
+  createTopic,
+  editTopic,
+  deleteTopic,
+};

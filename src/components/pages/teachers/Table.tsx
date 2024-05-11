@@ -23,10 +23,13 @@ import { useDeleteTeacherMutation, useGetTeachersQuery } from '@/hooks/teacher';
 import { useEditTeacherAtom } from '@/hooks/teacher/useEditTeacherAtom';
 import dayjs from 'dayjs';
 import { Pencil, Trash2 } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 export default function TeachersTabel() {
+  const { data: session } = useSession();
+
   const [open, setOpen] = useState(false);
   const { mutate: deleteTeacher } = useDeleteTeacherMutation({
     onSuccess() {
@@ -66,6 +69,8 @@ export default function TeachersTabel() {
 
     deleteTeacher(teacher?.teacher_id);
   };
+
+  const role = session?.user?.role;
   return (
     <>
       <Card>
@@ -116,26 +121,28 @@ export default function TeachersTabel() {
                     <TableCell className="hidden md:table-cell ">
                       {dayjs(teacher?.user?.createdAt).format('DD/MM/YYYY')}
                     </TableCell>
-                    <TableCell className="hidden md:table-cell text-right space-x-4">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="active:scale-95"
-                        onClick={(e) => onClickEdit(e, teacher)}
-                      >
-                        <Pencil className="size-4" />
-                        <span className="sr-only">Edit</span>
-                      </Button>
-                      <Button
-                        onClick={(e) => onClickDelete(e, teacher)}
-                        variant="ghost"
-                        size="icon"
-                        className="active:scale-95"
-                      >
-                        <Trash2 className="size-4" />
-                        <span className="sr-only">Delete</span>
-                      </Button>
-                    </TableCell>
+                    {role === 'ADMIN' && (
+                      <TableCell className="hidden md:table-cell text-right space-x-4">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="active:scale-95"
+                          onClick={(e) => onClickEdit(e, teacher)}
+                        >
+                          <Pencil className="size-4" />
+                          <span className="sr-only">Edit</span>
+                        </Button>
+                        <Button
+                          onClick={(e) => onClickDelete(e, teacher)}
+                          variant="ghost"
+                          size="icon"
+                          className="active:scale-95"
+                        >
+                          <Trash2 className="size-4" />
+                          <span className="sr-only">Delete</span>
+                        </Button>
+                      </TableCell>
+                    )}
                   </TableRow>
                 );
               })}

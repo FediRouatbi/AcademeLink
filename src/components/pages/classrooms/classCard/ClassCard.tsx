@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import React from 'react';
 import dayjs from 'dayjs';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
 export type ClassroomType = GetClassroomsQuery['getClassrooms'][0];
 type Props = {
@@ -24,30 +25,35 @@ export default function ClassCard({
   onClickDelete,
   onClickEdit,
 }: Props) {
+  const { data: session } = useSession();
+  const role = session?.user?.role;
+
   return (
     <Card className="max-w-sm mt-5 relative group hover:shadow-md transition-all">
-      <div className="absolute z-20 group-hover:opacity-100 transition-all opacity-0 top-5 right-5 flex gap-2">
-        <Button
-          onClick={() => onClickEdit(classroom)}
-          variant="ghost"
-          size="icon"
-          className="active:scale-95   "
-        >
-          <Edit2 className="size-4" />
+      {role === 'ADMIN' && (
+        <div className="absolute z-20 group-hover:opacity-100 transition-all opacity-0 top-5 right-5 flex gap-2">
+          <Button
+            onClick={() => onClickEdit(classroom)}
+            variant="ghost"
+            size="icon"
+            className="active:scale-95   "
+          >
+            <Edit2 className="size-4" />
 
-          <span className="sr-only">Edit </span>
-        </Button>
-        <Button
-          onClick={() => onClickDelete(classroom)}
-          variant="ghost"
-          size="icon"
-          className="active:scale-95  "
-        >
-          <Trash2 className="size-4" />
+            <span className="sr-only">Edit </span>
+          </Button>
+          <Button
+            onClick={() => onClickDelete(classroom)}
+            variant="ghost"
+            size="icon"
+            className="active:scale-95  "
+          >
+            <Trash2 className="size-4" />
 
-          <span className="sr-only">Delete </span>
-        </Button>
-      </div>
+            <span className="sr-only">Delete </span>
+          </Button>
+        </div>
+      )}
       <CardHeader className="pb-0">
         <CardTitle className="text-2xl ">
           <Link
