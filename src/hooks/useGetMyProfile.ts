@@ -1,26 +1,14 @@
 'use client';
-import { api_url } from '@/constants/utils';
 import { useQuery } from '@tanstack/react-query';
-import request from 'graphql-request';
-import { graphql } from '../../gql';
-const GetCurrentUser = graphql(`
-  query getCurrentUser {
-    getCurrentUser {
-      createdAt
-      first_name
-      last_name
-      updatedAt
-      role
-      user_id
-      user_name
-    }
-  }
-`);
+import { useSession } from 'next-auth/react';
+import { getCurrentUser } from '@/services/user';
 
 const useGetMyProfile = () => {
+  const session = useSession();
+  const accessToken = session.data?.token?.accessToken;
   const query = useQuery({
     queryKey: ['GetCurrentUser'],
-    queryFn: async () => request(api_url, GetCurrentUser, undefined),
+    queryFn: () => getCurrentUser(accessToken || ''),
   });
   return query;
 };

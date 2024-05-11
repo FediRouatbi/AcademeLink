@@ -1,27 +1,21 @@
-'use client';
 import { GraphQLError } from 'graphql';
 import { useMutation } from '@tanstack/react-query';
-import { createTopic } from '@/services/topic';
 import { useSession } from 'next-auth/react';
-import { CourseId } from '@/gql/graphql';
+import { editStudent } from '@/services/student';
+import { UpdateCourseInput, UpdateStudent, UpdateUser } from '@/gql/graphql';
+import { editCourse } from '@/services/courses';
+import { editUser } from '@/services/user';
 
 type Props = {
   onSuccess?: () => void;
   onError?: (error: GraphQLError) => void;
 };
 
-const useCreateTopicMutation = ({ onSuccess, onError }: Props) => {
+const useEditUserMutation = ({ onSuccess, onError }: Props) => {
   const session = useSession();
   const accessToken = session.data?.token?.accessToken;
-
   const mutation = useMutation({
-    mutationFn: ({
-      content,
-      courseId,
-    }: {
-      content: string;
-      courseId?: CourseId;
-    }) => createTopic(content, accessToken || '', courseId),
+    mutationFn: (user: UpdateUser) => editUser(user, accessToken || ''),
     onSuccess(data, variables, context) {
       onSuccess?.();
     },
@@ -32,4 +26,4 @@ const useCreateTopicMutation = ({ onSuccess, onError }: Props) => {
   return mutation;
 };
 
-export { useCreateTopicMutation };
+export { useEditUserMutation };

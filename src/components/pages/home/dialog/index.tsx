@@ -27,10 +27,10 @@ const AddArticle = () => {
   });
 
   const onClickActionText = (content: string) => {
-    // mutate({ content: content, });
+    mutate({ content: content });
     setEdit(false);
   };
-  
+
   if (role !== 'ADMIN') return null;
 
   return (

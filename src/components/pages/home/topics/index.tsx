@@ -11,6 +11,7 @@ const Topcis = () => {
   const { data } = useSession();
   const { data: topics, isLoading } = useGetTopicsByAuthor(1);
   const [items, setItems] = useState<{ id: number; content: string }[]>([]);
+  
   useEffect(() => {
     if (topics)
       setItems(

@@ -119,6 +119,7 @@ export default async function Layout({
   const session = await getServerSession(authOptions);
 
   if (!session) return redirect('fr/login');
+
   const userName = session?.user?.user_name;
   return (
     <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr] h-svh overflow-hidden">

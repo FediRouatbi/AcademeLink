@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BadgePlus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,6 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -20,6 +19,7 @@ import { useCreateTopicMutation } from '@/hooks/topic/useCreateTopicMutation';
 import { useEditTopicMutation } from '@/hooks/topic';
 import Editor from '@/components/Editor';
 import { queryClient } from '@/providers/react-query-provider';
+import { useTopicAtom } from '@/hooks/topic/useTopicAtom';
 
 type Props = {
   classroom_id?: number;
@@ -28,6 +28,7 @@ type Props = {
 };
 const AddTopic = ({ classroom_id, subject_id, teacher_id }: Props) => {
   const { data: session } = useSession();
+  const [topic, setTopic] = useTopicAtom();
 
   const { mutate: createTopic, isPending: createIsPending } =
     useCreateTopicMutation({
@@ -40,13 +41,14 @@ const AddTopic = ({ classroom_id, subject_id, teacher_id }: Props) => {
         toast?.error(error?.message.split(':')[0]);
       },
     });
-  const mode = false ? 'EDIT' : 'ADD';
+  const mode = topic?.action === 'EDIT' ? 'EDIT' : 'ADD';
 
   const { mutate: editTopic, isPending: editIsPending } = useEditTopicMutation({
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['courses'] });
       toast?.success('Topic add Successfully');
       setOpen(false);
+      setTopic(null);
     },
     onError(error) {
       toast?.error(error?.message.split(':')[0]);
@@ -54,8 +56,8 @@ const AddTopic = ({ classroom_id, subject_id, teacher_id }: Props) => {
   });
 
   const onSubmit = (content: string) => {
-    if (false) {
-      editTopic({ content, topicId: 4 });
+    if (topic?.action === 'EDIT') {
+      editTopic({ content, topicId: topic?.topic_id });
       return;
     }
 
@@ -67,6 +69,9 @@ const AddTopic = ({ classroom_id, subject_id, teacher_id }: Props) => {
   const onError = (error: any) => {
     console.log(error);
   };
+  useEffect(() => {
+    if (topic?.action === 'EDIT') setOpen(true);
+  }, [topic?.action]);
 
   const [open, setOpen] = useState(false);
 
@@ -100,12 +105,12 @@ const AddTopic = ({ classroom_id, subject_id, teacher_id }: Props) => {
           </SheetHeader>
           <div className="grid gap-4 py-4">
             <Editor
-              content=""
+              content={topic?.content || ''}
               editable={true}
               hideButton
               showAddButton
               actionButtonDisabled={createIsPending || editIsPending}
-              actionText="Publish"
+              actionText={mode === 'ADD' ? 'Publish' : 'Edit'}
               onClickActionText={onSubmit}
             />
           </div>

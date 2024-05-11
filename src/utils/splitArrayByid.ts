@@ -1,4 +1,8 @@
-import { GetClassroomsQuery, TeacherCourses } from '@/gql/graphql';
+import {
+  GetClassroomsQuery,
+  GetCoursesQuery,
+  TeacherCourses,
+} from '@/gql/graphql';
 
 export const splitArrayById = (array: TeacherCourses[]): TeacherCourses[][] => {
   const groupedData: Record<number, TeacherCourses[]> = {}; // Use Record for typed object
@@ -30,3 +34,19 @@ export function accumulateSubjects(subjects: Subjects) {
 
   return accumulated;
 }
+type Data = GetCoursesQuery['getCourses'][0];
+export const SplitCoursesByClassroom = (data?: GetCoursesQuery) => {
+  const groupedByClassroomId: { [classroomId: number]: Data[] } = {};
+  data?.getCourses.forEach((obj) => {
+    const classroomId = obj.classroom.classroom_id;
+    if (!groupedByClassroomId[classroomId]) {
+      groupedByClassroomId[classroomId] = [];
+    }
+    groupedByClassroomId[classroomId].push(obj);
+  });
+
+  // Converting the object to an array of arrays
+  const arrayOfArrays = Object.values(groupedByClassroomId);
+
+  return arrayOfArrays;
+};

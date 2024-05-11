@@ -42,6 +42,7 @@ const GetCourse = graphql(`
       createdAt
       updatedAt
       topic {
+        topic_id
         content
       }
       classroom {
