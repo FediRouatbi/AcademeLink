@@ -25,16 +25,22 @@ type Props = {
   classroom_id?: number;
   teacher_id?: number;
   subject_id?: number;
+  courseId: number;
 };
-const AddTopic = ({ classroom_id, subject_id, teacher_id }: Props) => {
+const AddTopic = ({
+  classroom_id,
+  subject_id,
+  teacher_id,
+  courseId,
+}: Props) => {
   const { data: session } = useSession();
   const [topic, setTopic] = useTopicAtom();
 
   const { mutate: createTopic, isPending: createIsPending } =
     useCreateTopicMutation({
       onSuccess() {
-        queryClient.invalidateQueries({ queryKey: ['courses'] });
-        toast?.success('Topic Edited Successfully');
+        queryClient.invalidateQueries({ queryKey: ['topics', courseId] });
+        toast?.success('Topic Add Successfully');
         setOpen(false);
       },
       onError(error) {
@@ -45,8 +51,8 @@ const AddTopic = ({ classroom_id, subject_id, teacher_id }: Props) => {
 
   const { mutate: editTopic, isPending: editIsPending } = useEditTopicMutation({
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ['courses'] });
-      toast?.success('Topic add Successfully');
+      queryClient.invalidateQueries({ queryKey: ['topics', courseId] });
+      toast?.success('Topic Edited Successfully');
       setOpen(false);
       setTopic(null);
     },
@@ -85,6 +91,7 @@ const AddTopic = ({ classroom_id, subject_id, teacher_id }: Props) => {
         open={open}
         onOpenChange={(open) => {
           setOpen(open);
+          setTopic(null);
         }}
       >
         <SheetTrigger asChild>

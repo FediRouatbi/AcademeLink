@@ -91,10 +91,21 @@
 }
 
 .border-gradient {
-  border-image: fill 0 linear-gradient(#0002,#000000ca);
+  border-image: fill 0 linear-gradient(#0002, #000000ca);
   background: url('/background.jpg') center/cover;
 }
 
 html {
   overflow: hidden;
+}
+
+.topic h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong {
+  line-height: 1.1 !important;
+  color: inherit !important;
 }

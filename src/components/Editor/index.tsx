@@ -1,6 +1,6 @@
 'use client';
 import './styles.scss';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MenuBar from './MenuBar';
 import { EditorContent, EditorProvider, useEditor } from '@tiptap/react';
 import { Button } from '../ui/button';
@@ -32,6 +32,7 @@ const Editor = ({
 }: Props) => {
   const editor = useEditor({
     editable: editable,
+
     extensions: [
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       TextStyle.configure({ HTMLAttributes: [ListItem.name] }),
@@ -46,50 +47,33 @@ const Editor = ({
         },
       }),
     ],
+    onCreate(props) {
+      props?.editor?.commands.focus();
+    },
+    autofocus: 'start',
     content: content,
   });
-  const [edit, seEdit] = useState(editable);
 
-  const onClickEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    seEdit((prev) => {
-      editor?.setEditable(!prev);
-      return !prev;
-    });
-  };
+  useEffect(() => {}, []);
   const editStyles = cn(
-    'group prose tiptap lg:prose-xl  w-full max-w-full relative outline rounded-sm outline-[#fff] transition-[outline] ',
-    edit && 'outline-emerald-600 hover:outline-emerald-600',
-    edit && 'max-h-full'
+    'group prose tiptap lg:prose-xl  w-full max-w-full relative  rounded-sm   '
   );
 
   return (
     <div className="flex flex-col gap-9 w-full">
       <div className={editStyles}>
-        {!hideButton && (
-          <Button
-            onClick={onClickEdit}
-            variant="ghost"
-            size="icon"
-            className="active:scale-95   absolute z-20 group-hover:opacity-100 transition-all opacity-0 top-5 right-5"
-          >
-            {edit ? <Save className="size-4" /> : <Pencil className="size-4" />}
-
-            <span className="sr-only">Delete {edit ? 'Delete' : 'Save'}</span>
-          </Button>
-        )}
         <div className={cn('min-h-16 ', !hideButton && 'max-w-[90%]')}>
           <MenuBar editor={editor} />
         </div>
         <div
           className={cn(
-            'max-h-[400px] overflow-auto',
-            edit && !hideButton && 'max-h-full'
+            'max-h-[400px] overflow-auto outline rounded-md my-5 dark:text-white'
           )}
         >
           <EditorContent editor={editor} />
         </div>
-      </div>{' '}
+      </div>
+
       {showAddButton && (
         <DialogClose asChild>
           <Button

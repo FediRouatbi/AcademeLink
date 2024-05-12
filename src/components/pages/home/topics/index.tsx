@@ -1,23 +1,35 @@
 'use client';
-import Editor from '@/components/Editor';
-import { SortableList } from '@/components/common/SortableList';
 import { useGetTopicsByAuthor } from '@/hooks/topic/useGetTopicsByAuthor';
-import React, { useEffect, useState } from 'react';
-import parse from 'html-react-parser';
+import React, { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import Topic from '@/components/common/topic/Topic';
+import { Alert } from '@/components/common/Alert';
+import { useDeleteTopicMutation } from '@/hooks/topic';
+import { queryClient } from '@/providers/react-query-provider';
+import { toast } from 'sonner';
+import { useTopicAtom } from '@/hooks/topic/useTopicAtom';
 
 const Topcis = () => {
-  const { data } = useSession();
+  const { data: session } = useSession();
   const { data: topics, isLoading } = useGetTopicsByAuthor(1);
-  const [items, setItems] = useState<{ id: number; content: string }[]>([]);
-  
-  useEffect(() => {
-    if (topics)
-      setItems(
-        topics?.getTopicsByAuthor?.map((el, i) => ({ ...el, id: i })).reverse()
-      );
-  }, [topics]);
+  const [open, setOpen] = useState(false);
+  const [topic, setTopic] = useTopicAtom();
+
+  const { mutate: deleteTopic, isPending: deletePending } =
+    useDeleteTopicMutation({
+      onSuccess() {
+        setOpen(false);
+        queryClient.invalidateQueries({
+          queryKey: ['topics'],
+        });
+        toast?.success('Topic deleted Successfully');
+      },
+      onError(error) {
+        setOpen(false);
+        toast?.error(error?.message.split(':')[0]);
+      },
+    });
 
   if (!topics && isLoading)
     return (
@@ -26,27 +38,49 @@ const Topcis = () => {
       </div>
     );
 
-  return (
-    <div className="prose  lg:prose-xl max-w-full">
-      {topics?.getTopicsByAuthor
-        .map((topic, i) => <div key={i}>{parse(topic.content)}</div>)
-        .reverse()}
-    </div>
-  );
+  const canEditTopic = session?.user?.role === 'ADMIN';
+
+  const onClickCancel = () => {
+    setOpen(false);
+    setTopic(null);
+  };
+  const onClickConfirm = () => {
+    if (!topic?.topic_id) {
+      setOpen(false);
+      return;
+    }
+
+    deleteTopic(topic?.topic_id);
+  };
+  const onClickDelete = () => {
+    setOpen(true);
+  };
 
   return (
-    <div>
-      <SortableList
-        items={items}
-        onChange={setItems}
-        renderItem={(item) => (
-          <SortableList.Item id={item.id}>
-            <SortableList.DragHandle />
-            <Editor content={item?.content} />
-          </SortableList.Item>
-        )}
+    <>
+      <div className="prose  lg:prose-xl max-w-full">
+        {topics?.getTopicsByAuthor.map((topic, i) => (
+          <Topic
+            onClickDelete={onClickDelete}
+            topic={topic}
+            canEditTopic={canEditTopic}
+            key={topic?.content}
+          />
+        ))}
+      </div>
+      <Alert
+        open={open}
+        title="Are you absolutely sure?"
+        description={
+          <p>
+            This action cannot be undone. This will permanently delete this
+            topic
+          </p>
+        }
+        onClickCancel={onClickCancel}
+        onClickConfirm={onClickConfirm}
       />
-    </div>
+    </>
   );
 };
 

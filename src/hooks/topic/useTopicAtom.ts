@@ -1,7 +1,9 @@
 import { Student, TeachersIds, Topic } from '@/gql/graphql';
 import { atom, useAtom } from 'jotai';
 
-type TopicType = Topic & { action: 'EDIT' | 'DELETE' };
+type TopicType = Omit<Topic, 'user_id'> & {
+  action: 'EDIT' | 'DELETE';
+};
 const student = atom<TopicType | null>(null);
 
 const onClickEdit = atom(

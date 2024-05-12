@@ -40,8 +40,8 @@ const documents = {
     "\n  mutation EditTeacher($editTeacher: UpdateTeacher!) {\n    EditTeacher(editTeacher: $editTeacher) {\n      teacher_id\n    }\n  }\n": types.EditTeacherDocument,
     "\n  mutation DeleteTeacher($teacherId: Float!) {\n    deleteTeacher(teacherId: $teacherId) {\n      teacher_id\n    }\n  }\n": types.DeleteTeacherDocument,
     "\n  mutation CreateTopic($createTopic: CreateTopic!, $courseId: CourseId) {\n    CreateTopic(createTopic: $createTopic, courseId: $courseId) {\n      content\n    }\n  }\n": types.CreateTopicDocument,
-    "\n  query GetTopicsByAuthor($authorId: Int!) {\n    getTopicsByAuthor(authorID: $authorId) {\n      content\n    }\n  }\n": types.GetTopicsByAuthorDocument,
-    "\n  query GetTopicsByCourseId($courseId: Int!) {\n    getTopicsByCourseId(courseID: $courseId) {\n      content\n    }\n  }\n": types.GetTopicsByCourseIdDocument,
+    "\n  query GetTopicsByAuthor($authorId: Int!) {\n    getTopicsByAuthor(authorID: $authorId) {\n      topic_id\n      content\n    }\n  }\n": types.GetTopicsByAuthorDocument,
+    "\n  query GetTopicsByCourseId($courseId: Int!) {\n    getTopicsByCourseId(courseID: $courseId) {\n      user_id\n      topic_id\n      content\n    }\n  }\n": types.GetTopicsByCourseIdDocument,
     "\n  mutation EditTopic($editTopic: UpdateTopic!, $topicId: Int!) {\n    EditTopic(editTopic: $editTopic, topicId: $topicId) {\n      content\n    }\n  }\n": types.EditTopicDocument,
     "\n  mutation deleteTopic($topicId: Float!) {\n    deleteTopic(topicId: $topicId) {\n      content\n    }\n  }\n": types.DeleteTopicDocument,
     "\n  query GetCurrentUser {\n    getCurrentUser {\n      email\n      createdAt\n      first_name\n      last_name\n      role\n      updatedAt\n      user_id\n      user_name\n    }\n  }\n": types.GetCurrentUserDocument,
@@ -173,11 +173,11 @@ export function graphql(source: "\n  mutation CreateTopic($createTopic: CreateTo
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetTopicsByAuthor($authorId: Int!) {\n    getTopicsByAuthor(authorID: $authorId) {\n      content\n    }\n  }\n"): (typeof documents)["\n  query GetTopicsByAuthor($authorId: Int!) {\n    getTopicsByAuthor(authorID: $authorId) {\n      content\n    }\n  }\n"];
+export function graphql(source: "\n  query GetTopicsByAuthor($authorId: Int!) {\n    getTopicsByAuthor(authorID: $authorId) {\n      topic_id\n      content\n    }\n  }\n"): (typeof documents)["\n  query GetTopicsByAuthor($authorId: Int!) {\n    getTopicsByAuthor(authorID: $authorId) {\n      topic_id\n      content\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetTopicsByCourseId($courseId: Int!) {\n    getTopicsByCourseId(courseID: $courseId) {\n      content\n    }\n  }\n"): (typeof documents)["\n  query GetTopicsByCourseId($courseId: Int!) {\n    getTopicsByCourseId(courseID: $courseId) {\n      content\n    }\n  }\n"];
+export function graphql(source: "\n  query GetTopicsByCourseId($courseId: Int!) {\n    getTopicsByCourseId(courseID: $courseId) {\n      user_id\n      topic_id\n      content\n    }\n  }\n"): (typeof documents)["\n  query GetTopicsByCourseId($courseId: Int!) {\n    getTopicsByCourseId(courseID: $courseId) {\n      user_id\n      topic_id\n      content\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

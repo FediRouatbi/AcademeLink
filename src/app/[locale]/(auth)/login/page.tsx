@@ -1,4 +1,3 @@
-export const revalidate = false;
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { Form } from '@/components/pages/login';
