@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
   Command,
@@ -17,7 +16,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { useGetTeachersQuery } from '@/hooks/teacher';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { GetTeachersQuery } from '@/gql/graphql';
 import { useClassroomsAtom } from '@/hooks/classroom/useClassroomsAtom';

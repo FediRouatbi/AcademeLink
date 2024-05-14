@@ -8,8 +8,8 @@ import { PlusIcon } from 'lucide-react';
 import { useClassroomsAtom } from '@/hooks/classroom/useClassroomsAtom';
 
 const Teachers = () => {
-  const { data: dataTeachers } = useGetTeachersQuery();
-  const { data: dataSubjects } = useGetSubjectsQuery();
+  const { data: dataTeachers } = useGetTeachersQuery({});
+  const { data: dataSubjects } = useGetSubjectsQuery({});
   const [items, setItems] = useState([1]);
   const [teachers, setTeachers] = useClassroomsAtom();
 
@@ -18,7 +18,7 @@ const Teachers = () => {
   }, []);
 
   const numberOfTeachers = new Set(teachers.map((el) => el?.teacher_id)).size;
-  const addDisabled = numberOfTeachers !== items.length 
+  const addDisabled = numberOfTeachers !== items.length;
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center">

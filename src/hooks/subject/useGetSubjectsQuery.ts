@@ -3,12 +3,12 @@ import { getSubjects } from '@/services/subject';
 import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 
-const useGetSubjectsQuery = () => {
+const useGetSubjectsQuery = ({ search }: { search?: string }) => {
   const session = useSession();
   const accessToken = session.data?.token?.accessToken;
   const query = useQuery({
-    queryKey: ['subjects'],
-    queryFn: () => getSubjects(accessToken || ''),
+    queryKey: ['subjects', search],
+    queryFn: () => getSubjects(search, accessToken || ''),
   });
   return query;
 };

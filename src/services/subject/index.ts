@@ -12,8 +12,8 @@ const GetSubject = graphql(`
 `);
 
 const GetSubjects = graphql(`
-  query GetSubjects {
-    getSubjects {
+  query GetSubjects($search: String) {
+    getSubjects(search: $search) {
       id
       name
     }
@@ -63,10 +63,14 @@ const editSubject = (subject: Subject, accessToken: string) =>
       Authorization: `Bearer ${accessToken}`,
     }
   );
-const getSubjects = (accessToken: string) =>
-  graphQLClient?.request(GetSubjects, undefined, {
-    Authorization: `Bearer ${accessToken}`,
-  });
+const getSubjects = (search: string | undefined, accessToken: string) =>
+  graphQLClient?.request(
+    GetSubjects,
+    { search },
+    {
+      Authorization: `Bearer ${accessToken}`,
+    }
+  );
 
 const getSubject = (getSubjectId: number, accessToken: string) => {
   return graphQLClient?.request(

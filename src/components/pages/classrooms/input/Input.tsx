@@ -21,7 +21,7 @@ import { useGetTeachersQuery } from '@/hooks/teacher';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 
 export function TeachersCombobox() {
-  const { data } = useGetTeachersQuery();
+  const { data } = useGetTeachersQuery({});
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const teachers = data?.GetTeachers;

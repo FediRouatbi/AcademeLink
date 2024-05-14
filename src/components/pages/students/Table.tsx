@@ -27,10 +27,12 @@ import { toast } from 'sonner';
 import { Alert } from '@/components/common/Alert';
 import { useEditStudentAtom } from '@/hooks/student/useEditStudentAtom';
 import { useSession } from 'next-auth/react';
+import { useSeachAtom } from '@/hooks/useSeachAtom';
 export default function StudentsTabel() {
   const { data: session } = useSession();
+  const [debouncedValue] = useSeachAtom();
 
-  const { data, refetch } = useGetStudentsQuery();
+  const { data, refetch,isPending } = useGetStudentsQuery({ search: debouncedValue });
   const { mutate: deleteStudent } = useDeleteStudentMutation({
     onSuccess() {
       toast.success(`student ${student?.user?.user_name} delete successfully`);
@@ -72,6 +74,7 @@ export default function StudentsTabel() {
     deleteStudent(student?.student_id);
   };
   const role = session?.user?.role;
+
   return (
     <>
       <Card>
@@ -80,7 +83,7 @@ export default function StudentsTabel() {
           <CardDescription>Students on Academe</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table total={students?.length} emptyMessage="No Students Found">
+          <Table total={ students?.length} emptyMessage="No Students Found">
             <TableHeader>
               <TableRow>
                 <TableHead>ID</TableHead>

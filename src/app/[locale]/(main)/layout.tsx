@@ -24,6 +24,8 @@ import Search from '../../../components/common/Search';
 import Image from 'next/image';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { Library, Palette, Presentation, Settings, Shapes } from 'lucide-react';
+import Icon from '@/components/navbar/Icon';
+import UserName from '@/components/navbar/UserName';
 const routes = [
   {
     isActive: 'home',
@@ -121,6 +123,7 @@ export default async function Layout({
   if (!session) return redirect('fr/login');
 
   const userName = session?.user?.user_name;
+  const imageUrl = session?.user?.image_url;
   return (
     <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr] h-svh overflow-hidden">
       <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
@@ -154,7 +157,7 @@ export default async function Layout({
           <div className="w-full flex-1">
             <Search />
           </div>
-          <div>{userName}</div>
+          <UserName />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -162,18 +165,7 @@ export default async function Layout({
                 size="icon"
                 variant="ghost"
               >
-                <Image
-                  alt="Avatar"
-                  className="rounded-full"
-                  height="32"
-                  src="/user.svg"
-                  style={{
-                    aspectRatio: '32/32',
-                    objectFit: 'cover',
-                  }}
-                  width="32"
-                />
-                <span className="sr-only">Toggle user menu</span>
+                <Icon />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

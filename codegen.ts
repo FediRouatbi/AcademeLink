@@ -1,6 +1,5 @@
 import { CodegenConfig } from '@graphql-codegen/cli';
 import { api_url } from './src/constants/utils';
-console.log(api_url);
 
 const config: CodegenConfig = {
   schema: 'http://127.0.0.1:3000/graphql',

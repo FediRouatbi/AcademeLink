@@ -77,6 +77,8 @@ export default function ClassCard({
           <h3 className="text-lg font-medium">Subjects :</h3>
           <ul className="list-disc pl-6 space-y-1">
             {classroom?.course?.map((cours, i) => {
+              const image_url =
+                cours?.teacher?.user?.image_url || '/teacher.png';
               return (
                 <li className="" key={i}>
                   <div className="flex items-center gap-5">
@@ -84,14 +86,14 @@ export default function ClassCard({
                     <HoverCard>
                       <HoverCardTrigger>
                         <Avatar className="size-6 cursor-pointer">
-                          <AvatarImage alt="Mr. Anderson" src="/teacher.png" />
+                          <AvatarImage alt="Mr. Anderson" src={image_url} />
                           <AvatarFallback>MA</AvatarFallback>
                         </Avatar>
                       </HoverCardTrigger>
-                      <HoverCardContent className="w-80">
+                      <HoverCardContent className="w-fit">
                         <div className="flex justify-between space-x-4">
                           <Avatar>
-                            <AvatarImage src="/teacher.png" />
+                            <AvatarImage src={image_url} />
                             <AvatarFallback>VC</AvatarFallback>
                           </Avatar>
                           <div className="space-y-1">
@@ -99,7 +101,7 @@ export default function ClassCard({
                               @{cours?.teacher?.user?.user_name}
                             </h4>
                             <p className="text-sm">
-                              Eng. Dr. HDR., Assistant Professor at INSAT
+                              {cours?.teacher?.user?.description}
                             </p>
                             <div className="flex items-center pt-2">
                               <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{' '}

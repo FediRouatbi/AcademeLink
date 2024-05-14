@@ -1,10 +1,10 @@
-import React from "react";
-import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { CardContent, Card } from "@/components/ui/card";
-import { AtSign, CalendarDays, UserIcon } from "lucide-react";
-import dayjs from "dayjs";
-import { RoleCodeEnum } from "@/gql/graphql";
+import React from 'react';
+import { AvatarImage, AvatarFallback, Avatar } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { CardContent, Card } from '@/components/ui/card';
+import { AtSign, CalendarDays, UserIcon } from 'lucide-react';
+import dayjs from 'dayjs';
+import { RoleCodeEnum } from '@/gql/graphql';
 
 type RoleCodeType = keyof typeof RoleCodeEnum;
 
@@ -17,6 +17,7 @@ type Props = {
   user_id: number;
   user_name: string;
   role: RoleCodeType;
+  image_url: string;
 };
 const ProfileCard = (user: Props) => {
   const {
@@ -28,13 +29,18 @@ const ProfileCard = (user: Props) => {
     updatedAt,
     user_id,
     user_name,
+    image_url,
   } = user;
 
   return (
     <Card className="w-full">
       <CardContent className="p-6 flex gap-10">
         <Avatar className="h-32 w-32">
-          <AvatarImage alt="User Avatar" src="/teacher.png" className="" />
+          <AvatarImage
+            alt="User Avatar"
+            src={image_url || '/teacher.png'}
+            className=""
+          />
           <AvatarFallback>JD</AvatarFallback>
         </Avatar>
         <div className="flex-1 space-y-2">
@@ -55,9 +61,9 @@ const ProfileCard = (user: Props) => {
           </div>
           <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
             <CalendarDays className="h-4 w-4" />
-            <span>Joined: {dayjs(createdAt).format("MMMM DD, YYYY")}</span>
+            <span>Joined: {dayjs(createdAt).format('MMMM DD, YYYY')}</span>
             <CalendarDays className="h-4 w-4" />
-            <span>Updated: {dayjs(updatedAt).format("MMMM DD, YYYY")}</span>
+            <span>Updated: {dayjs(updatedAt).format('MMMM DD, YYYY')}</span>
           </div>
         </div>
       </CardContent>

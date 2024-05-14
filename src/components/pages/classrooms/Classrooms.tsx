@@ -16,7 +16,10 @@ import { queryClient } from '@/providers/react-query-provider';
 import { toast } from 'sonner';
 import ClassCard, { ClassroomType } from './classCard/ClassCard';
 import { useEditClassroomAtom } from '@/hooks/classroom/useEditClassroomAtom';
+import { useSeachAtom } from '@/hooks/useSeachAtom';
 const Classrooms = () => {
+  const [debouncedValue] = useSeachAtom();
+
   const { mutate } = useDeleteClassroomMutation({
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['classrooms'] });
@@ -31,9 +34,10 @@ const Classrooms = () => {
       setClassroom(null);
     },
   });
+  
   const [open, setOpen] = useState(false);
   const [classroom, setClassroom] = useEditClassroomAtom();
-  const { data } = useGetClassroomsQuery();
+  const { data } = useGetClassroomsQuery({ search: debouncedValue });
   const classrooms = data?.getClassrooms;
 
   const onClickDelete = (classroom: ClassroomType) => {

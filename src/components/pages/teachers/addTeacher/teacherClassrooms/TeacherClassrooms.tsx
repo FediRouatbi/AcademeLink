@@ -9,9 +9,9 @@ import { useGetSubjectsQuery } from '@/hooks/subject';
 import { useGetClassroomsQuery } from '@/hooks/classroom';
 
 const TeacherClassrooms = () => {
-  const { data: subjects, isPending: subjectsPending } = useGetSubjectsQuery();
+  const { data: subjects, isPending: subjectsPending } = useGetSubjectsQuery({});
   const { data: allClassrooms, isPending: classroomsPending } =
-    useGetClassroomsQuery();
+    useGetClassroomsQuery({search:""});
 
   const [classromms, setClassrooms] = useTeachersAtom();
 
@@ -41,7 +41,6 @@ const TeacherClassrooms = () => {
       ) : (
         <div className="flex  gap-10 flex-col">
           {classromms.map((el, i) => {
-            console.log(el?.[0]?.classroom_id);
             return (
               <Item
                 index={i}

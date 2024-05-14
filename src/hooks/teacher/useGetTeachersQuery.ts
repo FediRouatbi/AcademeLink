@@ -1,14 +1,10 @@
-import { api_url } from "@/constants/utils";
-import { graphql } from "@/gql/gql";
-import React from "react";
-import { GraphQLClient } from "graphql-request";
-import { useQuery } from "@tanstack/react-query";
-import { getTeachers } from "@/services/teacher";
+import { useQuery } from '@tanstack/react-query';
+import { getTeachers } from '@/services/teacher';
 
-const useGetTeachersQuery = () => {
+const useGetTeachersQuery = ({ search }: { search?: string }) => {
   const query = useQuery({
-    queryKey: ["teachers"],
-    queryFn: getTeachers,
+    queryKey: ['teachers', search],
+    queryFn: () => getTeachers(search),
   });
   return query;
 };

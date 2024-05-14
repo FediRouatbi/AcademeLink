@@ -29,8 +29,8 @@ const GetStudent = graphql(`
 `);
 
 const GetStudents = graphql(`
-  query GetStudents($hasClassroom: Boolean) {
-    GetStudents(hasClassroom: $hasClassroom) {
+  query GetStudents($search: String, $hasClassroom: Boolean) {
+    GetStudents(search: $search, hasClassroom: $hasClassroom) {
       student_id
       classroom {
         classroom_id
@@ -71,8 +71,8 @@ const DeleteStudent = graphql(`
     }
   }
 `);
-const getStudents = (hasClassroom?: boolean) =>
-  graphQLClient?.request(GetStudents, { hasClassroom });
+const getStudents = (hasClassroom?: boolean, search?: string) =>
+  graphQLClient?.request(GetStudents, { hasClassroom, search });
 
 const getStudent = (id: number) =>
   graphQLClient?.request(GetStudent, { getStudentId: id });

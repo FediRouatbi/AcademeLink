@@ -16,9 +16,12 @@ import { Button } from '@/components/ui/button';
 import { queryClient } from '@/providers/react-query-provider';
 import { toast } from 'sonner';
 import { useEditSubject } from '@/hooks/subject/useEditAtom';
+import { useSeachAtom } from '@/hooks/useSeachAtom';
 
 const Subjects = () => {
   const [open, setOpen] = useState(false);
+  const [debouncedValue] = useSeachAtom();
+
   const [, setEditSubject] = useEditSubject();
 
   const { mutate } = useDeleteSubjectMutation({
@@ -33,7 +36,7 @@ const Subjects = () => {
     },
   });
   const [subject, setSubject] = useState<SubjectType | null>(null);
-  const { data } = useGetSubjectsQuery();
+  const { data } = useGetSubjectsQuery({ search: debouncedValue });
 
   const onClickDelete = (subject: SubjectType) => {
     setSubject(subject);

@@ -21,7 +21,7 @@ import { useController, useFormContext } from 'react-hook-form';
 import { useEditStudentAtom } from '@/hooks/student/useEditStudentAtom';
 
 export function ClassCombobox() {
-  const { data } = useGetClassroomsQuery();
+  const { data } = useGetClassroomsQuery({});
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const classromms = data?.getClassrooms;
@@ -67,7 +67,7 @@ export function ClassCombobox() {
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? '' : currentValue);
                     setOpen(false);
-                    
+
                     field.onChange({ classroom_id: classromm?.classroom_id });
                   }}
                 >

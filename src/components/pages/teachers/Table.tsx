@@ -21,6 +21,7 @@ import {
 import { Teacher } from '@/gql/graphql';
 import { useDeleteTeacherMutation, useGetTeachersQuery } from '@/hooks/teacher';
 import { useEditTeacherAtom } from '@/hooks/teacher/useEditTeacherAtom';
+import { useSeachAtom } from '@/hooks/useSeachAtom';
 import dayjs from 'dayjs';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
@@ -29,8 +30,9 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 export default function TeachersTabel() {
   const { data: session } = useSession();
-
+  const [debouncedValue] = useSeachAtom();
   const [open, setOpen] = useState(false);
+
   const { mutate: deleteTeacher } = useDeleteTeacherMutation({
     onSuccess() {
       toast.success(`teacher ${teacher?.user?.user_name} delete successfully`);
@@ -39,7 +41,7 @@ export default function TeachersTabel() {
     },
   });
   const { push } = useRouter();
-  const { data, refetch } = useGetTeachersQuery();
+  const { data, refetch } = useGetTeachersQuery({ search: debouncedValue });
   const [teacher, setTeacher] = useEditTeacherAtom();
   const teachers = data?.GetTeachers;
 

@@ -9,8 +9,15 @@ type Props = {
   subject_name: string;
   createdAt: string;
   user_name: string;
+  image_url: string;
 };
-const Course = ({ id, subject_name, createdAt, user_name }: Props) => {
+const Course = ({
+  id,
+  subject_name,
+  createdAt,
+  user_name,
+  image_url,
+}: Props) => {
   return (
     <Link
       href={`/fr/courses/${id}`}
@@ -28,7 +35,11 @@ const Course = ({ id, subject_name, createdAt, user_name }: Props) => {
       <div className="mt-auto flex justify-between">
         <div className="  flex gap-2  items-center text-xl">
           <Avatar className="h-7 w-7">
-            <AvatarImage alt="User Avatar" src="/teacher.png" className="" />
+            <AvatarImage
+              alt="User Avatar"
+              src={image_url || '/teacher.png'}
+              className=" rounded-full"
+            />
           </Avatar>
           {user_name}
         </div>

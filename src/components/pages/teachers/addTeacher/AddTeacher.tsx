@@ -20,7 +20,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { toast } from 'sonner';
-import { useCreateTeacherMutation } from '@/hooks/teacher';
+import {
+  useCreateTeacherMutation,
+  useEditTeacherMudation,
+} from '@/hooks/teacher';
 import TeacherClassrooms from './teacherClassrooms/TeacherClassrooms';
 import { useTeachersAtom } from '@/hooks/teacher/useTeacherAtom';
 import { useEditTeacherAtom } from '@/hooks/teacher/useEditTeacherAtom';
@@ -33,12 +36,6 @@ const createTeacherSchema = z.object({
   userName: z.string().min(3),
   email: z.string().email(),
   password: z.string().min(6),
-  classrooms: z.array(
-    z.object({
-      classroomId: z.number(),
-      subjectId: z.number(),
-    })
-  ),
 });
 const defaultValues = {
   email: '',
@@ -66,6 +63,19 @@ const AddTeacher = ({ className }: { className?: string }) => {
       toast?.error(error?.message.split(':')[0]);
     },
   });
+  const mode = teacher?.action === 'EDIT' ? 'EDIT' : 'ADD';
+  const { mutate: editTeacher, isPending: editIsPending } =
+    useEditTeacherMudation({
+      onSuccess() {
+        queryClient.invalidateQueries({ queryKey: ['teachers'] });
+        setOpen(false);
+        setTeacher(null);
+        toast?.success('Teacher edited Successfully');
+      },
+      onError(error) {
+        toast?.error(error?.message.split(':')[0]);
+      },
+    });
   const methods = useForm<createTeachermType>({
     resolver: zodResolver(createTeacherSchema),
     defaultValues,
@@ -73,14 +83,26 @@ const AddTeacher = ({ className }: { className?: string }) => {
 
   const [classrooms, setClassrooms] = useTeachersAtom();
   const onSubmit = (data: createTeachermType) => {
-    mutate({
-      email: data?.email,
-      first_name: data?.firstName,
-      last_name: data?.lastName,
-      password: data?.password,
-      user_name: data?.userName,
-      classrooms: classrooms?.flat(),
-    });
+    if (mode === 'ADD')
+      mutate({
+        email: data?.email,
+        first_name: data?.firstName,
+        last_name: data?.lastName,
+        password: data?.password,
+        user_name: data?.userName,
+        classrooms: classrooms?.flat(),
+      });
+    if (mode === 'EDIT' && teacher?.teacher_id) {
+      editTeacher({
+        teacher_id: teacher?.teacher_id,
+        classrooms: classrooms?.flat(),
+        email: data?.email,
+        first_name: data?.firstName,
+        last_name: data?.lastName,
+        password: data?.password,
+        user_name: data?.userName,
+      });
+    }
   };
   const onError = (error: any) => {
     console.log(error);
@@ -124,9 +146,10 @@ const AddTeacher = ({ className }: { className?: string }) => {
         </SheetTrigger>
         <SheetContent className="min-w-[25%] overflow-y-auto">
           <SheetHeader>
-            <SheetTitle> Add Teacher</SheetTitle>
+            <SheetTitle> {mode === 'ADD' ? 'Add' : 'Edit'} Teacher</SheetTitle>
             <SheetDescription>
-              Fill in the details to create a new Teacher.
+              Fill in the details to {mode === 'ADD' ? 'create a new' : 'edit'}{' '}
+              Teacher.
             </SheetDescription>
           </SheetHeader>
           <div className="grid gap-4 py-4">
@@ -157,9 +180,9 @@ const AddTeacher = ({ className }: { className?: string }) => {
                   <Button
                     type="submit"
                     className="min-w-16"
-                    isPending={isPending}
+                    isPending={isPending || editIsPending}
                   >
-                    ADD
+                    {mode === 'ADD' ? 'Add' : 'Edit'}
                   </Button>
                 </SheetFooter>
               </form>

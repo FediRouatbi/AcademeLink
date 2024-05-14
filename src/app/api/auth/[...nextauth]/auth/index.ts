@@ -14,6 +14,8 @@ const query = `
     getCurrentUser {
       createdAt
       first_name
+      description
+      image_url
       last_name
       updatedAt
       role
