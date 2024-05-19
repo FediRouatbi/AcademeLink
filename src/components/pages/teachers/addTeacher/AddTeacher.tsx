@@ -56,7 +56,6 @@ const AddTeacher = ({ className }: { className?: string }) => {
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['teachers'] });
       setOpen(false);
-      setTeacher(null);
       toast?.success('Teacher add Successfully');
     },
     onError(error) {
@@ -136,6 +135,7 @@ const AddTeacher = ({ className }: { className?: string }) => {
           setOpen(open);
           methods?.reset(defaultValues);
           setTeacher(null);
+          setClassrooms([[]]);
         }}
       >
         <SheetTrigger asChild>

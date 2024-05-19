@@ -11,8 +11,8 @@ const page = async () => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ['teachers'],
-    queryFn:()=> getTeachers(""),
+    queryKey: ['teachers', ''],
+    queryFn: () => getTeachers(''),
     staleTime: 500,
   });
   return (

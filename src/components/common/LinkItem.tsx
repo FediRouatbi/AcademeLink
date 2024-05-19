@@ -1,14 +1,17 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import { Link } from '@/navigation';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import React, { ReactNode } from 'react';
 
-type Props = { href: string; item: ReactNode; isActive: string };
+type Props = { href: string; icon: ReactNode; text: string; isActive: string };
 
-const LinkItem = ({ href, item, isActive }: Props) => {
+const LinkItem = ({ href, icon, text, isActive }: Props) => {
+  const t = useTranslations('Sidebar');
+
   const { data: session } = useSession();
   const role = session?.user?.role;
   const activeStyle = 'bg-gray-100 text-gray-900';
@@ -20,12 +23,12 @@ const LinkItem = ({ href, item, isActive }: Props) => {
     (pathname?.includes(isActive) || isHomePage) && activeStyle
   );
 
-  
   if (role !== 'ADMIN' && href.includes('subjects')) return null;
 
   return (
     <Link className={className} href={href} prefetch>
-      {item}
+      {icon}
+      {t(text)}
     </Link>
   );
 };

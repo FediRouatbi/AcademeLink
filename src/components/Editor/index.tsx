@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import MenuBar from './MenuBar';
 import { EditorContent, EditorProvider, useEditor } from '@tiptap/react';
 import { Button } from '../ui/button';
-import { Pencil, Save } from 'lucide-react';
 import { Color } from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
 import TextStyle from '@tiptap/extension-text-style';
@@ -47,14 +46,10 @@ const Editor = ({
         },
       }),
     ],
-    onCreate(props) {
-      props?.editor?.commands.focus();
-    },
-    autofocus: 'start',
     content: content,
   });
 
-  useEffect(() => {}, []);
+
   const editStyles = cn(
     'group prose tiptap lg:prose-xl  w-full max-w-full relative  rounded-sm   '
   );

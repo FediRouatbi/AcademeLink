@@ -3,17 +3,22 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 import * as NProgress from 'nprogress';
 import { useTranslations } from 'next-intl';
+import { Link, redirect, usePathname, useRouter } from '@/navigation';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const LoginUpSchema = z.object({
   email: z.string().email(),
@@ -23,10 +28,12 @@ const LoginUpSchema = z.object({
 type LoginSchemaType = z.infer<typeof LoginUpSchema>;
 
 const Form = () => {
+  const pathname = usePathname();
+  const router = useRouter();
+
   const t = useTranslations('Login');
 
   const [isLoading, setIsLoading] = useState(false);
-  const { push } = useRouter();
 
   useEffect(() => {
     NProgress.done();
@@ -51,7 +58,7 @@ const Form = () => {
 
       toast.success('Registration Successful');
       NProgress.start();
-      push('/fr/');
+      router.push('/');
     } catch (error: any) {
       toast.error('Incorrrect Email or Password ');
     }
@@ -80,6 +87,31 @@ const Form = () => {
             Remember me
           </Label>
         </div>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon">
+              EN
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              onClick={() => {
+                router?.replace(pathname, { locale: 'en' });
+              }}
+            >
+              En
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                router?.replace(pathname, { locale: 'fr' });
+              }}
+            >
+              Fr
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <Button className="w-full" type="submit" disabled={isLoading}>
           {isLoading ? (
             <Loader2 className="size-5  animate-spin" />

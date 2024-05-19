@@ -21,7 +21,6 @@ import {
 } from '@/assets/svg';
 import LinkItem from '../../../components/common/LinkItem';
 import Search from '../../../components/common/Search';
-import Image from 'next/image';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { Library, Palette, Presentation, Settings, Shapes } from 'lucide-react';
 import Icon from '@/components/navbar/Icon';
@@ -30,87 +29,52 @@ const routes = [
   {
     isActive: 'home',
     href: '/',
-    item: (
-      <>
-        <HomeIcon className="h-4 w-4" />
-        Home
-      </>
-    ),
+    icon: <HomeIcon className="h-4 w-4" />,
+    text: 'home',
   },
   {
     href: '/classrooms',
     isActive: 'classrooms',
-    item: (
-      <>
-        <Shapes className="h-4 w-4" />
-        Classrooms
-      </>
-    ),
+    icon: <Shapes className="h-4 w-4" />,
+    text: 'classrooms',
   },
   {
     href: '/teachers',
     isActive: 'teachers',
-    item: (
-      <>
-        <Teacher className="h-4 w-4" />
-        Teachers
-      </>
-    ),
+    icon: <Teacher className="h-4 w-4" />,
+    text: 'teachers',
   },
 
   {
     href: '/students',
     isActive: 'students',
-    item: (
-      <>
-        <UsersIcon className="h-4 w-4" />
-        Students
-        <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-          6
-        </Badge>
-      </>
-    ),
+    icon: <UsersIcon className="h-4 w-4" />,
+    text: 'students',
   },
   {
     href: '/courses',
     isActive: 'courses',
-    item: (
-      <>
-        <Presentation className="h-4 w-4" />
-        Courses
-      </>
-    ),
+    icon: <Presentation className="h-4 w-4" />,
+    text: 'courses',
   },
   {
     href: '/subjects',
     isActive: 'subjects',
-    item: (
-      <>
-        <Library className="h-4 w-4" />
-        Subjects
-      </>
-    ),
+    icon: <Library className="h-4 w-4" />,
+    text: 'subjects',
   },
 
   {
-    href: '/appearance',
-    isActive: 'appearance',
-    item: (
-      <>
-        <Palette className="h-4 w-4" />
-        Appearance
-      </>
-    ),
+    href: '/preferences',
+    isActive: 'preferences',
+    icon: <Palette className="h-4 w-4" />,
+    text: 'preferences',
   },
   {
     href: '/settings',
     isActive: 'settings',
-    item: (
-      <>
-        <Settings className="h-4 w-4" />
-        Settings
-      </>
-    ),
+    icon: <Settings className="h-4 w-4" />,
+    text: 'settings',
   },
 ];
 export default async function Layout({
@@ -139,7 +103,8 @@ export default async function Layout({
                   key={el.isActive}
                   href={el?.href}
                   isActive={el.isActive}
-                  item={el?.item}
+                  icon={el.icon}
+                  text={el.text}
                 />
               ))}
             </nav>
@@ -175,10 +140,6 @@ export default async function Layout({
               <LogoutButton />
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button className="ml-auto h-8 w-8" size="icon" variant="outline">
-            <BellIcon className="h-4 w-4" />
-            <span className="sr-only">Toggle notifications</span>
-          </Button>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6 ">
           {children}

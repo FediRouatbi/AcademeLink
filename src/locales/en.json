@@ -7,6 +7,16 @@
     "login": "Login"
   },
   "Navbar": { "search": "Search ..." },
+  "Sidebar": {
+    "home": "Home",
+    "classrooms": "Classrooms",
+    "teachers": "Teachers",
+    "students": "Students",
+    "courses": "Courses",
+    "subjects": "Subjects",
+    "preferences": "Preferences",
+    "settings": "Settings"
+  },
   "Home": {
     "addTopic": "Add Topic",
     "editTopic": "Edit Topic",

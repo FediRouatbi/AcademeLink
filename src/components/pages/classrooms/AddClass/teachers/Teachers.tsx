@@ -11,7 +11,7 @@ import { useTranslations } from 'next-intl';
 const Teachers = () => {
   const t = useTranslations('Classrooms.Form');
 
-  const { data: dataTeachers } = useGetTeachersQuery({});
+  const { data: dataTeachers } = useGetTeachersQuery({ search: '' });
   const { data: dataSubjects } = useGetSubjectsQuery({});
   const [items, setItems] = useState([1]);
   const [teachers, setTeachers] = useClassroomsAtom();

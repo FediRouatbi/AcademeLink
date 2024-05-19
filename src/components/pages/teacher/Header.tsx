@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { useGetTeacherQuery } from '@/hooks/teacher';
 import * as NProgress from 'nprogress';
+import { useRouter } from '@/navigation';
 
 const Header = ({ teacherId }: { teacherId: number }) => {
   const { data } = useGetTeacherQuery({ id: teacherId });
@@ -35,7 +35,7 @@ const Header = ({ teacherId }: { teacherId: number }) => {
           size="sm"
           onClick={() => {
             NProgress.start();
-            push('/fr/teachers');
+            push('/teachers');
           }}
         >
           Discard

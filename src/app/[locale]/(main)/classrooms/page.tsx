@@ -15,7 +15,7 @@ const page = async () => {
   const accessToken = session?.token?.accessToken;
 
   await queryClient.prefetchQuery({
-    queryKey: ['classrooms'],
+    queryKey: ['classrooms', ''],
     queryFn: () => getClassrooms('', accessToken || ''),
     staleTime: 500,
   });

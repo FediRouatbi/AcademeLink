@@ -25,10 +25,10 @@ import { useSeachAtom } from '@/hooks/useSeachAtom';
 import dayjs from 'dayjs';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import * as NProgress from 'nprogress';
+import { useRouter } from '@/navigation';
 
 export default function TeachersTabel() {
   const { data: session } = useSession();
@@ -38,8 +38,8 @@ export default function TeachersTabel() {
   const { mutate: deleteTeacher } = useDeleteTeacherMutation({
     onSuccess() {
       toast.success(`teacher ${teacher?.user?.user_name} delete successfully`);
-      setTeacher(null);
-      refetch();
+      // setTeacher(null);
+      // refetch();
     },
   });
   const { push } = useRouter();
@@ -71,7 +71,7 @@ export default function TeachersTabel() {
 
     if (!teacher) return;
 
-    deleteTeacher(teacher?.teacher_id);
+    //deleteTeacher(teacher?.teacher_id);
   };
 
   useEffect(() => {
@@ -106,7 +106,7 @@ export default function TeachersTabel() {
                     className="cursor-pointer"
                     onClick={() => {
                       NProgress.start();
-                      push(`/fr/teachers/${teacher?.teacher_id}`);
+                      push(`/teachers/${teacher?.teacher_id}`);
                     }}
                   >
                     <TableCell>{teacher?.teacher_id}</TableCell>
@@ -160,7 +160,7 @@ export default function TeachersTabel() {
             </TableBody>
           </Table>
         </CardContent>
-      </Card>{' '}
+      </Card>
       <Alert
         open={open}
         title="Are you absolutely sure?"

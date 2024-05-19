@@ -20,7 +20,6 @@ import {
 import { useDeleteStudentMutation, useGetStudentsQuery } from '@/hooks/student';
 import dayjs from 'dayjs';
 import { Pencil, Trash2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { GetStudentsQuery } from '@/gql/graphql';
 import { toast } from 'sonner';
@@ -30,6 +29,7 @@ import { useSession } from 'next-auth/react';
 import { useSeachAtom } from '@/hooks/useSeachAtom';
 
 import * as NProgress from 'nprogress';
+import { useRouter } from '@/navigation';
 
 export default function StudentsTabel() {
   const { data: session } = useSession();
@@ -111,7 +111,7 @@ export default function StudentsTabel() {
                     className="cursor-pointer"
                     onClick={() => {
                       NProgress.start();
-                      push(`/fr/students/${student?.student_id}`);
+                      push(`/students/${student?.student_id}`);
                     }}
                   >
                     <TableCell>{student?.student_id}</TableCell>

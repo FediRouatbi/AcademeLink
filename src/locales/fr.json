@@ -1,52 +1,107 @@
 {
   "Login": {
-    "title": "Connecter",
+    "title": "inscription",
     "description": "Entrez votre email ci-dessous pour vous connecter à votre compte",
-    "email": "E-mail",
+    "email": "Email",
     "password": "Mot de passe",
-    "login": "Se connecter"
+    "login": "Connexion"
   },
-  "BaseTemplate": {
-    "description": "Code de démarrage pour Next.js avec Tailwind CSS",
-    "made_with": "Fait avec"
+  "Navbar": { "search": "Recherche ..." },
+  "Sidebar": {
+    "home": "Accueil",
+    "classrooms": "Salles de classe",
+    "teachers": "Enseignants",
+    "students": "Élèves",
+    "courses": "Cours",
+    "subjects": "Matières",
+    "preferences": "Préférences",
+    "settings": "Paramètres"
   },
-  "Index": {
-    "meta_title": "Présentation de Next.js Boilerplate",
-    "meta_description": "Next js Boilerplate est le code de démarrage parfait pour votre projet. Construisez votre application React avec le framework Next.js."
+  "Home": {
+    "addTopic": "Ajouter un sujet",
+    "editTopic": "Modifier le sujet",
+    "createTopic": "créer un nouveau sujet.",
+    "publish": "Publier",
+    "edit": "Modifier",
+    "deleteAlertTitle": "Êtes-vous absolument sûr ?",
+    "deleteAlertDescription": "Cette action est irréversible. Cela supprimera définitivement ce sujet"
   },
-  "Guestbook": {
-    "meta_title": "Livre d'or",
-    "meta_description": "Un exemple de fonctionnement CRUD",
-    "database_powered_by": "Base de données propulsée par",
-    "loading_guestbook": "Chargement du livre d'or..."
+  "Editor": {
+    "bold": "gras",
+    "italic": "italique",
+    "strike": "barré",
+    "code": "code",
+    "clearMarks": "effacer les marques",
+    "clearnNodes": "effacer les nœuds",
+    "paragraph": "paragraphe",
+    "bulletList": "liste à puces",
+    "orderedList": "liste ordonnée",
+    "codeBlock": "bloc de code",
+    "blockquote": "bloc de citation",
+    "horizontalRule": "règle horizontale",
+    "hardBreak": "saut de ligne",
+    "undo": "annuler",
+    "redo": "refaire",
+    "purple": "violet"
+  },
+  "Alert": {
+    "confirm": "Confirmer",
+    "cancel": "Annuler"
+  },
+  "Classrooms": {
+    "Alert": {
+      "title": "Êtes-vous absolument sûr ?",
+      "description": "Cette action est irréversible. Cela supprimera définitivement la salle de classe"
+    },
+    "Card": {
+      "students": "Élèves",
+      "description": "description :",
+      "subjects": "Matières :",
+      "joined": "Rejoint"
+    },
+    "Form": {
+      "addClassroom": "Ajouter une salle de classe",
+      "editClassroom": "Modifier la salle de classe",
+      "addClassroomDescription": "Remplissez les détails pour",
+      "createClassroom": "créer une nouvelle salle de classe.",
+      "name": "Nom",
+      "description": "Description",
+      "teachers": "Enseignants",
+      "students": "Élèves",
+      "emptyTeacherList": "Aucun enseignant trouvé.",
+      "teacherName": "Nom de l'enseignant",
+      "selectSubjects": "Sélectionner les matières",
+      "selectStudents": "Sélectionner les élèves",
+      "searchTeacher": "Recherche d'enseignant..."
+    }
   },
   "GuestbookForm": {
     "username": "Nom d'utilisateur",
     "body": "Message",
-    "save": "Sauvegarder"
+    "save": "Enregistrer"
   },
   "About": {
-    "meta_title": "A propos",
-    "meta_description": "A propos description",
-    "about_paragraph": "Bienvenue sur notre page À propos ! Nous sommes une équipe de passionnés et dévoués à la création de logiciels.",
+    "meta_title": "À propos",
+    "meta_description": "Description de la page À propos",
+    "about_paragraph": "Bienvenue sur notre page À propos ! Nous sommes une équipe de personnes passionnées, dédiées à la création de logiciels incroyables.",
     "translation_powered_by": "Traduction propulsée par"
   },
   "Portfolio": {
     "meta_title": "Portfolio",
-    "meta_description": "Bienvenue sur la page de mon portfolio !",
-    "presentation": "Bienvenue sur ma page portfolio ! Vous trouverez ici une collection soigneusement organisée de mon travail et de mes réalisations. À travers ce portfolio, je mets en valeur mon expertise, ma créativité et la valeur que je peux apporter à vos projets.",
+    "meta_description": "Bienvenue sur ma page portfolio !",
+    "presentation": "Bienvenue sur ma page portfolio ! Vous trouverez ici une collection soigneusement sélectionnée de mon travail et de mes réalisations. À travers ce portfolio, je souhaite montrer mon expertise, ma créativité et la valeur que je peux apporter à vos projets.",
     "portfolio_name": "Portfolio {name}",
-    "monitoring_powered_by": "Monitoring propulsé par"
+    "monitoring_powered_by": "Surveillance propulsée par"
   },
   "PortfolioSlug": {
     "meta_title": "Portfolio {slug}",
-    "meta_description": "Description du Portfolio {slug}",
+    "meta_description": "Description du portfolio {slug}",
     "header": "Portfolio {slug}",
-    "content": "Créé un ensemble de matériel promotionnel et d'éléments de marquage pour un événement d'entreprise. Conçu un thème visuellement unifié, englobant un logo, des affiches, des bannières et des actifs numériques. Intégrer l'identité de marque du client tout en l'insufflant à une approche contemporaine et innovante. Des réponses favorables de la part des participants ont été obtenues, ce qui a donné lieu à un événement réussi avec un engagement accru des participants et une meilleure visibilité de la marque."
+    "content": "Créé un ensemble de matériaux promotionnels et d'éléments de branding pour un événement d'entreprise. Conçu un thème visuellement unifié, comprenant un logo, des affiches, des bannières et des actifs numériques. Intégré l'identité de marque du client tout en y ajoutant une approche contemporaine et innovante. A reçu des réponses favorables des participants à l'événement, résultant en un événement réussi avec une participation accrue et une meilleure visibilité de la marque."
   },
   "SignIn": {
     "meta_title": "Se connecter",
-    "meta_description": "Connectez-vous à votre compte avec facilité."
+    "meta_description": "Connectez-vous sans effort à votre compte grâce à notre processus de connexion convivial."
   },
   "SignUp": {
     "meta_title": "S'inscrire",
@@ -57,11 +112,11 @@
     "hello_message": "Bonjour {email}!"
   },
   "UserProfile": {
-    "meta_title": "Profil de l'utilisateur"
+    "meta_title": "Profil utilisateur"
   },
   "DashboardLayout": {
     "dashboard_link": "Tableau de bord",
     "user_profile_link": "Gérer votre compte",
-    "sign_out": "Se déconnecter"
+    "sign_out": "Déconnexion"
   }
 }

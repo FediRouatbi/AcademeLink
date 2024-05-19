@@ -52,7 +52,7 @@ const AddClass = () => {
   const [teachers, setTeachers] = useClassroomsAtom();
 
   const [studentsIds, setStudentsIds] = useState<StudentsIds>([]);
-  const { data } = useGetStudentsQuery({ hasClassroom: false });
+  const { data } = useGetStudentsQuery({ hasClassroom: false,search:"" });
   const [classroom, setClassroom] = useEditClassroomAtom();
   const { mutate: editClassroom, isPending: editIsPending } =
     useEditClassroomMutation({

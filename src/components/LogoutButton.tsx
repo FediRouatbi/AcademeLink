@@ -1,9 +1,9 @@
 'use client';
 import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { DropdownMenuItem } from './ui/dropdown-menu';
 import * as NProgress from 'nprogress';
+import { useRouter } from '@/navigation';
 
 const LogoutButton = () => {
   const { push } = useRouter();
@@ -17,7 +17,7 @@ const LogoutButton = () => {
         onClick={async () => {
           await signOut({ redirect: false });
           NProgress.start();
-          push('/fr/login');
+          push('/login');
         }}
       >
         Logout

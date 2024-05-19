@@ -21,7 +21,7 @@ import { useController, useFormContext } from 'react-hook-form';
 import { useEditStudentAtom } from '@/hooks/student/useEditStudentAtom';
 
 export function ClassCombobox() {
-  const { data } = useGetClassroomsQuery({});
+  const { data } = useGetClassroomsQuery({search:""});
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const classromms = data?.getClassrooms;
