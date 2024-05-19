@@ -33,6 +33,7 @@ import { useClassroomsAtom } from '@/hooks/classroom/useClassroomsAtom';
 import { useEditClassroomAtom } from '@/hooks/classroom/useEditClassroomAtom';
 import { Textarea } from '@/components/ui/textarea';
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 const animatedComponents = makeAnimated();
 
 const createClassroomSchema = z.object({
@@ -46,6 +47,7 @@ type StudentsIds = CreateClassroom['studentsIds'];
 
 const AddClass = () => {
   const { data: session } = useSession();
+  const t = useTranslations('Classrooms.Form');
 
   const [teachers, setTeachers] = useClassroomsAtom();
 
@@ -139,45 +141,46 @@ const AddClass = () => {
       <SheetTrigger asChild>
         <Button variant="outline">
           <BadgePlus className="mr-2 h-4 w-4" />
-          Add Classroom
+          {t('addClassroom')}
         </Button>
       </SheetTrigger>
       <SheetContent className="!max-w-fit min-w-[25%]">
         <SheetHeader>
           <SheetTitle>
-            {mode === 'ADD' ? 'Add Classroom' : 'Edit Classroom'}
+            {mode === 'ADD' ? t('addClassroom') : t('editClassroom')}
           </SheetTitle>
           <SheetDescription>
-            Fill in the details to{' '}
-            {mode === 'ADD' ? 'create a new classroom.' : 'Edit Classroom'}
+            {t('addClassroomDescription')}
+            {mode === 'ADD' ? t('createClassroom') : t('editClassroom')}
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
               <div className="space-y-2 ">
-                <Label htmlFor="name">Name*</Label>
-                <Input id="name" placeholder="Name" name="name" />
+                <Label htmlFor="name">{t('name')}*</Label>
+                <Input id="name" placeholder={t('name')} name="name" />
               </div>
               <div className="space-y-2 ">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">{t('description')}</Label>
                 <Textarea
                   name="description"
                   id="description"
-                  placeholder="Description"
+                  placeholder={t('description')}
                 />
               </div>
               {mode !== 'EDIT' && open && (
                 <>
                   <Teachers />
                   <div className="space-y-2 pt-5">
-                    <Label>Students</Label>
+                    <Label>{t('students')}</Label>
                     <div className="flex flex-col space-y-2">
                       <div className="flex space-x-2 items-center">
                         <Select
                           className="flex-1"
                           closeMenuOnSelect={false}
                           components={animatedComponents}
+                          placeholder={t('selectStudents')}
                           isMulti
                           onChange={(choice) => {
                             setStudentsIds(

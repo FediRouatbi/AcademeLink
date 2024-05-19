@@ -7,8 +7,11 @@ import { SearchIcon } from '@/assets/svg';
 import { useSearchDebounce } from '@/hooks/useSearchDebounce';
 import { useParams } from 'next/navigation';
 import { useSeachAtom } from '@/hooks/useSeachAtom';
+import { useTranslations } from 'next-intl';
 
 const Search = () => {
+  const t = useTranslations('Navbar');
+
   const [, setDebouncedValue] = useSeachAtom();
   const pathname = useParams();
   const methods = useForm({ defaultValues: { search: '' } });
@@ -29,7 +32,7 @@ const Search = () => {
             name="search"
             hideError
             className="w-full bg-white shadow-none appearance-none pl-8 md:w-2/3 lg:w-1/3 dark:bg-gray-950"
-            placeholder="Search..."
+            placeholder={t('search')}
             type="search"
           />
         </div>

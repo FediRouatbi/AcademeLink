@@ -18,7 +18,7 @@ const Topic = ({ canEditTopic, onClickDelete, topic }: Props) => {
     <div
       className={cn(
         'pt-10 group relative  px-5 pb-5 rounded-md',
-        canEditTopic && 'hover:outline',
+        canEditTopic && 'hover:outline outline-primary transition-all ',
         currentTopic?.action === 'DELETE' &&
           currentTopic?.topic_id === topic?.topic_id &&
           'outline dark:outline-white'

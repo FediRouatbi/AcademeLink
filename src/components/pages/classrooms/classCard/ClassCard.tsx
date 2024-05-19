@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 export type ClassroomType = GetClassroomsQuery['getClassrooms'][0];
 type Props = {
@@ -26,6 +27,8 @@ export default function ClassCard({
   onClickDelete,
   onClickEdit,
 }: Props) {
+  const t = useTranslations('Classrooms.Card');
+
   const { data: session } = useSession();
   const role = session?.user?.role;
 
@@ -67,20 +70,21 @@ export default function ClassCard({
         <div className="flex items-center space-x-2 text-sm font-medium">
           <div className="flex items-center space-x-1">
             <UsersIcon className="w-4 h-4" />
-            <span>{classroom?.student?.length} students</span>
+            <span>
+              {classroom?.student?.length} {t('students')}
+            </span>
           </div>
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        <strong>description : </strong>
+        <strong>{t('description')}</strong>
         <p> {classroom?.description}</p>
         <div className="mt-4 space-y-2">
-          <h3 className="text-lg font-medium">Subjects :</h3>
+          <h3 className="text-lg font-medium">{t('subjects')}</h3>
           <ul className="list-disc pl-6 space-y-1">
             {classroom?.course?.map((cours, i) => {
               const image_url =
                 cours?.teacher?.user?.image_url || '/teacher.png';
-              console.log(image_url);
 
               return (
                 <li className="" key={i}>
@@ -115,7 +119,7 @@ export default function ClassCard({
                             <div className="flex items-center pt-2">
                               <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{' '}
                               <span className="text-xs text-muted-foreground">
-                                Joined{' '}
+                                {t('joined')}{' '}
                                 {dayjs(cours?.teacher?.user?.createdAt).format(
                                   'MMMM YYYY'
                                 )}

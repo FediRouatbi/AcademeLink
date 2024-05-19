@@ -9,8 +9,11 @@ import { useDeleteTopicMutation } from '@/hooks/topic';
 import { queryClient } from '@/providers/react-query-provider';
 import { toast } from 'sonner';
 import { useTopicAtom } from '@/hooks/topic/useTopicAtom';
+import { useTranslations } from 'next-intl';
 
 const Topcis = () => {
+  const t = useTranslations('Home');
+
   const { data: session } = useSession();
   const { data: topics, isLoading } = useGetTopicsByAuthor(1);
   const [open, setOpen] = useState(false);
@@ -70,13 +73,8 @@ const Topcis = () => {
       </div>
       <Alert
         open={open}
-        title="Are you absolutely sure?"
-        description={
-          <p>
-            This action cannot be undone. This will permanently delete this
-            topic
-          </p>
-        }
+        title={t('deleteAlertTitle')}
+        description={<p>{t('deleteAlertDescription')}</p>}
         onClickCancel={onClickCancel}
         onClickConfirm={onClickConfirm}
       />

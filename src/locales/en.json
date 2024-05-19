@@ -6,19 +6,64 @@
     "password": "Password",
     "login": "Login"
   },
-  "BaseTemplate": {
-    "description": "Starter code for your Nextjs Boilerplate with Tailwind CSS",
-    "made_with": "Made with"
+  "Navbar": { "search": "Search ..." },
+  "Home": {
+    "addTopic": "Add Topic",
+    "editTopic": "Edit Topic",
+    "createTopic": "create a new Topic.",
+    "publish": "Publish",
+    "edit": "Edit",
+    "deleteAlertTitle": "Are you absolutely sure?",
+    "deleteAlertDescription": "This action cannot be undone. This will permanently delete this topic"
   },
-  "Index": {
-    "meta_title": "Next.js Boilerplate Presentation",
-    "meta_description": "Next js Boilerplate is the perfect starter code for your project. Build your React application with the Next.js framework."
+  "Editor": {
+    "bold": "bold",
+    "italic": "italic",
+    "strike": "strike",
+    "code": "code",
+    "clearMarks": "clear marks",
+    "clearnNodes": "clear nodes",
+    "paragraph": "paragraph",
+    "bulletList": "bullet list",
+    "orderedList": "ordered list",
+    "codeBlock": "code block",
+    "blockquote": "blockquote",
+    "horizontalRule": "horizontal rule",
+    "hardBreak": "hard break",
+    "undo": "undo",
+    "redo": "redo",
+    "purple": "purple"
   },
-  "Guestbook": {
-    "meta_title": "Guestbook",
-    "meta_description": "An example of CRUD operation",
-    "database_powered_by": "Database powered by",
-    "loading_guestbook": "Loading guestbook..."
+  "Alert": {
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  },
+  "Classrooms": {
+    "Alert": {
+      "title": "Are you absolutely sure ?",
+      "description": "This action cannot be undone. This will permanently delete classroom "
+    },
+    "Card": {
+      "students": "Students",
+      "description": "description :",
+      "subjects": "Subjects :",
+      "joined": "Joined"
+    },
+    "Form": {
+      "addClassroom": "Add Classroom",
+      "editClassroom": "Edit Classroom",
+      "addClassroomDescription": "Fill in the details to ",
+      "createClassroom": "create a new classroom.",
+      "name": "Name",
+      "description": "Description",
+      "teachers": "Teachers",
+      "students": "Students",
+      "emptyTeacherList": "No teacher found.",
+      "teacherName": "Teacher name",
+      "selectSubjects": "Select Subjects",
+      "selectStudents": "Select Students",
+      "searchTeacher": "Search Teacher..."
+    }
   },
   "GuestbookForm": {
     "username": "Username",

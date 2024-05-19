@@ -4,11 +4,13 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import React, { Suspense } from 'react';
 const Login = async () => {
+
   const session = await getServerSession(authOptions);
 
   if (session) {
     redirect('/fr');
   }
+  
 
   return (
     <div className="flex items-center justify-center py-12">

@@ -1,8 +1,10 @@
 'use client';
 import { Editor } from '@tiptap/react';
-import { ChangeEvent } from 'react';
+import { useTranslations } from 'next-intl';
 
 const MenuBar = ({ editor }: { editor: Editor | null }) => {
+  const t = useTranslations('Editor');
+
   if (!editor?.isEditable || !editor) {
     return null;
   }
@@ -22,40 +24,40 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         disabled={!editor.can().chain().focus().toggleBold().run()}
         className={editor.isActive('bold') ? 'is-active' : ''}
       >
-        bold
+        {t('bold')}
       </button>
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
         disabled={!editor.can().chain().focus().toggleItalic().run()}
         className={editor.isActive('italic') ? 'is-active' : ''}
       >
-        italic
+        {t('italic')}
       </button>
       <button
         onClick={() => editor.chain().focus().toggleStrike().run()}
         disabled={!editor.can().chain().focus().toggleStrike().run()}
         className={editor.isActive('strike') ? 'is-active' : ''}
       >
-        strike
+        {t('strike')}
       </button>
       <button
         onClick={() => editor.chain().focus().toggleCode().run()}
         disabled={!editor.can().chain().focus().toggleCode().run()}
         className={editor.isActive('code') ? 'is-active' : ''}
       >
-        code
+        {t('code')}
       </button>
       <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-        clear marks
+        {t('clearMarks')}
       </button>
       <button onClick={() => editor.chain().focus().clearNodes().run()}>
-        clear nodes
+        {t('clearNodes')}
       </button>
       <button
         onClick={() => editor.chain().focus().setParagraph().run()}
         className={editor.isActive('paragraph') ? 'is-active' : ''}
       >
-        paragraph
+        {t('paragraph')}
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -97,51 +99,51 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={editor.isActive('bulletList') ? 'is-active' : ''}
       >
-        bullet list
+        {t('bulletList')}
       </button>
       <button
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={editor.isActive('orderedList') ? 'is-active' : ''}
       >
-        ordered list
+        {t('orderedList')}
       </button>
       <button
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         className={editor.isActive('codeBlock') ? 'is-active' : ''}
       >
-        code block
+        {t('codeBlock')}
       </button>
       <button
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         className={editor.isActive('blockquote') ? 'is-active' : ''}
       >
-        blockquote
+        {t('blockquote')}
       </button>
       <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-        horizontal rule
+        {t('horizontalRule')}
       </button>
       <button onClick={() => editor.chain().focus().setHardBreak().run()}>
-        hard break
+        {t('hardBreak')}
       </button>
       <button
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().chain().focus().undo().run()}
       >
-        undo
+        {t('undo')}
       </button>
       <button
         onClick={() => editor.chain().focus().redo().run()}
         disabled={!editor.can().chain().focus().redo().run()}
       >
-        redo
+        {t('redo')}
       </button>
       <button
-        onClick={() => editor.chain().focus().setColor('#958DF1').run()}
+        onClick={() => editor.chain().focus().setColor('#958DF1')}
         className={
           editor.isActive('textStyle', { color: '#958DF1' }) ? 'is-active' : ''
         }
       >
-        purple
+        {t('purple')}
       </button>
     </>
   );

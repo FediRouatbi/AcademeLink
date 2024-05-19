@@ -7,8 +7,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { ReactNode } from "react";
+} from '@/components/ui/alert-dialog';
+import { useTranslations } from 'next-intl';
+import { ReactNode } from 'react';
 type Props = {
   open: boolean;
   title: string;
@@ -23,6 +24,8 @@ export function Alert({
   onClickCancel,
   onClickConfirm,
 }: Props) {
+  const t = useTranslations('Alert');
+
   return (
     <AlertDialog open={open}>
       <AlertDialogContent>
@@ -31,9 +34,11 @@ export function Alert({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onClickCancel}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel onClick={onClickCancel}>
+            {t('cancel')}
+          </AlertDialogCancel>
           <AlertDialogAction onClick={onClickConfirm} variant="destructive">
-            Confirm
+            {t('confirm')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

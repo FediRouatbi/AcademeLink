@@ -6,8 +6,11 @@ import { useGetSubjectsQuery } from '@/hooks/subject';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
 import { useClassroomsAtom } from '@/hooks/classroom/useClassroomsAtom';
+import { useTranslations } from 'next-intl';
 
 const Teachers = () => {
+  const t = useTranslations('Classrooms.Form');
+
   const { data: dataTeachers } = useGetTeachersQuery({});
   const { data: dataSubjects } = useGetSubjectsQuery({});
   const [items, setItems] = useState([1]);
@@ -20,9 +23,9 @@ const Teachers = () => {
   const numberOfTeachers = new Set(teachers.map((el) => el?.teacher_id)).size;
   const addDisabled = numberOfTeachers !== items.length;
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 pt-5">
       <div className="flex justify-between items-center">
-        <Label>Teachers</Label>
+        <Label>{t('teachers')}</Label>
         <Button
           disabled={addDisabled}
           className="ml-auto"

@@ -17,13 +17,14 @@ import {
 import { useTopicAtom } from '@/hooks/topic/useTopicAtom';
 import { useEditTopicMutation } from '@/hooks/topic';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 const AddArticle = () => {
   const [open, setOpen] = useState(false);
   const [topic, setTopic] = useTopicAtom();
+  const t = useTranslations('Home');
 
   const { data } = useSession();
-  const [, setEdit] = useState(false);
   const queryClient = useQueryClient();
   const role = data?.user?.role;
   const { isPending: createIsPending, mutate: createTopic } =
@@ -75,19 +76,20 @@ const AddArticle = () => {
         }}
       >
         <SheetTrigger asChild>
-          <Button variant="outline">
+          <Button variant="default">
             <BadgePlus className="mr-2 h-4 w-4" />
-            Add Topic
+
+            {t('addTopic')}
           </Button>
         </SheetTrigger>
         <SheetContent className="!max-w-[700px] min-w-[25%]">
           <SheetHeader>
             <SheetTitle>
-              {mode === 'ADD' ? 'Add Topic' : 'Edit Topic'}
+              {mode === 'ADD' ? t('addTopic') : t('editTopic')}
             </SheetTitle>
             <SheetDescription>
-              Fill in the details to{' '}
-              {mode === 'ADD' ? 'create a new Topic.' : 'Edit Topic'}
+              Fill in the details to
+              {mode === 'ADD' ? t('createTopic') : t('editTopic')}
             </SheetDescription>
           </SheetHeader>
           <div className="grid gap-4 py-4">
@@ -97,7 +99,7 @@ const AddArticle = () => {
               hideButton
               showAddButton
               actionButtonDisabled={createIsPending || editIsPending}
-              actionText={mode === 'ADD' ? 'Publish' : 'Edit'}
+              actionText={mode === 'ADD' ? t('publish') : t('edit')}
               onClickActionText={onSubmit}
             />
           </div>

@@ -95,7 +95,7 @@ const AddTopic = ({
         }}
       >
         <SheetTrigger asChild>
-          <Button variant="outline">
+          <Button variant="default">
             <BadgePlus className="mr-2 h-4 w-4" />
             Add Topic
           </Button>
