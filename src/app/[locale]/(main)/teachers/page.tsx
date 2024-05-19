@@ -12,7 +12,7 @@ const page = async () => {
 
   await queryClient.prefetchQuery({
     queryKey: ['teachers'],
-    queryFn: getTeachers,
+    queryFn:()=> getTeachers(""),
     staleTime: 500,
   });
   return (

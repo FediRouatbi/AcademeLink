@@ -24,7 +24,7 @@ const LinkItem = ({ href, item, isActive }: Props) => {
   if (role !== 'ADMIN' && href.includes('subjects')) return null;
 
   return (
-    <Link className={className} href={href}>
+    <Link className={className} href={href} prefetch>
       {item}
     </Link>
   );

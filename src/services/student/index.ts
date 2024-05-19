@@ -18,6 +18,8 @@ const GetStudent = graphql(`
       user {
         createdAt
         email
+        image_url
+        description
         first_name
         last_name
         updatedAt
@@ -41,6 +43,8 @@ const GetStudents = graphql(`
         user_id
         createdAt
         first_name
+        image_url
+        description
         last_name
         updatedAt
         user_name

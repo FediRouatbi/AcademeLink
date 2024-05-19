@@ -17,7 +17,7 @@ const Subjects = ({ courses }: { courses: Courses }) => {
             createdAt={course?.createdAt}
             subject_name={course?.subject?.name}
             user_name={course?.teacher?.user?.user_name}
-            image_url={course.teacher?.user?.image_url}
+            image_url={course.teacher?.user?.image_url||""}
           />
         ))}
       </div>

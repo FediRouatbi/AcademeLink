@@ -41,12 +41,12 @@ type AppearanceFormValues = z.infer<typeof appearanceFormSchema>;
 
 // This can come from your database or API.
 
-const currentTheme = (localStorage.getItem('theme') || 'light') as
-  | 'dark'
-  | 'light';
+// const currentTheme = (localStorage?.getItem('theme') || 'light') as
+//   | 'dark'
+//   | 'light';
 
 const defaultValues: Partial<AppearanceFormValues> = {
-  theme: currentTheme,
+  theme: "dark",
 };
 
 export default function AppearanceForm() {
@@ -60,7 +60,7 @@ export default function AppearanceForm() {
   function onSubmit(data: AppearanceFormValues) {
     const html = document.getElementsByTagName('html')[0];
     html.className = data.theme;
-    localStorage.setItem('theme', data.theme);
+    //localStorage && localStorage?.setItem('theme', data.theme);
     setTheme(data.theme);
   }
 

@@ -28,7 +28,7 @@ export default function Courses() {
                     createdAt={el?.createdAt}
                     subject_name={el?.subject?.name}
                     user_name={el?.teacher?.user?.user_name}
-                    image_url={el?.teacher?.user?.image_url}
+                    image_url={el?.teacher?.user?.image_url || ''}
                   />
                 );
               })}

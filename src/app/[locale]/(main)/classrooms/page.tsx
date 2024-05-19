@@ -16,7 +16,7 @@ const page = async () => {
 
   await queryClient.prefetchQuery({
     queryKey: ['classrooms'],
-    queryFn: () => getClassrooms(accessToken || ''),
+    queryFn: () => getClassrooms('', accessToken || ''),
     staleTime: 500,
   });
   return (

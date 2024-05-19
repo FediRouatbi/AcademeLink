@@ -26,8 +26,10 @@ import dayjs from 'dayjs';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import * as NProgress from 'nprogress';
+
 export default function TeachersTabel() {
   const { data: session } = useSession();
   const [debouncedValue] = useSeachAtom();
@@ -72,6 +74,10 @@ export default function TeachersTabel() {
     deleteTeacher(teacher?.teacher_id);
   };
 
+  useEffect(() => {
+    NProgress.done();
+  }, []);
+
   const role = session?.user?.role;
   return (
     <>
@@ -98,7 +104,10 @@ export default function TeachersTabel() {
                   <TableRow
                     key={teacher?.teacher_id}
                     className="cursor-pointer"
-                    onClick={() => push(`/fr/teachers/${teacher?.teacher_id}`)}
+                    onClick={() => {
+                      NProgress.start();
+                      push(`/fr/teachers/${teacher?.teacher_id}`);
+                    }}
                   >
                     <TableCell>{teacher?.teacher_id}</TableCell>
                     <TableCell>

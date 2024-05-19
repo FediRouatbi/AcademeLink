@@ -8,7 +8,7 @@ export const queryClient = new QueryClient();
 const ReactQueryProvider = ({ children }: any) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       {children}
     </QueryClientProvider>
   );

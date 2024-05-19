@@ -44,8 +44,10 @@ export const Settings = () => {
       onUploadBegin: () => {},
     }
   );
-  const [file, setFile] = useState<File | string>('');
   const { data: queryData, isSuccess } = useGetMyProfile();
+  const [file, setFile] = useState<File | string>(
+    queryData?.getCurrentUser?.image_url || ''
+  );
   const { mutate, isPending } = useEditUserMutation({
     onSuccess(data) {
       queryClient.invalidateQueries({ queryKey: ['GetCurrentUser'] });
@@ -64,6 +66,7 @@ export const Settings = () => {
       password: '',
     },
   });
+  console.log(file);
 
   const onSubmit = async (data: userSchemaType) => {
     const password = data?.password ? { password: data?.password } : {};
@@ -81,7 +84,7 @@ export const Settings = () => {
         image_url: fileUrl,
         ...password,
       });
-      setFile(fileUrl||"");
+      setFile(fileUrl || '');
     } else {
       mutate({
         email: data?.email,

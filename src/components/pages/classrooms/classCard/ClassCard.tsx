@@ -12,6 +12,7 @@ import React from 'react';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 
 export type ClassroomType = GetClassroomsQuery['getClassrooms'][0];
 type Props = {
@@ -79,23 +80,31 @@ export default function ClassCard({
             {classroom?.course?.map((cours, i) => {
               const image_url =
                 cours?.teacher?.user?.image_url || '/teacher.png';
+              console.log(image_url);
+
               return (
                 <li className="" key={i}>
-                  <div className="flex items-center gap-5">
+                  <div className="flex items-center gap-5 ">
                     {cours?.subject?.name}
                     <HoverCard>
-                      <HoverCardTrigger>
-                        <Avatar className="size-6 cursor-pointer">
-                          <AvatarImage alt="Mr. Anderson" src={image_url} />
-                          <AvatarFallback>MA</AvatarFallback>
-                        </Avatar>
+                      <HoverCardTrigger className=" w-full">
+                        <Image
+                          src={image_url}
+                          width={24}
+                          height={24}
+                          alt="dsd "
+                          className="rounded-full cursor-pointer"
+                        />
                       </HoverCardTrigger>
                       <HoverCardContent className="w-fit">
                         <div className="flex justify-between space-x-4">
-                          <Avatar>
-                            <AvatarImage src={image_url} />
-                            <AvatarFallback>VC</AvatarFallback>
-                          </Avatar>
+                          <Image
+                            src={image_url}
+                            width={60}
+                            height={60}
+                            alt="dsd "
+                            className="rounded-full flex-1 w-full"
+                          />
                           <div className="space-y-1">
                             <h4 className="text-sm font-semibold">
                               @{cours?.teacher?.user?.user_name}

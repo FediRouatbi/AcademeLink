@@ -122,8 +122,6 @@ export default async function Layout({
 
   if (!session) return redirect('fr/login');
 
-  const userName = session?.user?.user_name;
-  const imageUrl = session?.user?.image_url;
   return (
     <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr] h-svh overflow-hidden">
       <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
@@ -131,7 +129,7 @@ export default async function Layout({
           <div className="flex h-[60px] items-center border-b px-6">
             <Link className="flex items-center gap-2 font-semibold" href="#">
               <Package2Icon className="h-6 w-6" />
-              <span className="">AcademeLink</span>
+              <span className="">SmartLearn</span>
             </Link>
           </div>
           <div className="flex-1 overflow-auto py-2">

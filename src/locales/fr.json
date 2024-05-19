@@ -1,11 +1,10 @@
 {
-  "RootLayout": {
-    "home_link": "Accueil",
-    "about_link": "A propos",
-    "guestbook_link": "Livre d'or",
-    "portfolio_link": "Portfolio",
-    "sign_in_link": "Se connecter",
-    "sign_up_link": "S'inscrire"
+  "Login": {
+    "title": "Connecter",
+    "description": "Entrez votre email ci-dessous pour vous connecter à votre compte",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "login": "Se connecter"
   },
   "BaseTemplate": {
     "description": "Code de démarrage pour Next.js avec Tailwind CSS",

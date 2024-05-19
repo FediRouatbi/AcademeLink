@@ -17,7 +17,7 @@ type Props = {
   user_id: number;
   user_name: string;
   role: RoleCodeType;
-  image_url: string;
+  image_url?: string | null | undefined;
 };
 const ProfileCard = (user: Props) => {
   const {

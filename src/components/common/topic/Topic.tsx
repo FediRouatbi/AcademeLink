@@ -9,7 +9,7 @@ import { Topic as TopicType } from '@/gql/graphql';
 type Props = {
   canEditTopic: boolean;
   onClickDelete: () => void;
-  topic: TopicType;
+  topic: Omit<TopicType, 'user_id'>;
 };
 const Topic = ({ canEditTopic, onClickDelete, topic }: Props) => {
   const [currentTopic, setTopic] = useTopicAtom();

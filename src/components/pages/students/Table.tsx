@@ -21,18 +21,23 @@ import { useDeleteStudentMutation, useGetStudentsQuery } from '@/hooks/student';
 import dayjs from 'dayjs';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GetStudentsQuery } from '@/gql/graphql';
 import { toast } from 'sonner';
 import { Alert } from '@/components/common/Alert';
 import { useEditStudentAtom } from '@/hooks/student/useEditStudentAtom';
 import { useSession } from 'next-auth/react';
 import { useSeachAtom } from '@/hooks/useSeachAtom';
+
+import * as NProgress from 'nprogress';
+
 export default function StudentsTabel() {
   const { data: session } = useSession();
   const [debouncedValue] = useSeachAtom();
 
-  const { data, refetch,isPending } = useGetStudentsQuery({ search: debouncedValue });
+  const { data, refetch, isPending } = useGetStudentsQuery({
+    search: debouncedValue,
+  });
   const { mutate: deleteStudent } = useDeleteStudentMutation({
     onSuccess() {
       toast.success(`student ${student?.user?.user_name} delete successfully`);
@@ -73,6 +78,10 @@ export default function StudentsTabel() {
 
     deleteStudent(student?.student_id);
   };
+
+  useEffect(() => {
+    NProgress.done();
+  }, []);
   const role = session?.user?.role;
 
   return (
@@ -83,7 +92,7 @@ export default function StudentsTabel() {
           <CardDescription>Students on Academe</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table total={ students?.length} emptyMessage="No Students Found">
+          <Table total={students?.length} emptyMessage="No Students Found">
             <TableHeader>
               <TableRow>
                 <TableHead>ID</TableHead>
@@ -100,7 +109,10 @@ export default function StudentsTabel() {
                   <TableRow
                     key={student?.student_id}
                     className="cursor-pointer"
-                    onClick={() => push(`/fr/students/${student?.student_id}`)}
+                    onClick={() => {
+                      NProgress.start();
+                      push(`/fr/students/${student?.student_id}`);
+                    }}
                   >
                     <TableCell>{student?.student_id}</TableCell>
                     <TableCell>

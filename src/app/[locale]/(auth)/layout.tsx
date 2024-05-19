@@ -1,13 +1,24 @@
-import Image from "next/image";
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
+import { getServerSession } from 'next-auth';
+import { useTranslations } from 'next-intl';
+import { unstable_setRequestLocale } from 'next-intl/server';
+import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
   params: { locale },
 }: {
   children: React.ReactNode;
   params: { locale: string };
 }) {
+  unstable_setRequestLocale(locale);
 
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    redirect('/fr');
+  }
   return (
     <div className="w-full lg:grid  lg:grid-cols-2 min-h-svh overflow-hidden">
       {children}
@@ -18,8 +29,8 @@ export default function AuthLayout({
           height="1080"
           src="/study.jpg"
           style={{
-            aspectRatio: "1920/1080",
-            objectFit: "cover",
+            aspectRatio: '1920/1080',
+            objectFit: 'cover',
           }}
           width="1920"
           priority

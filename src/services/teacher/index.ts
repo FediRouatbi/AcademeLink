@@ -16,6 +16,8 @@ const GetTeacher = graphql(`
         image_url
         first_name
         last_name
+        image_url
+        description
         updatedAt
         user_id
         user_name
@@ -32,6 +34,7 @@ const GetTeachers = graphql(`
         createdAt
         email
         image_url
+        description
         email
         first_name
         last_name
