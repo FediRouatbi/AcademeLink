@@ -1,5 +1,6 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { AddSubject, Subjects } from '@/components/pages/subjects';
+import { redirect } from '@/navigation';
 import { getSubjects } from '@/services/subject';
 import {
   HydrationBoundary,
@@ -7,7 +8,6 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
 import React from 'react';
 
 const page = async () => {
@@ -22,12 +22,11 @@ const page = async () => {
   });
 
   if (role !== 'ADMIN') {
-    redirect('/fr');
+    redirect('/');
   }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <h1 className="text-center text-7xl">Subjects</h1>
 
       <AddSubject />
 

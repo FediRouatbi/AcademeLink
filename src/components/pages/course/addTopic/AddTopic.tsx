@@ -81,10 +81,6 @@ const AddTopic = ({
 
   const [open, setOpen] = useState(false);
 
-  const role = session?.user?.role;
-
-  if (role !== 'TEACHER') return null;
-
   return (
     <div className="flex justify-end">
       <Sheet

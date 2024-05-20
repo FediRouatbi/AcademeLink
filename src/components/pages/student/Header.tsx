@@ -2,11 +2,10 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
-import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { useGetStudentQuery } from '@/hooks/student';
 import * as NProgress from 'nprogress';
-import { useRouter } from '@/navigation';
+import { Link, useRouter } from '@/navigation';
 
 const Header = ({ studentId }: { studentId: number }) => {
   const { data } = useGetStudentQuery({ id: studentId });
@@ -18,7 +17,7 @@ const Header = ({ studentId }: { studentId: number }) => {
   }, []);
   return (
     <div className="flex items-center gap-4">
-      <Link href={'/fr/students'}>
+      <Link href={'/students'}>
         <Button variant="outline" size="icon" className="h-7 w-7">
           <ChevronLeft className="h-4 w-4" />
           <span className="sr-only">Back</span>

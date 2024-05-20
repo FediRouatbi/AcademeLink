@@ -1,20 +1,26 @@
 'use client';
 import React, { useState } from 'react';
-import parse from 'html-react-parser';
-import { Loader2, Pencil, Trash2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import AddTopic from './addTopic/AddTopic';
 import { useGetCourseQuery } from '@/hooks/courses';
-import { Button } from '@/components/ui/button';
 import { Alert } from '@/components/common/Alert';
 import { useDeleteTopicMutation, useGetTopicsByCourse } from '@/hooks/topic';
 import { useTopicAtom } from '@/hooks/topic/useTopicAtom';
 import { queryClient } from '@/providers/react-query-provider';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
-import { cn } from '@/lib/utils';
 import Topic from '@/components/common/topic/Topic';
+import { useTranslations } from 'next-intl';
+import { RoleCodeType } from '@/lib/next-auth';
 
-const Course = ({ id }: { id: number }) => {
+const Course = ({
+  id,
+  role,
+}: {
+  id: number;
+  role: RoleCodeType | undefined;
+}) => {
+  const t = useTranslations('Course');
   const { data: session } = useSession();
 
   const { mutate: deleteTopic, isPending: deletePending } =
@@ -51,12 +57,6 @@ const Course = ({ id }: { id: number }) => {
 
     deleteTopic(topic?.topic_id);
   };
-  if (!topics && isLoading)
-    return (
-      <div className="min-h-52 flex justify-center items-center">
-        <Loader2 className="size-14  animate-spin" />
-      </div>
-    );
 
   const classroom_id = courses?.getCourse?.classroom?.classroom_id;
   const teacher_id = courses?.getCourse?.teacher?.teacher_id;
@@ -65,12 +65,24 @@ const Course = ({ id }: { id: number }) => {
     session?.user?.user_id === topics?.getTopicsByCourseId?.at(0)?.user_id;
   return (
     <>
-      <AddTopic
-        courseId={id}
-        classroom_id={classroom_id}
-        teacher_id={teacher_id}
-        subject_id={subject_id}
-      />
+      {role === 'TEACHER' && (
+        <AddTopic
+          courseId={id}
+          classroom_id={classroom_id}
+          teacher_id={teacher_id}
+          subject_id={subject_id}
+        />
+      )}
+      {!topics && isLoading && (
+        <div className="min-h-52 flex justify-center items-center">
+          <Loader2 className="size-14  animate-spin" />
+        </div>
+      )}
+      {!topics?.getTopicsByCourseId?.length && !isLoading && (
+        <div className="min-h-52 flex justify-center items-center">
+          {t('empty')}
+        </div>
+      )}
       <div className="prose  lg:prose-xl px-5 max-w-full pt-10">
         {topics?.getTopicsByCourseId?.map((topic, i) => (
           <Topic
@@ -83,13 +95,8 @@ const Course = ({ id }: { id: number }) => {
       </div>
       <Alert
         open={open}
-        title="Are you absolutely sure?"
-        description={
-          <p>
-            This action cannot be undone. This will permanently delete this
-            topic
-          </p>
-        }
+        title={t('title')}
+        description={<p>{t('description')}</p>}
         onClickCancel={onClickCancel}
         onClickConfirm={onClickConfirm}
       />

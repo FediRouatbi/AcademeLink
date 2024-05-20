@@ -23,14 +23,23 @@ import { useDeleteTeacherMutation, useGetTeachersQuery } from '@/hooks/teacher';
 import { useEditTeacherAtom } from '@/hooks/teacher/useEditTeacherAtom';
 import { useSeachAtom } from '@/hooks/useSeachAtom';
 import dayjs from 'dayjs';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Clipboard, Pencil, Trash2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import * as NProgress from 'nprogress';
 import { useRouter } from '@/navigation';
+import { useTranslations } from 'next-intl';
+import { RoleCodeType } from '@/lib/next-auth';
+import CustomClipBoard from '@/components/common/CustomClipBoard';
 
-export default function TeachersTabel() {
+export default function TeachersTabel({
+  role,
+}: {
+  role: RoleCodeType | undefined;
+}) {
+  const t = useTranslations('Teachers.Table');
+
   const { data: session } = useSession();
   const [debouncedValue] = useSeachAtom();
   const [open, setOpen] = useState(false);
@@ -38,8 +47,8 @@ export default function TeachersTabel() {
   const { mutate: deleteTeacher } = useDeleteTeacherMutation({
     onSuccess() {
       toast.success(`teacher ${teacher?.user?.user_name} delete successfully`);
-      // setTeacher(null);
-      // refetch();
+      setTeacher(null);
+      refetch();
     },
   });
   const { push } = useRouter();
@@ -71,30 +80,37 @@ export default function TeachersTabel() {
 
     if (!teacher) return;
 
-    //deleteTeacher(teacher?.teacher_id);
+    deleteTeacher(teacher?.teacher_id);
   };
 
   useEffect(() => {
     NProgress.done();
   }, []);
 
-  const role = session?.user?.role;
   return (
     <>
       <Card>
         <CardHeader className="px-7">
-          <CardTitle>Teachers</CardTitle>
-          <CardDescription>Teachers on Academe</CardDescription>
+          <CardTitle>{t('title')}</CardTitle>
+          <CardDescription>{t('description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Table total={teachers?.length} emptyMessage="No Teachers Found">
             <TableHeader>
               <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead className="hidden sm:table-cell">Info</TableHead>
-                <TableHead className="hidden sm:table-cell">Type</TableHead>
-                <TableHead className="hidden md:table-cell">Status</TableHead>
-                <TableHead className="hidden md:table-cell">Date</TableHead>
+                <TableHead>{t('id')}</TableHead>
+                <TableHead className="hidden sm:table-cell">
+                  {t('info')}
+                </TableHead>
+                <TableHead className="hidden sm:table-cell">
+                  {t('courses')}
+                </TableHead>
+                <TableHead className="hidden md:table-cell">
+                  {t('status')}
+                </TableHead>
+                <TableHead className="hidden md:table-cell">
+                  {t('date')}
+                </TableHead>
                 <TableHead className=""></TableHead>
               </TableRow>
             </TableHeader>
@@ -114,12 +130,13 @@ export default function TeachersTabel() {
                       <div className="font-medium">
                         {teacher?.user?.user_name}
                       </div>
-                      <div className="hidden text-sm text-muted-foreground md:inline">
+                      <div className="hidden text-sm text-muted-foreground md:flex items-center gap-3 ">
                         {teacher?.user?.email}
+                        <CustomClipBoard text={teacher?.user?.email} />
                       </div>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
-                      Teacher
+                      {teacher?.course?.length}
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
                       <Badge

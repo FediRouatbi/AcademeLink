@@ -1,9 +1,8 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
+import { redirect } from '@/navigation';
 import { getServerSession } from 'next-auth';
-import { useTranslations } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';
 import Image from 'next/image';
-import { redirect } from 'next/navigation';
 
 export default async function AuthLayout({
   children,
@@ -17,7 +16,7 @@ export default async function AuthLayout({
   const session = await getServerSession(authOptions);
 
   if (session) {
-    redirect('/fr');
+    redirect('/');
   }
   return (
     <div className="w-full lg:grid  lg:grid-cols-2 min-h-svh overflow-hidden">

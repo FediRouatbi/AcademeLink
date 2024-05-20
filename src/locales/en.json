@@ -6,7 +6,14 @@
     "password": "Password",
     "login": "Login"
   },
-  "Navbar": { "search": "Search ..." },
+  "Navbar": {
+    "search": "Search ...",
+    "DropDown": {
+      "account": "My Account",
+      "settings": "Settings",
+      "logout": "Logout"
+    }
+  },
   "Sidebar": {
     "home": "Home",
     "classrooms": "Classrooms",
@@ -22,7 +29,7 @@
     "editTopic": "Edit Topic",
     "createTopic": "create a new Topic.",
     "publish": "Publish",
-    "edit": "Edit",
+    "save": "Save",
     "deleteAlertTitle": "Are you absolutely sure?",
     "deleteAlertDescription": "This action cannot be undone. This will permanently delete this topic"
   },
@@ -72,51 +79,118 @@
       "teacherName": "Teacher name",
       "selectSubjects": "Select Subjects",
       "selectStudents": "Select Students",
-      "searchTeacher": "Search Teacher..."
+      "searchTeacher": "Search Teacher...",
+      "create": "Create",
+      "save": "Save"
     }
   },
-  "GuestbookForm": {
-    "username": "Username",
-    "body": "Body",
-    "save": "Save"
+  "Teachers": {
+    "Table": {
+      "title": "Teachers",
+      "description": "List of Teachers ",
+      "id": "ID",
+      "info": "Info",
+      "courses": "Courses",
+      "status": "Status",
+      "date": "Date"
+    },
+    "Form": {
+      "addTeacher": "Add Teacher",
+      "editTeacher": "Edit Teacher",
+      "addDescription": "Fill in the details to create a new Teacher.",
+      "editDescription": "Fill in the details to edit  Teacher.",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "userName": "UserName",
+      "email": "Email",
+      "password": "Password",
+      "create": "Create",
+      "save": "Save",
+      "addClassroom": "Add Classroom",
+      "classrooms": "Classrooms",
+      "classroom": "Classroom Name",
+      "noClassroom": "No Classroom found.",
+      "searchClassroom": "Search classroom...",
+      "selectSubjects": "Select Subjects"
+    }
   },
-  "About": {
-    "meta_title": "About",
-    "meta_description": "About page description",
-    "about_paragraph": "Welcome to our About page! We are a team of passionate individuals dedicated to creating amazing software.",
-    "translation_powered_by": "Translation powered by"
+  "Students": {
+    "Table": {
+      "title": "Students",
+      "description": "List of Students ",
+      "id": "ID",
+      "info": "Info",
+      "classroom": "Classroom",
+      "status": "Status",
+      "date": "Date"
+    },
+    "Form": {
+      "addStudent": "Add Student",
+      "addDescription": "Fill in the details to create a new Student.",
+      "editDescription": "Fill in the details to edit  Student.",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "userName": "UserName",
+      "email": "Email",
+      "password": "Password",
+      "create": "Create",
+      "save": "Save",
+      "addClassroom": "Add Classroom",
+      "classroom": "Classroom",
+      "classroomName": "Classroom Name",
+      "noClassroom": "No Classroom found.",
+      "searchClassroom": "Search classroom...",
+      "selectSubjects": "Select Subjects"
+    }
   },
-  "Portfolio": {
-    "meta_title": "Portfolio",
-    "meta_description": "Welcome to my portfolio page!",
-    "presentation": "Welcome to my portfolio page! Here you will find a carefully curated collection of my work and accomplishments. Through this portfolio, I'm to showcase my expertise, creativity, and the value I can bring to your projects.",
-    "portfolio_name": "Portfolio {name}",
-    "monitoring_powered_by": "Monitoring powered by"
+  "Subjects": {
+    "Form": {
+      "placeHolder": "Subject Name",
+      "create": "Create",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "Alert": {
+      "title": "Are you absolutely sure ?",
+      "description": "This action cannot be undone. This will permanently delete {name} subject"
+    }
   },
-  "PortfolioSlug": {
-    "meta_title": "Portfolio {slug}",
-    "meta_description": "Portfolio {slug} description",
-    "header": "Portfolio {slug}",
-    "content": "Created a set of promotional materials and branding elements for a corporate event. Crafted a visually unified theme, encompassing a logo, posters, banners, and digital assets. Integrated the client's brand identity while infusing it with a contemporary and innovative approach. Garnered favorable responses from event attendees, resulting in a successful event with heightened participant engagement and increased brand visibility."
+  "Preferences": {
+    "Theme": {
+      "title": "Theme",
+      "description": "Select the theme for the dashboard.",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "Language": {
+      "title": "Language",
+      "description": "Select the language for the dashboard.",
+      "englishSHort": "En",
+      "frenshShort": "Fr",
+      "english": "English",
+      "frensh": "Frensh"
+    }
   },
-  "SignIn": {
-    "meta_title": "Sign in",
-    "meta_description": "Seamlessly sign in to your account with our user-friendly login process."
+  "Settings": {
+    "Form": {
+      "title": "Personal information",
+      "description": "Personal information",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "userName": "UserName",
+      "email": "Email",
+      "password": "Password",
+      "userdescription": "Description",
+      "save": "Save"
+    }
   },
-  "SignUp": {
-    "meta_title": "Sign up",
-    "meta_description": "Effortlessly create an account through our intuitive sign-up process."
+  "Dropzone": {
+    "dnd": "drag & drop to upload",
+    "select": "select"
   },
-  "Dashboard": {
-    "meta_title": "Dashboard",
-    "hello_message": "Hello {email}!"
-  },
-  "UserProfile": {
-    "meta_title": "User Profile"
-  },
-  "DashboardLayout": {
-    "dashboard_link": "Dashboard",
-    "user_profile_link": "Manage your account",
-    "sign_out": "Sign out"
+  "Course": {
+    "empty": "this course has not started yet",
+    "title": "Are you absolutely sure ?",
+    "description": "This action cannot be undone. This will permanently delete this topic"
   }
 }

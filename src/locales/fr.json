@@ -1,17 +1,24 @@
 {
   "Login": {
-    "title": "inscription",
+    "title": "Connexion",
     "description": "Entrez votre email ci-dessous pour vous connecter à votre compte",
     "email": "Email",
     "password": "Mot de passe",
     "login": "Connexion"
   },
-  "Navbar": { "search": "Recherche ..." },
+  "Navbar": {
+    "search": "Rechercher ...",
+    "DropDown": {
+      "account": "Mon compte",
+      "settings": "Paramètres",
+      "logout": "Déconnexion"
+    }
+  },
   "Sidebar": {
     "home": "Accueil",
     "classrooms": "Salles de classe",
     "teachers": "Enseignants",
-    "students": "Élèves",
+    "students": "Étudiants",
     "courses": "Cours",
     "subjects": "Matières",
     "preferences": "Préférences",
@@ -22,9 +29,9 @@
     "editTopic": "Modifier le sujet",
     "createTopic": "créer un nouveau sujet.",
     "publish": "Publier",
-    "edit": "Modifier",
-    "deleteAlertTitle": "Êtes-vous absolument sûr ?",
-    "deleteAlertDescription": "Cette action est irréversible. Cela supprimera définitivement ce sujet"
+    "save": "Enregistrer",
+    "deleteAlertTitle": "Êtes-vous absolument sûr?",
+    "deleteAlertDescription": "Cette action ne peut pas être annulée. Cela supprimera définitivement ce sujet"
   },
   "Editor": {
     "bold": "gras",
@@ -51,10 +58,10 @@
   "Classrooms": {
     "Alert": {
       "title": "Êtes-vous absolument sûr ?",
-      "description": "Cette action est irréversible. Cela supprimera définitivement la salle de classe"
+      "description": "Cette action ne peut pas être annulée. Cela supprimera définitivement la salle de classe"
     },
     "Card": {
-      "students": "Élèves",
+      "students": "Étudiants",
       "description": "description :",
       "subjects": "Matières :",
       "joined": "Rejoint"
@@ -67,56 +74,118 @@
       "name": "Nom",
       "description": "Description",
       "teachers": "Enseignants",
-      "students": "Élèves",
+      "students": "Étudiants",
       "emptyTeacherList": "Aucun enseignant trouvé.",
       "teacherName": "Nom de l'enseignant",
       "selectSubjects": "Sélectionner les matières",
-      "selectStudents": "Sélectionner les élèves",
-      "searchTeacher": "Recherche d'enseignant..."
+      "selectStudents": "Sélectionner les étudiants",
+      "searchTeacher": "Rechercher un enseignant...",
+      "create": "Créer",
+      "save": "Enregistrer"
     }
   },
-  "GuestbookForm": {
-    "username": "Nom d'utilisateur",
-    "body": "Message",
-    "save": "Enregistrer"
+  "Teachers": {
+    "Table": {
+      "title": "Enseignants",
+      "description": "Liste des enseignants",
+      "id": "ID",
+      "info": "Infos",
+      "courses": "Cours",
+      "status": "Statut",
+      "date": "Date"
+    },
+    "Form": {
+      "addTeacher": "Ajouter un enseignant",
+      "editTeacher": "Modifier l'enseignant",
+      "addDescription": "Remplissez les détails pour créer un nouvel enseignant.",
+      "editDescription": "Remplissez les détails pour modifier l'enseignant.",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "userName": "Nom d'utilisateur",
+      "email": "Email",
+      "password": "Mot de passe",
+      "create": "Créer",
+      "save": "Enregistrer",
+      "addClassroom": "Ajouter une salle de classe",
+      "classrooms": "Salles de classe",
+      "classroom": "Nom de la salle de classe",
+      "noClassroom": "Aucune salle de classe trouvée.",
+      "searchClassroom": "Rechercher une salle de classe...",
+      "selectSubjects": "Sélectionner les matières"
+    }
   },
-  "About": {
-    "meta_title": "À propos",
-    "meta_description": "Description de la page À propos",
-    "about_paragraph": "Bienvenue sur notre page À propos ! Nous sommes une équipe de personnes passionnées, dédiées à la création de logiciels incroyables.",
-    "translation_powered_by": "Traduction propulsée par"
+  "Students": {
+    "Table": {
+      "title": "Étudiants",
+      "description": "Liste des étudiants",
+      "id": "ID",
+      "info": "Infos",
+      "classroom": "Salle de classe",
+      "status": "Statut",
+      "date": "Date"
+    },
+    "Form": {
+      "addStudent": "Ajouter un étudiant",
+      "addDescription": "Remplissez les détails pour créer un nouvel étudiant.",
+      "editDescription": "Remplissez les détails pour modifier l'étudiant.",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "userName": "Nom d'utilisateur",
+      "email": "Email",
+      "password": "Mot de passe",
+      "create": "Créer",
+      "save": "Enregistrer",
+      "addClassroom": "Ajouter une salle de classe",
+      "classroom": "Salle de classe",
+      "classroomName": "Nom de la salle de classe",
+      "noClassroom": "Aucune salle de classe trouvée.",
+      "searchClassroom": "Rechercher une salle de classe...",
+      "selectSubjects": "Sélectionner les matières"
+    }
   },
-  "Portfolio": {
-    "meta_title": "Portfolio",
-    "meta_description": "Bienvenue sur ma page portfolio !",
-    "presentation": "Bienvenue sur ma page portfolio ! Vous trouverez ici une collection soigneusement sélectionnée de mon travail et de mes réalisations. À travers ce portfolio, je souhaite montrer mon expertise, ma créativité et la valeur que je peux apporter à vos projets.",
-    "portfolio_name": "Portfolio {name}",
-    "monitoring_powered_by": "Surveillance propulsée par"
+  "Subjects": {
+    "Form": {
+      "placeHolder": "Nom de la matière",
+      "create": "Créer",
+      "save": "Enregistrer",
+      "cancel": "Annuler"
+    },
+    "Alert": {
+      "title": "Êtes-vous absolument sûr ?",
+      "description": "Cette action ne peut pas être annulée. Cela supprimera définitivement la matière {name}"
+    }
   },
-  "PortfolioSlug": {
-    "meta_title": "Portfolio {slug}",
-    "meta_description": "Description du portfolio {slug}",
-    "header": "Portfolio {slug}",
-    "content": "Créé un ensemble de matériaux promotionnels et d'éléments de branding pour un événement d'entreprise. Conçu un thème visuellement unifié, comprenant un logo, des affiches, des bannières et des actifs numériques. Intégré l'identité de marque du client tout en y ajoutant une approche contemporaine et innovante. A reçu des réponses favorables des participants à l'événement, résultant en un événement réussi avec une participation accrue et une meilleure visibilité de la marque."
+  "Preferences": {
+    "Theme": {
+      "title": "Thème",
+      "description": "Sélectionnez le thème pour le tableau de bord.",
+      "light": "Clair",
+      "dark": "Sombre"
+    },
+    "Language": {
+      "title": "Langue",
+      "description": "Sélectionnez la langue pour le tableau de bord.",
+      "englishSHort": "En",
+      "frenshShort": "Fr",
+      "english": "Anglais",
+      "frensh": "Français"
+    }
   },
-  "SignIn": {
-    "meta_title": "Se connecter",
-    "meta_description": "Connectez-vous sans effort à votre compte grâce à notre processus de connexion convivial."
+  "Settings": {
+    "Form": {
+      "title": "Informations personnelles",
+      "description": "Informations personnelles",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "userName": "Nom d'utilisateur",
+      "email": "Email",
+      "password": "Mot de passe",
+      "userdescription": "Description",
+      "save": "Enregistrer"
+    }
   },
-  "SignUp": {
-    "meta_title": "S'inscrire",
-    "meta_description": "Créez un compte sans effort grâce à notre processus d'inscription intuitif."
-  },
-  "Dashboard": {
-    "meta_title": "Tableau de bord",
-    "hello_message": "Bonjour {email}!"
-  },
-  "UserProfile": {
-    "meta_title": "Profil utilisateur"
-  },
-  "DashboardLayout": {
-    "dashboard_link": "Tableau de bord",
-    "user_profile_link": "Gérer votre compte",
-    "sign_out": "Déconnexion"
+  "Dropzone": {
+    "dnd": "glisser-déposer pour télécharger",
+    "select": "sélectionner"
   }
 }

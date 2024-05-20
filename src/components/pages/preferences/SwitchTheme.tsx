@@ -1,11 +1,6 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-import { cn } from '@/lib/utils';
-import { Button, buttonVariants } from '@/components/ui/button';
 import {
   FormControl,
   FormDescription,
@@ -14,55 +9,24 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { ChevronDownIcon } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+
 import { useTheme } from 'next-themes';
+import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
 
-const appearanceFormSchema = z.object({
-  theme: z.enum(['light', 'dark'], {
-    required_error: 'Please select a theme.',
-  }),
-  //   font: z.enum(["inter", "manrope", "system"], {
-  //     invalid_type_error: "Select a font",
-  //     required_error: "Please select a font.",
-  //   }),
-});
-
-type AppearanceFormValues = z.infer<typeof appearanceFormSchema>;
-
-// This can come from your database or API.
-
-// const currentTheme = (localStorage?.getItem('theme') || 'light') as
-//   | 'dark'
-//   | 'light';
-
-const defaultValues: Partial<AppearanceFormValues> = {
-  theme: 'dark',
+type Theme = 'dark' | 'light';
+type DefaultValues = {
+  theme: Theme;
 };
-
 export default function AppearanceForm() {
-  const { setTheme } = useTheme();
+  const t = useTranslations('Preferences.Theme');
 
-  const form = useForm<AppearanceFormValues>({
-    resolver: zodResolver(appearanceFormSchema),
-    defaultValues,
+  const { setTheme, theme } = useTheme();
+
+  const form = useForm<DefaultValues>({
+    defaultValues: { theme: (theme as Theme) || 'light' },
   });
-
-  function onSubmit(data: AppearanceFormValues) {
-    const html = document.getElementsByTagName('html')[0];
-    html.className = data.theme;
-    //localStorage && localStorage?.setItem('theme', data.theme);
-    setTheme(data.theme);
-  }
 
   return (
     <FormProvider {...form}>
@@ -71,10 +35,8 @@ export default function AppearanceForm() {
         name="theme"
         render={({ field }) => (
           <FormItem className="space-y-1">
-            <FormLabel>Theme</FormLabel>
-            <FormDescription>
-              Select the theme for the dashboard.
-            </FormDescription>
+            <FormLabel>{t('title')}</FormLabel>
+            <FormDescription>{t('description')} </FormDescription>
             <FormMessage />
             <RadioGroup
               onValueChange={(value: string) => {
@@ -83,7 +45,7 @@ export default function AppearanceForm() {
                 const html = document.getElementsByTagName('html')[0];
                 html.className = value;
               }}
-              defaultValue={field.value}
+              defaultValue={field?.value}
               className="grid max-w-md grid-cols-2 gap-8 pt-2"
             >
               <FormItem>
@@ -108,7 +70,7 @@ export default function AppearanceForm() {
                     </div>
                   </div>
                   <span className="block w-full p-2 text-center font-normal">
-                    Light
+                    {t('light')}
                   </span>
                 </FormLabel>
               </FormItem>
@@ -134,7 +96,7 @@ export default function AppearanceForm() {
                     </div>
                   </div>
                   <span className="block w-full p-2 text-center font-normal">
-                    Dark
+                    {t('dark')}
                   </span>
                 </FormLabel>
               </FormItem>

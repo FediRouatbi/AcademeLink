@@ -23,7 +23,7 @@ const Page = async () => {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="flex justify-end">
-        <AddArticle />
+        {session?.user.role === 'ADMIN' && <AddArticle />}
       </div>
       <Topcis />
     </HydrationBoundary>

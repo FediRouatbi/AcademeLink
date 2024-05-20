@@ -25,14 +25,20 @@ import { GetStudentsQuery } from '@/gql/graphql';
 import { toast } from 'sonner';
 import { Alert } from '@/components/common/Alert';
 import { useEditStudentAtom } from '@/hooks/student/useEditStudentAtom';
-import { useSession } from 'next-auth/react';
 import { useSeachAtom } from '@/hooks/useSeachAtom';
 
 import * as NProgress from 'nprogress';
 import { useRouter } from '@/navigation';
+import { useTranslations } from 'next-intl';
+import { RoleCodeType } from '@/lib/next-auth';
 
-export default function StudentsTabel() {
-  const { data: session } = useSession();
+export default function StudentsTabel({
+  role,
+}: {
+  role: RoleCodeType | undefined;
+}) {
+  const t = useTranslations('Students.Table');
+
   const [debouncedValue] = useSeachAtom();
 
   const { data, refetch, isPending } = useGetStudentsQuery({
@@ -82,24 +88,31 @@ export default function StudentsTabel() {
   useEffect(() => {
     NProgress.done();
   }, []);
-  const role = session?.user?.role;
 
   return (
     <>
       <Card>
         <CardHeader className="px-7">
-          <CardTitle>Students</CardTitle>
-          <CardDescription>Students on Academe</CardDescription>
+          <CardTitle>{t('title')}</CardTitle>
+          <CardDescription>{t('description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Table total={students?.length} emptyMessage="No Students Found">
             <TableHeader>
               <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead className="hidden sm:table-cell">Info</TableHead>
-                <TableHead className="hidden sm:table-cell">Type</TableHead>
-                <TableHead className="hidden md:table-cell">Status</TableHead>
-                <TableHead className="hidden md:table-cell">Date</TableHead>
+                <TableHead>{t('id')}</TableHead>
+                <TableHead className="hidden sm:table-cell">
+                  {t('info')}
+                </TableHead>
+                <TableHead className="hidden sm:table-cell">
+                  {t('classroom')}
+                </TableHead>
+                <TableHead className="hidden md:table-cell">
+                  {t('status')}
+                </TableHead>
+                <TableHead className="hidden md:table-cell">
+                  {t('date')}
+                </TableHead>
                 <TableHead className=""></TableHead>
               </TableRow>
             </TableHeader>
@@ -124,7 +137,7 @@ export default function StudentsTabel() {
                       </div>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
-                      Student
+                      {student?.classroom?.classroom_name}
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
                       <Badge

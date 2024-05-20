@@ -1,14 +1,14 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
 import { Form, Header } from '@/components/pages/login';
+import { redirect } from '@/navigation';
 import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
 import React, { Suspense } from 'react';
 const Login = async () => {
 
   const session = await getServerSession(authOptions);
 
   if (session) {
-    redirect('/fr');
+    redirect('/');
   }
   
 

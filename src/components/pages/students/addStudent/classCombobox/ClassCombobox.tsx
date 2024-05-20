@@ -19,9 +19,12 @@ import {
 import { useGetClassroomsQuery } from '@/hooks/classroom';
 import { useController, useFormContext } from 'react-hook-form';
 import { useEditStudentAtom } from '@/hooks/student/useEditStudentAtom';
+import { useTranslations } from 'next-intl';
 
 export function ClassCombobox() {
-  const { data } = useGetClassroomsQuery({search:""});
+  const t = useTranslations('Students.Form');
+
+  const { data } = useGetClassroomsQuery({ search: '' });
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const classromms = data?.getClassrooms;
@@ -51,14 +54,14 @@ export function ClassCombobox() {
             ? classromms?.find(
                 (classromm) => classromm.classroom_name === value
               )?.classroom_name
-            : 'choose classroom'}
+            : t('classroomName')}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandInput placeholder="Search classroom..." className="h-9" />
           <CommandList>
-            <CommandEmpty>No Classroom found.</CommandEmpty>
+            <CommandEmpty>{t('noClassroom')}</CommandEmpty>
             <CommandGroup>
               {classromms?.map((classromm) => (
                 <CommandItem

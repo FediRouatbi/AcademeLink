@@ -1,6 +1,7 @@
 'use client';
 
 import { UploadCloudIcon, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import * as React from 'react';
 import { useDropzone, type DropzoneOptions } from 'react-dropzone';
@@ -47,6 +48,7 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
     { dropzoneOptions, width, height, value, className, disabled, onChange },
     ref
   ) => {
+    const t = useTranslations('Dropzone');
     const imageUrl = React.useMemo(() => {
       if (typeof value === 'string') {
         // in case a url is passed in, use it to display the image
@@ -146,9 +148,9 @@ const SingleImageDropzone = React.forwardRef<HTMLInputElement, InputProps>(
             // Upload Icon
             <div className="flex flex-col items-center justify-center text-xs text-gray-400">
               <UploadCloudIcon className="mb-2 h-7 w-7" />
-              <div className="text-gray-400">drag & drop to upload</div>
+              <div className="text-gray-400">{t('dnd')}</div>
               <div className="mt-3">
-                <Button disabled={disabled}>select</Button>
+                <Button disabled={disabled}>{t('select')}</Button>
               </div>
             </div>
           )}

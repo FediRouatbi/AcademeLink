@@ -10,10 +10,10 @@ import {
 import { Button } from '@/components/ui/button';
 import React from 'react';
 import dayjs from 'dayjs';
-import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/navigation';
 
 export type ClassroomType = GetClassroomsQuery['getClassrooms'][0];
 type Props = {
@@ -61,7 +61,7 @@ export default function ClassCard({
       <CardHeader className="pb-0">
         <CardTitle className="text-2xl ">
           <Link
-            href={`/fr/classrooms/${classroom?.classroom_id}`}
+            href={`/classrooms/${classroom?.classroom_id}`}
             className="hover:underline"
           >
             {classroom?.classroom_name}

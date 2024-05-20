@@ -1,8 +1,8 @@
 import { AvatarImage } from '@/components/ui/avatar';
+import { Link } from '@/navigation';
 import { Avatar } from '@radix-ui/react-avatar';
 import dayjs from 'dayjs';
 import { CalendarIcon } from 'lucide-react';
-import Link from 'next/link';
 import React from 'react';
 type Props = {
   id: number;
@@ -20,7 +20,7 @@ const Course = ({
 }: Props) => {
   return (
     <Link
-      href={`/fr/courses/${id}`}
+      href={`/courses/${id}`}
       key={id}
       className="flex flex-col cursor-pointer  border-gradient text-white p-5  rounded-lg  overflow-hidden aspect-video   hover:scale-105 transition-all"
     >

@@ -28,7 +28,7 @@ import TeacherClassrooms from './teacherClassrooms/TeacherClassrooms';
 import { useTeachersAtom } from '@/hooks/teacher/useTeacherAtom';
 import { useEditTeacherAtom } from '@/hooks/teacher/useEditTeacherAtom';
 import { splitArrayById } from '@/utils/splitArrayByid';
-import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 
 const createTeacherSchema = z.object({
   firstName: z.string().min(3),
@@ -48,7 +48,7 @@ const defaultValues = {
 export type createTeachermType = z.infer<typeof createTeacherSchema>;
 
 const AddTeacher = ({ className }: { className?: string }) => {
-  const { data } = useSession();
+  const t = useTranslations('Teachers.Form');
 
   const [teacher, setTeacher] = useEditTeacherAtom();
 
@@ -124,9 +124,7 @@ const AddTeacher = ({ className }: { className?: string }) => {
   }, [teacher?.action]);
 
   const [open, setOpen] = useState(false);
-  const role = data?.user?.role;
 
-  if (role !== 'ADMIN') return null;
   return (
     <div className={className}>
       <Sheet
@@ -141,38 +139,40 @@ const AddTeacher = ({ className }: { className?: string }) => {
         <SheetTrigger asChild>
           <Button variant="outline">
             <BadgePlus className="mr-2 h-4 w-4" />
-            Add Teacher
+            {t('addTeacher')}
           </Button>
         </SheetTrigger>
         <SheetContent className="min-w-[25%] overflow-y-auto">
           <SheetHeader>
-            <SheetTitle> {mode === 'ADD' ? 'Add' : 'Edit'} Teacher</SheetTitle>
+            <SheetTitle>
+              {' '}
+              {mode === 'ADD' ? t('addTeacher') : t('editTeacher')}
+            </SheetTitle>
             <SheetDescription>
-              Fill in the details to {mode === 'ADD' ? 'create a new' : 'edit'}{' '}
-              Teacher.
+              {mode === 'ADD' ? t('addDescription') : t('editDescription')}
             </SheetDescription>
           </SheetHeader>
           <div className="grid gap-4 py-4">
             <FormProvider {...methods}>
               <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
                 <div className="space-y-2 ">
-                  <Label htmlFor="firstName">First name*</Label>
+                  <Label htmlFor="firstName">{t('firstName')}*</Label>
                   <Input id="firstName" name="firstName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="lastName">Last name*</Label>
+                  <Label htmlFor="lastName">{t('lastName')}*</Label>
                   <Input id="lastName" name="lastName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="userName">User name*</Label>
+                  <Label htmlFor="userName">{t('userName')}*</Label>
                   <Input id="userName" name="userName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="email">Email*</Label>
+                  <Label htmlFor="email">{t('email')}*</Label>
                   <Input id="email" name="email" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="password">Password*</Label>
+                  <Label htmlFor="password">{t('password')}*</Label>
                   <Input id="password" name="password" />
                 </div>
                 <TeacherClassrooms />
@@ -182,7 +182,7 @@ const AddTeacher = ({ className }: { className?: string }) => {
                     className="min-w-16"
                     isPending={isPending || editIsPending}
                   >
-                    {mode === 'ADD' ? 'Add' : 'Edit'}
+                    {mode === 'ADD' ? t('create') : t('save')}
                   </Button>
                 </SheetFooter>
               </form>

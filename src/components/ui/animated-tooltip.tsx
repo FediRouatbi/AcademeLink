@@ -4,11 +4,10 @@ import React, { useState } from 'react';
 import {
   motion,
   useTransform,
-  AnimatePresence,
   useMotionValue,
   useSpring,
 } from 'framer-motion';
-import Link from 'next/link';
+import { Link } from '@/navigation';
 
 export const AnimatedTooltip = ({
   items,
@@ -42,7 +41,7 @@ export const AnimatedTooltip = ({
     <>
       {items?.map((item, idx) => (
         <Link
-          href={`/fr/teachers/${item?.id}`}
+          href={`/teachers/${item?.id}`}
           className="-mr-4  relative group"
           key={item.name}
           onMouseEnter={() => setHoveredIndex(item.id)}

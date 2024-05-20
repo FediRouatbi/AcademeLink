@@ -24,9 +24,7 @@ const AddArticle = () => {
   const [topic, setTopic] = useTopicAtom();
   const t = useTranslations('Home');
 
-  const { data } = useSession();
   const queryClient = useQueryClient();
-  const role = data?.user?.role;
   const { isPending: createIsPending, mutate: createTopic } =
     useCreateTopicMutation({
       onSuccess() {
@@ -64,8 +62,6 @@ const AddArticle = () => {
     if (topic?.action === 'EDIT') setOpen(true);
   }, [topic?.action]);
 
-  if (role !== 'ADMIN') return null;
-
   return (
     <div className="flex justify-end">
       <Sheet
@@ -99,7 +95,7 @@ const AddArticle = () => {
               hideButton
               showAddButton
               actionButtonDisabled={createIsPending || editIsPending}
-              actionText={mode === 'ADD' ? t('publish') : t('edit')}
+              actionText={mode === 'ADD' ? t('publish') : t('save')}
               onClickActionText={onSubmit}
             />
           </div>

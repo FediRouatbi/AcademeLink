@@ -23,6 +23,7 @@ import { queryClient } from '@/providers/react-query-provider';
 import { toast } from 'sonner';
 import { SingleImageDropzone } from '@/components/common/singleImageDropzone/SingleImageDropzone ';
 import { useUploadThing } from '@/utils/uploadthing';
+import { useTranslations } from 'next-intl';
 
 const userSchema = z.object({
   first_name: z.string().min(3),
@@ -36,6 +37,7 @@ const userSchema = z.object({
 type userSchemaType = z.infer<typeof userSchema>;
 
 export const Settings = () => {
+  const t = useTranslations('Settings.Form');
   const { startUpload, permittedFileInfo, isUploading } = useUploadThing(
     'imageUploader',
     {
@@ -66,7 +68,6 @@ export const Settings = () => {
       password: '',
     },
   });
-  console.log(file);
 
   const onSubmit = async (data: userSchemaType) => {
     const password = data?.password ? { password: data?.password } : {};
@@ -116,10 +117,8 @@ export const Settings = () => {
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <Card>
           <CardHeader>
-            <CardTitle>Personal information </CardTitle>
-            <CardDescription>
-              Lipsum dolor sit amet, consectetur adipiscing elit
-            </CardDescription>
+            <CardTitle>{t('title')}</CardTitle>
+            <CardDescription>{t('title')}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex">
@@ -145,7 +144,7 @@ export const Settings = () => {
               </div>
               <div className="grid gap-6 w-2/3">
                 <div className="grid gap-3">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{t('email')}</Label>
                   <Input
                     id="email"
                     name="email"
@@ -154,7 +153,7 @@ export const Settings = () => {
                   />
                 </div>
                 <div className="grid gap-3">
-                  <Label htmlFor="first_name">First name</Label>
+                  <Label htmlFor="first_name">{t('firstName')}</Label>
                   <Input
                     id="first_name"
                     name="first_name"
@@ -163,7 +162,7 @@ export const Settings = () => {
                   />
                 </div>
                 <div className="grid gap-3">
-                  <Label htmlFor="last_name">Last name</Label>
+                  <Label htmlFor="last_name">{t('lastName')}</Label>
                   <Input
                     name="last_name"
                     id="last_name"
@@ -172,7 +171,7 @@ export const Settings = () => {
                   />
                 </div>
                 <div className="grid gap-3">
-                  <Label htmlFor="user_name">User name</Label>
+                  <Label htmlFor="user_name">{t('userName')}</Label>
                   <Input
                     name="user_name"
                     id="user_name"
@@ -181,7 +180,7 @@ export const Settings = () => {
                   />
                 </div>
                 <div className="grid gap-3">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">{t('password')}</Label>
                   <Input
                     name="password"
                     id="password"
@@ -191,7 +190,7 @@ export const Settings = () => {
                   />
                 </div>
                 <div className="grid gap-3">
-                  <Label htmlFor="description">Description</Label>
+                  <Label htmlFor="description">{t('userdescription')}</Label>
                   <Textarea
                     name="description"
                     id="description"
@@ -203,7 +202,7 @@ export const Settings = () => {
           </CardContent>
           <CardFooter className="border-t px-6 py-4 justify-end">
             <Button isPending={isPending || isUploading} type="submit">
-              Save
+              {t('save')}
             </Button>
           </CardFooter>
         </Card>

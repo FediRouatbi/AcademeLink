@@ -46,13 +46,12 @@ type createClassroomType = z.infer<typeof createClassroomSchema>;
 type StudentsIds = CreateClassroom['studentsIds'];
 
 const AddClass = () => {
-  const { data: session } = useSession();
   const t = useTranslations('Classrooms.Form');
 
   const [teachers, setTeachers] = useClassroomsAtom();
 
   const [studentsIds, setStudentsIds] = useState<StudentsIds>([]);
-  const { data } = useGetStudentsQuery({ hasClassroom: false,search:"" });
+  const { data } = useGetStudentsQuery({ hasClassroom: false, search: '' });
   const [classroom, setClassroom] = useEditClassroomAtom();
   const { mutate: editClassroom, isPending: editIsPending } =
     useEditClassroomMutation({
@@ -125,9 +124,7 @@ const AddClass = () => {
 
   const [open, setOpen] = useState(false);
 
-  const role = session?.user?.role;
 
-  if (role !== 'ADMIN') return null;
 
   return (
     <Sheet
@@ -200,7 +197,7 @@ const AddClass = () => {
                   disabled={editIsPending || createIsPending}
                   type="submit"
                 >
-                  {mode === 'ADD' ? 'Add' : 'Edit'}
+                  {mode === 'ADD' ? t('create') : t('save')}
                 </Button>
               </SheetFooter>
             </form>

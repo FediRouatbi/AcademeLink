@@ -75,8 +75,10 @@ const DeleteStudent = graphql(`
     }
   }
 `);
-const getStudents = (hasClassroom?: boolean, search?: string) =>
-  graphQLClient?.request(GetStudents, { hasClassroom, search });
+const getStudents = (hasClassroom?: boolean, search?: string) => {
+    
+  return graphQLClient?.request(GetStudents, { hasClassroom, search });
+};
 
 const getStudent = (id: number) =>
   graphQLClient?.request(GetStudent, { getStudentId: id });

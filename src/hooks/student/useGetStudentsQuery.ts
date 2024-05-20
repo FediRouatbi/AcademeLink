@@ -7,9 +7,9 @@ const useGetStudentsQuery = ({
 }: {
   hasClassroom?: boolean;
   search?: string;
-}) => {
+}) => {  
   const query = useQuery({
-    queryKey: ['students', hasClassroom, search],
+    queryKey: ['students',search],
     queryFn: () => getStudents(hasClassroom, search),
   });
   return query;
