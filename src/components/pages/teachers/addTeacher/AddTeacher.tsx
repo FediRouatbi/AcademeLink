@@ -20,12 +20,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { toast } from 'sonner';
-import { useCreateTeacherMutation } from '@/hooks/teacher';
+import {
+  useCreateTeacherMutation,
+  useEditTeacherMudation,
+} from '@/hooks/teacher';
 import TeacherClassrooms from './teacherClassrooms/TeacherClassrooms';
 import { useTeachersAtom } from '@/hooks/teacher/useTeacherAtom';
 import { useEditTeacherAtom } from '@/hooks/teacher/useEditTeacherAtom';
 import { splitArrayById } from '@/utils/splitArrayByid';
-import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 
 const createTeacherSchema = z.object({
   firstName: z.string().min(3),
@@ -33,12 +36,6 @@ const createTeacherSchema = z.object({
   userName: z.string().min(3),
   email: z.string().email(),
   password: z.string().min(6),
-  classrooms: z.array(
-    z.object({
-      classroomId: z.number(),
-      subjectId: z.number(),
-    })
-  ),
 });
 const defaultValues = {
   email: '',
@@ -51,7 +48,7 @@ const defaultValues = {
 export type createTeachermType = z.infer<typeof createTeacherSchema>;
 
 const AddTeacher = ({ className }: { className?: string }) => {
-  const { data } = useSession();
+  const t = useTranslations('Teachers.Form');
 
   const [teacher, setTeacher] = useEditTeacherAtom();
 
@@ -59,13 +56,25 @@ const AddTeacher = ({ className }: { className?: string }) => {
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['teachers'] });
       setOpen(false);
-      setTeacher(null);
       toast?.success('Teacher add Successfully');
     },
     onError(error) {
       toast?.error(error?.message.split(':')[0]);
     },
   });
+  const mode = teacher?.action === 'EDIT' ? 'EDIT' : 'ADD';
+  const { mutate: editTeacher, isPending: editIsPending } =
+    useEditTeacherMudation({
+      onSuccess() {
+        queryClient.invalidateQueries({ queryKey: ['teachers'] });
+        setOpen(false);
+        setTeacher(null);
+        toast?.success('Teacher edited Successfully');
+      },
+      onError(error) {
+        toast?.error(error?.message.split(':')[0]);
+      },
+    });
   const methods = useForm<createTeachermType>({
     resolver: zodResolver(createTeacherSchema),
     defaultValues,
@@ -73,14 +82,26 @@ const AddTeacher = ({ className }: { className?: string }) => {
 
   const [classrooms, setClassrooms] = useTeachersAtom();
   const onSubmit = (data: createTeachermType) => {
-    mutate({
-      email: data?.email,
-      first_name: data?.firstName,
-      last_name: data?.lastName,
-      password: data?.password,
-      user_name: data?.userName,
-      classrooms: classrooms?.flat(),
-    });
+    if (mode === 'ADD')
+      mutate({
+        email: data?.email,
+        first_name: data?.firstName,
+        last_name: data?.lastName,
+        password: data?.password,
+        user_name: data?.userName,
+        classrooms: classrooms?.flat(),
+      });
+    if (mode === 'EDIT' && teacher?.teacher_id) {
+      editTeacher({
+        teacher_id: teacher?.teacher_id,
+        classrooms: classrooms?.flat(),
+        email: data?.email,
+        first_name: data?.firstName,
+        last_name: data?.lastName,
+        password: data?.password,
+        user_name: data?.userName,
+      });
+    }
   };
   const onError = (error: any) => {
     console.log(error);
@@ -103,9 +124,7 @@ const AddTeacher = ({ className }: { className?: string }) => {
   }, [teacher?.action]);
 
   const [open, setOpen] = useState(false);
-  const role = data?.user?.role;
 
-  if (role !== 'ADMIN') return null;
   return (
     <div className={className}>
       <Sheet
@@ -114,42 +133,46 @@ const AddTeacher = ({ className }: { className?: string }) => {
           setOpen(open);
           methods?.reset(defaultValues);
           setTeacher(null);
+          setClassrooms([[]]);
         }}
       >
         <SheetTrigger asChild>
           <Button variant="outline">
             <BadgePlus className="mr-2 h-4 w-4" />
-            Add Teacher
+            {t('addTeacher')}
           </Button>
         </SheetTrigger>
         <SheetContent className="min-w-[25%] overflow-y-auto">
           <SheetHeader>
-            <SheetTitle> Add Teacher</SheetTitle>
+            <SheetTitle>
+              {' '}
+              {mode === 'ADD' ? t('addTeacher') : t('editTeacher')}
+            </SheetTitle>
             <SheetDescription>
-              Fill in the details to create a new Teacher.
+              {mode === 'ADD' ? t('addDescription') : t('editDescription')}
             </SheetDescription>
           </SheetHeader>
           <div className="grid gap-4 py-4">
             <FormProvider {...methods}>
               <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
                 <div className="space-y-2 ">
-                  <Label htmlFor="firstName">First name*</Label>
+                  <Label htmlFor="firstName">{t('firstName')}*</Label>
                   <Input id="firstName" name="firstName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="lastName">Last name*</Label>
+                  <Label htmlFor="lastName">{t('lastName')}*</Label>
                   <Input id="lastName" name="lastName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="userName">User name*</Label>
+                  <Label htmlFor="userName">{t('userName')}*</Label>
                   <Input id="userName" name="userName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="email">Email*</Label>
+                  <Label htmlFor="email">{t('email')}*</Label>
                   <Input id="email" name="email" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="password">Password*</Label>
+                  <Label htmlFor="password">{t('password')}*</Label>
                   <Input id="password" name="password" />
                 </div>
                 <TeacherClassrooms />
@@ -157,9 +180,9 @@ const AddTeacher = ({ className }: { className?: string }) => {
                   <Button
                     type="submit"
                     className="min-w-16"
-                    isPending={isPending}
+                    isPending={isPending || editIsPending}
                   >
-                    ADD
+                    {mode === 'ADD' ? t('create') : t('save')}
                   </Button>
                 </SheetFooter>
               </form>

@@ -1,16 +1,22 @@
 'use client';
-
+import { RoleCodeType } from '@/lib/next-auth';
 import { cn } from '@/lib/utils';
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
+import { Link } from '@/navigation';
+import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import React, { ReactNode } from 'react';
 
-type Props = { href: string; item: ReactNode; isActive: string };
+type Props = {
+  href: string;
+  icon: ReactNode;
+  text: string;
+  isActive: string;
+  role: RoleCodeType;
+};
 
-const LinkItem = ({ href, item, isActive }: Props) => {
-  const { data: session } = useSession();
-  const role = session?.user?.role;
+const LinkItem = ({ href, icon, text, isActive,role }: Props) => {
+  const t = useTranslations('Sidebar');
+
   const activeStyle = 'bg-gray-100 text-gray-900';
   const pathname = usePathname();
   const isHomePage = pathname?.length === 3 && isActive === 'home';
@@ -20,12 +26,12 @@ const LinkItem = ({ href, item, isActive }: Props) => {
     (pathname?.includes(isActive) || isHomePage) && activeStyle
   );
 
-  
   if (role !== 'ADMIN' && href.includes('subjects')) return null;
 
   return (
-    <Link className={className} href={href}>
-      {item}
+    <Link className={className} href={href} prefetch>
+      {icon}
+      {t(text)}
     </Link>
   );
 };

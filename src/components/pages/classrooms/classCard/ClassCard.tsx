@@ -10,8 +10,10 @@ import {
 import { Button } from '@/components/ui/button';
 import React from 'react';
 import dayjs from 'dayjs';
-import Link from 'next/link';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/navigation';
 
 export type ClassroomType = GetClassroomsQuery['getClassrooms'][0];
 type Props = {
@@ -25,6 +27,8 @@ export default function ClassCard({
   onClickDelete,
   onClickEdit,
 }: Props) {
+  const t = useTranslations('Classrooms.Card');
+
   const { data: session } = useSession();
   const role = session?.user?.role;
 
@@ -57,7 +61,7 @@ export default function ClassCard({
       <CardHeader className="pb-0">
         <CardTitle className="text-2xl ">
           <Link
-            href={`/fr/classrooms/${classroom?.classroom_id}`}
+            href={`/classrooms/${classroom?.classroom_id}`}
             className="hover:underline"
           >
             {classroom?.classroom_name}
@@ -66,45 +70,56 @@ export default function ClassCard({
         <div className="flex items-center space-x-2 text-sm font-medium">
           <div className="flex items-center space-x-1">
             <UsersIcon className="w-4 h-4" />
-            <span>{classroom?.student?.length} students</span>
+            <span>
+              {classroom?.student?.length} {t('students')}
+            </span>
           </div>
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        <strong>description : </strong>
+        <strong>{t('description')}</strong>
         <p> {classroom?.description}</p>
         <div className="mt-4 space-y-2">
-          <h3 className="text-lg font-medium">Subjects :</h3>
+          <h3 className="text-lg font-medium">{t('subjects')}</h3>
           <ul className="list-disc pl-6 space-y-1">
             {classroom?.course?.map((cours, i) => {
+              const image_url =
+                cours?.teacher?.user?.image_url || '/teacher.png';
+
               return (
                 <li className="" key={i}>
-                  <div className="flex items-center gap-5">
+                  <div className="flex items-center gap-5 ">
                     {cours?.subject?.name}
                     <HoverCard>
-                      <HoverCardTrigger>
-                        <Avatar className="size-6 cursor-pointer">
-                          <AvatarImage alt="Mr. Anderson" src="/teacher.png" />
-                          <AvatarFallback>MA</AvatarFallback>
-                        </Avatar>
+                      <HoverCardTrigger className=" w-full">
+                        <Image
+                          src={image_url}
+                          width={24}
+                          height={24}
+                          alt="dsd "
+                          className="rounded-full cursor-pointer"
+                        />
                       </HoverCardTrigger>
-                      <HoverCardContent className="w-80">
+                      <HoverCardContent className="w-fit">
                         <div className="flex justify-between space-x-4">
-                          <Avatar>
-                            <AvatarImage src="/teacher.png" />
-                            <AvatarFallback>VC</AvatarFallback>
-                          </Avatar>
+                          <Image
+                            src={image_url}
+                            width={60}
+                            height={60}
+                            alt="dsd "
+                            className="rounded-full flex-1 w-full"
+                          />
                           <div className="space-y-1">
                             <h4 className="text-sm font-semibold">
                               @{cours?.teacher?.user?.user_name}
                             </h4>
                             <p className="text-sm">
-                              Eng. Dr. HDR., Assistant Professor at INSAT
+                              {cours?.teacher?.user?.description}
                             </p>
                             <div className="flex items-center pt-2">
                               <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{' '}
                               <span className="text-xs text-muted-foreground">
-                                Joined{' '}
+                                {t('joined')}{' '}
                                 {dayjs(cours?.teacher?.user?.createdAt).format(
                                   'MMMM YYYY'
                                 )}

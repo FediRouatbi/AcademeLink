@@ -1,8 +1,8 @@
 import { GraphQLError } from 'graphql';
 import { useMutation } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import { editStudent } from '@/services/student';
-import { UpdateStudent } from '@/gql/graphql';
+import { UpdateTeacher } from '@/gql/graphql';
+import { editTeacher } from '@/services/teacher';
 
 type Props = {
   onSuccess?: () => void;
@@ -13,7 +13,7 @@ const useEditTeacherMudation = ({ onSuccess, onError }: Props) => {
   const session = useSession();
   const accessToken = session.data?.token?.accessToken;
   const mutation = useMutation({
-    mutationFn: (student: UpdateStudent) => editStudent(student),
+    mutationFn: (teacher: UpdateTeacher) => editTeacher(teacher),
     onSuccess(data, variables, context) {
       onSuccess?.();
     },

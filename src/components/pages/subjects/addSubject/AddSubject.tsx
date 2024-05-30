@@ -8,6 +8,7 @@ import {
 import { useEditSubject } from '@/hooks/subject/useEditAtom';
 import { queryClient } from '@/providers/react-query-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -19,6 +20,7 @@ const addSubjectSchema = z.object({
     .min(3, { message: 'Subject name must contain at least 3 character(s)' }),
 });
 const AddSubject = () => {
+  const t = useTranslations('Subjects.Form');
   const [editedSubject, setEditSubject] = useEditSubject();
 
   const mode = editedSubject ? 'EDIT' : 'ADD';
@@ -71,7 +73,7 @@ const AddSubject = () => {
   };
   return (
     <FormProvider {...methods}>
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-10">
         <form
           onSubmit={methods?.handleSubmit(onSubmit)}
           className=" w-full max-w-3xl items-start space-x-2 flex  relative"
@@ -80,16 +82,16 @@ const AddSubject = () => {
             <Input
               name="subject"
               type="text"
-              placeholder="subject"
+              placeholder={t('placeHolder')}
               className="w-full flex-1"
             />
           </div>
           <Button
             type="submit"
             isPending={editIsPending || createIsPending}
-            className="min-w-16"
+            className="min-w-[77px]"
           >
-            {mode === 'ADD' ? 'Add' : 'Edit'}
+            {mode === 'ADD' ? t('create') : t('save')}
           </Button>
           {mode === 'EDIT' && (
             <div className="absolute right-0  translate-x-[110%]">
@@ -102,7 +104,7 @@ const AddSubject = () => {
                   setEditSubject(null);
                 }}
               >
-                Cancel
+                {t('cancel')}
               </Button>
             </div>
           )}

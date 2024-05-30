@@ -13,8 +13,11 @@ const GetTeacher = graphql(`
       user {
         createdAt
         email
+        image_url
         first_name
         last_name
+        image_url
+        description
         updatedAt
         user_id
         user_name
@@ -24,11 +27,14 @@ const GetTeacher = graphql(`
 `);
 
 const GetTeachers = graphql(`
-  query GetTeachers {
-    GetTeachers {
+  query GetTeachers($search: String) {
+    GetTeachers(search: $search) {
       teacher_id
       user {
         createdAt
+        email
+        image_url
+        description
         email
         first_name
         last_name
@@ -66,7 +72,8 @@ const DeleteTeacher = graphql(`
   }
 `);
 
-const getTeachers = () => graphQLClient?.request(GetTeachers);
+const getTeachers = (search?: string) =>
+  graphQLClient?.request(GetTeachers, { search });
 
 const getTeacher = (id: number) =>
   graphQLClient?.request(GetTeacher, { getTeacherId: id });

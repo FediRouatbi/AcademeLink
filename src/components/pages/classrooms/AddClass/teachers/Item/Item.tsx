@@ -6,6 +6,7 @@ import { GetSubjectsQuery, GetTeachersQuery } from '@/gql/graphql';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 import { useClassroomsAtom } from '@/hooks/classroom/useClassroomsAtom';
+import { useTranslations } from 'next-intl';
 
 const animatedComponents = makeAnimated();
 type Props = {
@@ -16,6 +17,7 @@ type Props = {
 };
 
 const Item = ({ dataSubjects, dataTeachers, index, setItems }: Props) => {
+  const t = useTranslations('Classrooms.Form');
   const [selectedTeacher, setSelectedTeacher] = useState<number>(0);
 
   const [teachers, setTeachers] = useClassroomsAtom();
@@ -78,6 +80,7 @@ const Item = ({ dataSubjects, dataTeachers, index, setItems }: Props) => {
         components={animatedComponents}
         isMulti
         options={subjects}
+        placeholder={t('selectSubjects')}
       />
     </div>
   );

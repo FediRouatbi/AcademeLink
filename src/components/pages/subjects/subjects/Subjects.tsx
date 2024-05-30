@@ -16,9 +16,16 @@ import { Button } from '@/components/ui/button';
 import { queryClient } from '@/providers/react-query-provider';
 import { toast } from 'sonner';
 import { useEditSubject } from '@/hooks/subject/useEditAtom';
+import { useSeachAtom } from '@/hooks/useSeachAtom';
+import { Alert } from '@/components/common/Alert';
+import { useTranslations } from 'next-intl';
 
 const Subjects = () => {
+  const t = useTranslations('Subjects.Alert');
+
   const [open, setOpen] = useState(false);
+  const [debouncedValue] = useSeachAtom();
+
   const [, setEditSubject] = useEditSubject();
 
   const { mutate } = useDeleteSubjectMutation({
@@ -33,7 +40,7 @@ const Subjects = () => {
     },
   });
   const [subject, setSubject] = useState<SubjectType | null>(null);
-  const { data } = useGetSubjectsQuery();
+  const { data } = useGetSubjectsQuery({ search: debouncedValue });
 
   const onClickDelete = (subject: SubjectType) => {
     setSubject(subject);
@@ -44,6 +51,9 @@ const Subjects = () => {
     mutate(subject?.id);
     setOpen(false);
     setEditSubject(null);
+  };
+  const onClickCancel = () => {
+    setOpen(false);
   };
   return (
     <>
@@ -56,24 +66,13 @@ const Subjects = () => {
           />
         ))}
       </div>
-      <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete{' '}
-              {subject?.name} subject
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-
-            <Button onClick={onClickConfirm} variant="destructive">
-              Delete
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <Alert
+        open={open}
+        title={t('title')}
+        description={<p>{t('description', { name: subject?.name })}</p>}
+        onClickCancel={onClickCancel}
+        onClickConfirm={onClickConfirm}
+      />
     </>
   );
 };

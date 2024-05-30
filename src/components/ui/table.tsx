@@ -14,7 +14,7 @@ const Table = React.forwardRef<
     return (
       <div className="flex justify-center flex-col items-center pb-10">
         <Image src="/empty.png" width={200} height={50} alt="sdd" />
-        <p className='text-2xl'>{emptyMessage}</p>
+        <p className="text-2xl">{emptyMessage}</p>
       </div>
     );
   return (

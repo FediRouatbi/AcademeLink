@@ -21,16 +21,29 @@ import {
 import { Teacher } from '@/gql/graphql';
 import { useDeleteTeacherMutation, useGetTeachersQuery } from '@/hooks/teacher';
 import { useEditTeacherAtom } from '@/hooks/teacher/useEditTeacherAtom';
+import { useSeachAtom } from '@/hooks/useSeachAtom';
 import dayjs from 'dayjs';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Clipboard, Pencil, Trash2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-export default function TeachersTabel() {
-  const { data: session } = useSession();
+import * as NProgress from 'nprogress';
+import { useRouter } from '@/navigation';
+import { useTranslations } from 'next-intl';
+import { RoleCodeType } from '@/lib/next-auth';
+import CustomClipBoard from '@/components/common/CustomClipBoard';
 
+export default function TeachersTabel({
+  role,
+}: {
+  role: RoleCodeType | undefined;
+}) {
+  const t = useTranslations('Teachers.Table');
+
+  const { data: session } = useSession();
+  const [debouncedValue] = useSeachAtom();
   const [open, setOpen] = useState(false);
+
   const { mutate: deleteTeacher } = useDeleteTeacherMutation({
     onSuccess() {
       toast.success(`teacher ${teacher?.user?.user_name} delete successfully`);
@@ -39,7 +52,7 @@ export default function TeachersTabel() {
     },
   });
   const { push } = useRouter();
-  const { data, refetch } = useGetTeachersQuery();
+  const { data, refetch } = useGetTeachersQuery({ search: debouncedValue });
   const [teacher, setTeacher] = useEditTeacherAtom();
   const teachers = data?.GetTeachers;
 
@@ -70,23 +83,34 @@ export default function TeachersTabel() {
     deleteTeacher(teacher?.teacher_id);
   };
 
-  const role = session?.user?.role;
+  useEffect(() => {
+    NProgress.done();
+  }, []);
+
   return (
     <>
       <Card>
         <CardHeader className="px-7">
-          <CardTitle>Teachers</CardTitle>
-          <CardDescription>Teachers on Academe</CardDescription>
+          <CardTitle>{t('title')}</CardTitle>
+          <CardDescription>{t('description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Table total={teachers?.length} emptyMessage="No Teachers Found">
             <TableHeader>
               <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead className="hidden sm:table-cell">Info</TableHead>
-                <TableHead className="hidden sm:table-cell">Type</TableHead>
-                <TableHead className="hidden md:table-cell">Status</TableHead>
-                <TableHead className="hidden md:table-cell">Date</TableHead>
+                <TableHead>{t('id')}</TableHead>
+                <TableHead className="hidden sm:table-cell">
+                  {t('info')}
+                </TableHead>
+                <TableHead className="hidden sm:table-cell">
+                  {t('courses')}
+                </TableHead>
+                <TableHead className="hidden md:table-cell">
+                  {t('status')}
+                </TableHead>
+                <TableHead className="hidden md:table-cell">
+                  {t('date')}
+                </TableHead>
                 <TableHead className=""></TableHead>
               </TableRow>
             </TableHeader>
@@ -96,19 +120,23 @@ export default function TeachersTabel() {
                   <TableRow
                     key={teacher?.teacher_id}
                     className="cursor-pointer"
-                    onClick={() => push(`/fr/teachers/${teacher?.teacher_id}`)}
+                    onClick={() => {
+                      NProgress.start();
+                      push(`/teachers/${teacher?.teacher_id}`);
+                    }}
                   >
                     <TableCell>{teacher?.teacher_id}</TableCell>
                     <TableCell>
                       <div className="font-medium">
                         {teacher?.user?.user_name}
                       </div>
-                      <div className="hidden text-sm text-muted-foreground md:inline">
+                      <div className="hidden text-sm text-muted-foreground md:flex items-center gap-3 ">
                         {teacher?.user?.email}
+                        <CustomClipBoard text={teacher?.user?.email} />
                       </div>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
-                      Teacher
+                      {teacher?.course?.length}
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
                       <Badge
@@ -149,7 +177,7 @@ export default function TeachersTabel() {
             </TableBody>
           </Table>
         </CardContent>
-      </Card>{' '}
+      </Card>
       <Alert
         open={open}
         title="Are you absolutely sure?"

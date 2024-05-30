@@ -9,6 +9,7 @@ const useGetMyProfile = () => {
   const query = useQuery({
     queryKey: ['GetCurrentUser'],
     queryFn: () => getCurrentUser(accessToken || ''),
+    enabled: !!accessToken,
   });
   return query;
 };

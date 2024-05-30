@@ -6,6 +6,8 @@ declare module 'next-auth' {
     user: {
       user_id: string;
       createdAt: number;
+      description: string;
+      image_url: string;
       first_name: string;
       last_name: string;
       updatedAt: string;
@@ -22,6 +24,8 @@ declare module 'next-auth' {
     user: {
       user_id: string;
       createdAt: number;
+      description: string;
+      image_url: string;
       first_name: string;
       last_name: string;
       updatedAt: string;
@@ -43,6 +47,8 @@ declare module 'next-auth/jwt' {
     user: {
       user_id: string;
       createdAt: number;
+      description: string;
+      image_url: string;
       first_name: string;
       last_name: string;
       updatedAt: string;

@@ -27,6 +27,7 @@ import {
   useCreateStudentMutation,
 } from '@/hooks/student/';
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 const schema = z.object({
   firstName: z.string().min(3),
   lastName: z.string().min(3),
@@ -39,8 +40,7 @@ const schema = z.object({
 type createStudentmType = z.infer<typeof schema>;
 
 const AddStudent = ({ className }: { className?: string }) => {
-  const { data } = useSession();
-
+  const t = useTranslations('Students.Form');
   const [student, setStudent] = useEditStudentAtom();
 
   const defaultValues = {
@@ -124,9 +124,8 @@ const AddStudent = ({ className }: { className?: string }) => {
       });
     }
   }, [student?.action]);
-  
-  const role = data?.user?.role;
-  if (role !== 'ADMIN') return null;
+
+  const mode = student?.action === 'EDIT' ? 'EDIT' : 'ADD';
 
   return (
     <div className={className}>
@@ -141,43 +140,43 @@ const AddStudent = ({ className }: { className?: string }) => {
         <SheetTrigger asChild>
           <Button variant="outline">
             <BadgePlus className="mr-2 h-4 w-4" />
-            Add Student
+            {t('addStudent')}
           </Button>
         </SheetTrigger>
-        <SheetContent className="min-w-[25%]">
+        <SheetContent className="min-w-[25%] overflow-y-auto">
           <SheetHeader>
-            <SheetTitle> Add Student</SheetTitle>
+            <SheetTitle>{t('addStudent')}</SheetTitle>
             <SheetDescription>
-              Fill in the details to create a new Student.
+              {mode === 'ADD' ? t('addDescription') : t('editDescription')}
             </SheetDescription>
           </SheetHeader>
           <div className="grid gap-4 py-4">
             <FormProvider {...methods}>
               <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
                 <div className="space-y-2 ">
-                  <Label htmlFor="firstName">First name*</Label>
+                  <Label htmlFor="firstName">{t('firstName')}*</Label>
                   <Input id="firstName" name="firstName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="lastName">Last name*</Label>
+                  <Label htmlFor="lastName">{t('lastName')}*</Label>
                   <Input id="lastName" name="lastName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="userName">User name*</Label>
+                  <Label htmlFor="userName">{t('userName')}*</Label>
                   <Input id="userName" name="userName" />
                 </div>
                 <div className="space-y-2 ">
-                  <Label htmlFor="email">Email*</Label>
+                  <Label htmlFor="email">{t('email')}*</Label>
                   <Input id="email" name="email" />
                 </div>
 
                 <div className="space-y-2 ">
-                  <Label htmlFor="password">Password*</Label>
+                  <Label htmlFor="password">{t('password')}*</Label>
                   <Input id="password" name="password" />
                 </div>
 
                 <div className="space-y-2 flex flex-col pt-5">
-                  <Label>Classroom</Label>
+                  <Label>{t('classroom')}</Label>
                   <ClassCombobox />
                 </div>
 
@@ -187,7 +186,7 @@ const AddStudent = ({ className }: { className?: string }) => {
                     className="min-w-16"
                     isPending={createPending || editPending}
                   >
-                    ADD
+                    {mode === 'ADD' ? t('create') : t('save')}
                   </Button>
                 </SheetFooter>
               </form>

@@ -12,6 +12,7 @@ const CreateTopic = graphql(`
 const GetTopicsByAuthor = graphql(`
   query GetTopicsByAuthor($authorId: Int!) {
     getTopicsByAuthor(authorID: $authorId) {
+      topic_id
       content
     }
   }
@@ -19,6 +20,8 @@ const GetTopicsByAuthor = graphql(`
 const GetTopicsByCourseId = graphql(`
   query GetTopicsByCourseId($courseId: Int!) {
     getTopicsByCourseId(courseID: $courseId) {
+      user_id
+      topic_id
       content
     }
   }

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { Toaster } from 'sonner';
 import { AuthProvider, ReactQueryProvider, ThemeProvider } from '@/providers';
 import NextTopLoader from 'nextjs-toploader';
@@ -16,7 +15,7 @@ const locales = ['en', 'fr'];
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params: { locale },
 }: Readonly<{
@@ -35,6 +34,7 @@ export default function RootLayout({
         >
           <AuthProvider>
             <ReactQueryProvider>{children}</ReactQueryProvider>
+
             <Toaster richColors position="bottom-left" />
           </AuthProvider>
         </ThemeProvider>

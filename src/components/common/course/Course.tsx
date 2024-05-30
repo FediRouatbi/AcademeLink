@@ -1,19 +1,26 @@
 import { AvatarImage } from '@/components/ui/avatar';
+import { Link } from '@/navigation';
 import { Avatar } from '@radix-ui/react-avatar';
 import dayjs from 'dayjs';
 import { CalendarIcon } from 'lucide-react';
-import Link from 'next/link';
 import React from 'react';
 type Props = {
   id: number;
   subject_name: string;
   createdAt: string;
   user_name: string;
+  image_url: string;
 };
-const Course = ({ id, subject_name, createdAt, user_name }: Props) => {
+const Course = ({
+  id,
+  subject_name,
+  createdAt,
+  user_name,
+  image_url,
+}: Props) => {
   return (
     <Link
-      href={`/fr/courses/${id}`}
+      href={`/courses/${id}`}
       key={id}
       className="flex flex-col cursor-pointer  border-gradient text-white p-5  rounded-lg  overflow-hidden aspect-video   hover:scale-105 transition-all"
     >
@@ -28,7 +35,11 @@ const Course = ({ id, subject_name, createdAt, user_name }: Props) => {
       <div className="mt-auto flex justify-between">
         <div className="  flex gap-2  items-center text-xl">
           <Avatar className="h-7 w-7">
-            <AvatarImage alt="User Avatar" src="/teacher.png" className="" />
+            <AvatarImage
+              alt="User Avatar"
+              src={image_url || '/teacher.png'}
+              className=" rounded-full"
+            />
           </Avatar>
           {user_name}
         </div>

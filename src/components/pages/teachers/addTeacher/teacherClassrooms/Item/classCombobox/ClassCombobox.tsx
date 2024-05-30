@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/popover';
 import { useTeachersAtom } from '@/hooks/teacher/useTeacherAtom';
 import { GetClassroomsQuery } from '@/gql/graphql';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   allClassrooms?: GetClassroomsQuery;
@@ -30,11 +31,13 @@ export function ClassCombobox({
   setClassroomId,
   classroomId,
 }: Props) {
+  const t = useTranslations('Teachers.Form');
+
   const [open, setOpen] = useState(false);
   const classromms = allClassrooms?.getClassrooms;
   const [classrooms, setClassrooms] = useTeachersAtom();
   const ids = classrooms?.flat().map((el) => el?.classroom_id);
-  
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -46,14 +49,14 @@ export function ClassCombobox({
         >
           {classromms?.find(
             (classromm) => classromm.classroom_id === classroomId
-          )?.classroom_name || 'Classroom'}
+          )?.classroom_name || t('classroom')}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search classroom..." className="h-9" />
+          <CommandInput placeholder={t('searchClassroom')} className="h-9" />
           <CommandList>
-            <CommandEmpty>No Classroom found.</CommandEmpty>
+            <CommandEmpty>{t('noClassroom')}</CommandEmpty>
             <CommandGroup>
               {classromms?.map((classromm) => (
                 <CommandItem

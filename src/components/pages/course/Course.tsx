@@ -1,19 +1,26 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import parse from 'html-react-parser';
-import { Loader2, Pencil, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Loader2 } from 'lucide-react';
 import AddTopic from './addTopic/AddTopic';
 import { useGetCourseQuery } from '@/hooks/courses';
-import { Button } from '@/components/ui/button';
 import { Alert } from '@/components/common/Alert';
-import { useDeleteTopicMutation } from '@/hooks/topic';
+import { useDeleteTopicMutation, useGetTopicsByCourse } from '@/hooks/topic';
 import { useTopicAtom } from '@/hooks/topic/useTopicAtom';
 import { queryClient } from '@/providers/react-query-provider';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
-import { cn } from '@/lib/utils';
+import Topic from '@/components/common/topic/Topic';
+import { useTranslations } from 'next-intl';
+import { RoleCodeType } from '@/lib/next-auth';
 
-const Course = ({ id }: { id: number }) => {
+const Course = ({
+  id,
+  role,
+}: {
+  id: number;
+  role: RoleCodeType | undefined;
+}) => {
+  const t = useTranslations('Course');
   const { data: session } = useSession();
 
   const { mutate: deleteTopic, isPending: deletePending } =
@@ -21,7 +28,7 @@ const Course = ({ id }: { id: number }) => {
       onSuccess() {
         setOpen(false);
         queryClient.invalidateQueries({
-          queryKey: ['courses', id],
+          queryKey: ['topics', id],
         });
         toast?.success('Topic deleted Successfully');
       },
@@ -33,10 +40,14 @@ const Course = ({ id }: { id: number }) => {
   const [open, setOpen] = useState(false);
   const [topic, setTopic] = useTopicAtom();
 
-  const { data: topics, isLoading } = useGetCourseQuery({ id });
+  const { data: courses, isLoading } = useGetCourseQuery({ id });
+  const { data: topics } = useGetTopicsByCourse(id);
 
   const onClickCancel = () => {
     setOpen(false);
+  };
+  const onClickDelete = () => {
+    setOpen(true);
   };
   const onClickConfirm = () => {
     if (!topic?.topic_id) {
@@ -46,87 +57,46 @@ const Course = ({ id }: { id: number }) => {
 
     deleteTopic(topic?.topic_id);
   };
-  if (!topics && isLoading)
-    return (
-      <div className="min-h-52 flex justify-center items-center">
-        <Loader2 className="size-14  animate-spin" />
-      </div>
-    );
 
-  const classroom_id = topics?.getCourse?.classroom?.classroom_id;
-  const teacher_id = topics?.getCourse?.teacher?.teacher_id;
-  const subject_id = topics?.getCourse?.subject?.id;
+  const classroom_id = courses?.getCourse?.classroom?.classroom_id;
+  const teacher_id = courses?.getCourse?.teacher?.teacher_id;
+  const subject_id = courses?.getCourse?.subject?.id;
   const canEditTopic =
-    session?.user?.user_id === topics?.getCourse?.teacher?.user?.user_id;
+    session?.user?.user_id === topics?.getTopicsByCourseId?.at(0)?.user_id;
   return (
     <>
-      <AddTopic
-        classroom_id={classroom_id}
-        teacher_id={teacher_id}
-        subject_id={subject_id}
-      />
+      {role === 'TEACHER' && (
+        <AddTopic
+          courseId={id}
+          classroom_id={classroom_id}
+          teacher_id={teacher_id}
+          subject_id={subject_id}
+        />
+      )}
+      {!topics && isLoading && (
+        <div className="min-h-52 flex justify-center items-center">
+          <Loader2 className="size-14  animate-spin" />
+        </div>
+      )}
+      {!topics?.getTopicsByCourseId?.length && !isLoading && (
+        <div className="min-h-52 flex justify-center items-center">
+          {t('empty')}
+        </div>
+      )}
       <div className="prose  lg:prose-xl px-5 max-w-full pt-10">
-        {topics?.getCourse?.topic?.map((topic, i) => (
-          <div
-            key={i}
-            className={cn(
-              'pt-10 group relative  px-5 pb-5 rounded-md',
-              canEditTopic && 'hover:outline'
-            )}
-          >
-            <div
-              className={cn(
-                'hidden gap-2 absolute top-5 right-5',
-                canEditTopic && 'flex'
-              )}
-            >
-              <Button
-                onClick={() => {
-                  setTopic({
-                    content: topic?.content,
-                    topic_id: topic?.topic_id,
-                    action: 'EDIT',
-                  });
-                }}
-                variant="ghost"
-                size="icon"
-                className="active:scale-95    z-20 group-hover:opacity-100 transition-all opacity-0 "
-              >
-                <Pencil className="size-4" />
-
-                <span className="sr-only">Edit</span>
-              </Button>
-              <Button
-                onClick={() => {
-                  setOpen(true);
-                  setTopic({
-                    content: topic?.content,
-                    topic_id: topic?.topic_id,
-                    action: 'DELETE',
-                  });
-                }}
-                variant="ghost"
-                size="icon"
-                className="active:scale-95    z-20 group-hover:opacity-100 transition-all opacity-0 "
-              >
-                <Trash2 className="size-4" />
-
-                <span className="sr-only">Delete</span>
-              </Button>
-            </div>
-            {parse(topic.content)}
-          </div>
+        {topics?.getTopicsByCourseId?.map((topic, i) => (
+          <Topic
+            key={topic?.topic_id}
+            topic={topic}
+            canEditTopic={canEditTopic}
+            onClickDelete={onClickDelete}
+          />
         ))}
       </div>
       <Alert
         open={open}
-        title="Are you absolutely sure?"
-        description={
-          <p>
-            This action cannot be undone. This will permanently delete this
-            topic
-          </p>
-        }
+        title={t('title')}
+        description={<p>{t('description')}</p>}
         onClickCancel={onClickCancel}
         onClickConfirm={onClickConfirm}
       />

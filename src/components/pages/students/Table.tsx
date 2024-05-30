@@ -20,17 +20,30 @@ import {
 import { useDeleteStudentMutation, useGetStudentsQuery } from '@/hooks/student';
 import dayjs from 'dayjs';
 import { Pencil, Trash2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GetStudentsQuery } from '@/gql/graphql';
 import { toast } from 'sonner';
 import { Alert } from '@/components/common/Alert';
 import { useEditStudentAtom } from '@/hooks/student/useEditStudentAtom';
-import { useSession } from 'next-auth/react';
-export default function StudentsTabel() {
-  const { data: session } = useSession();
+import { useSeachAtom } from '@/hooks/useSeachAtom';
 
-  const { data, refetch } = useGetStudentsQuery();
+import * as NProgress from 'nprogress';
+import { useRouter } from '@/navigation';
+import { useTranslations } from 'next-intl';
+import { RoleCodeType } from '@/lib/next-auth';
+
+export default function StudentsTabel({
+  role,
+}: {
+  role: RoleCodeType | undefined;
+}) {
+  const t = useTranslations('Students.Table');
+
+  const [debouncedValue] = useSeachAtom();
+
+  const { data, refetch, isPending } = useGetStudentsQuery({
+    search: debouncedValue,
+  });
   const { mutate: deleteStudent } = useDeleteStudentMutation({
     onSuccess() {
       toast.success(`student ${student?.user?.user_name} delete successfully`);
@@ -71,23 +84,35 @@ export default function StudentsTabel() {
 
     deleteStudent(student?.student_id);
   };
-  const role = session?.user?.role;
+
+  useEffect(() => {
+    NProgress.done();
+  }, []);
+
   return (
     <>
       <Card>
         <CardHeader className="px-7">
-          <CardTitle>Students</CardTitle>
-          <CardDescription>Students on Academe</CardDescription>
+          <CardTitle>{t('title')}</CardTitle>
+          <CardDescription>{t('description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Table total={students?.length} emptyMessage="No Students Found">
             <TableHeader>
               <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead className="hidden sm:table-cell">Info</TableHead>
-                <TableHead className="hidden sm:table-cell">Type</TableHead>
-                <TableHead className="hidden md:table-cell">Status</TableHead>
-                <TableHead className="hidden md:table-cell">Date</TableHead>
+                <TableHead>{t('id')}</TableHead>
+                <TableHead className="hidden sm:table-cell">
+                  {t('info')}
+                </TableHead>
+                <TableHead className="hidden sm:table-cell">
+                  {t('classroom')}
+                </TableHead>
+                <TableHead className="hidden md:table-cell">
+                  {t('status')}
+                </TableHead>
+                <TableHead className="hidden md:table-cell">
+                  {t('date')}
+                </TableHead>
                 <TableHead className=""></TableHead>
               </TableRow>
             </TableHeader>
@@ -97,7 +122,10 @@ export default function StudentsTabel() {
                   <TableRow
                     key={student?.student_id}
                     className="cursor-pointer"
-                    onClick={() => push(`/fr/students/${student?.student_id}`)}
+                    onClick={() => {
+                      NProgress.start();
+                      push(`/students/${student?.student_id}`);
+                    }}
                   >
                     <TableCell>{student?.student_id}</TableCell>
                     <TableCell>
@@ -109,7 +137,7 @@ export default function StudentsTabel() {
                       </div>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
-                      Student
+                      {student?.classroom?.classroom_name}
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
                       <Badge

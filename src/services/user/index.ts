@@ -7,6 +7,8 @@ const GetCurrentUser = graphql(`
     getCurrentUser {
       email
       createdAt
+      image_url
+      description
       first_name
       last_name
       role

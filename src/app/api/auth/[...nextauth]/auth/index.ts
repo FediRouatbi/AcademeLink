@@ -1,5 +1,6 @@
 import { api_url } from '@/constants/utils';
 import { AuthOptions, NextAuthOptions, User } from 'next-auth';
+import { decode } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 const mutation = `
     mutation Login($data: LoginInput!) {
@@ -14,6 +15,8 @@ const query = `
     getCurrentUser {
       createdAt
       first_name
+      description
+      image_url
       last_name
       updatedAt
       role
@@ -90,6 +93,7 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) return { ...token, ...user };
+
       token.exp = 3713613588620;
       return token;
     },

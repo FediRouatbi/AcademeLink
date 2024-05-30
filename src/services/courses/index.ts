@@ -3,8 +3,8 @@ import { graphql } from '@/gql/gql';
 import { CreateCourseInput, UpdateCourseInput } from '@/gql/graphql';
 
 const GetCourses = graphql(`
-  query getCourses {
-    getCourses {
+  query GetCourses($search: String) {
+    getCourses(search: $search) {
       id
       createdAt
       updatedAt
@@ -25,6 +25,8 @@ const GetCourses = graphql(`
         user {
           createdAt
           email
+          image_url
+          description
           user_id
           updatedAt
           user_name
@@ -62,6 +64,8 @@ const GetCourse = graphql(`
         user {
           createdAt
           email
+          image_url
+          description
           first_name
           last_name
           updatedAt
@@ -102,10 +106,14 @@ const DeleteCourse = graphql(`
   }
 `);
 
-const getCourses = (accessToken: string) =>
-  graphQLClient?.request(GetCourses, undefined, {
-    Authorization: `Bearer ${accessToken}`,
-  });
+const getCourses = (search: string | undefined, accessToken: string) =>
+  graphQLClient?.request(
+    GetCourses,
+    { search },
+    {
+      Authorization: `Bearer ${accessToken}`,
+    }
+  );
 const getCourse = (getCourseId: number, accessToken: string) =>
   graphQLClient?.request(
     GetCourse,

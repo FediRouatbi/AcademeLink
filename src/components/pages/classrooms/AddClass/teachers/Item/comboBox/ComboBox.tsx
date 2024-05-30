@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
   Command,
@@ -17,15 +16,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { useGetTeachersQuery } from '@/hooks/teacher';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { GetTeachersQuery } from '@/gql/graphql';
 import { useClassroomsAtom } from '@/hooks/classroom/useClassroomsAtom';
+import { useTranslations } from 'next-intl';
 type Props = {
   dataTeachers?: GetTeachersQuery;
   setSelectedTeacher: React.Dispatch<React.SetStateAction<number>>;
 };
 export function Combobox({ dataTeachers, setSelectedTeacher }: Props) {
+  const t = useTranslations('Classrooms.Form');
+
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
 
@@ -46,18 +47,18 @@ export function Combobox({ dataTeachers, setSelectedTeacher }: Props) {
           {value
             ? teachers?.find((teacher) => teacher.user?.user_name === value)
                 ?.user?.user_name
-            : 'Teacher name'}
+            : t('teacherName')}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandInput
-            placeholder="Search framework..."
+            placeholder={t('searchTeacher')}
             className="h-9"
             name="ee"
           />
           <CommandList>
-            <CommandEmpty>No teacher found.</CommandEmpty>
+            <CommandEmpty>{t('emptyTeacherList')}</CommandEmpty>
             <CommandGroup>
               {teachers?.map((teacher) => (
                 <CommandItem

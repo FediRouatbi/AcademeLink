@@ -15,14 +15,14 @@ const page = async () => {
   const accessToken = session?.token?.accessToken;
 
   await queryClient.prefetchQuery({
-    queryKey: ['classrooms'],
-    queryFn: () => getClassrooms(accessToken || ''),
+    queryKey: ['classrooms', ''],
+    queryFn: () => getClassrooms('', accessToken || ''),
     staleTime: 500,
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="flex justify-end">
-        <AddClass />
+        {session?.user?.role === 'ADMIN' && <AddClass />}
       </div>
       <Classrooms />
     </HydrationBoundary>

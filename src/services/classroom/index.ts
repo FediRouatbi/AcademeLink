@@ -12,6 +12,8 @@ const GetClassroom = graphql(`
       student {
         student_id
         user {
+          image_url
+          description
           createdAt
           email
           first_name
@@ -31,6 +33,8 @@ const GetClassroom = graphql(`
         teacher {
           teacher_id
           user {
+            image_url
+            description
             createdAt
             email
             first_name
@@ -47,8 +51,8 @@ const GetClassroom = graphql(`
 `);
 
 const GetClassrooms = graphql(`
-  query GetClassrooms {
-    getClassrooms {
+  query GetClassrooms($search: String) {
+    getClassrooms(search: $search) {
       classroom_id
       classroom_name
       description
@@ -68,6 +72,8 @@ const GetClassrooms = graphql(`
           teacher_id
           user {
             createdAt
+            image_url
+            description
             email
             first_name
             last_name
@@ -104,10 +110,14 @@ const DeleteClassroom = graphql(`
   }
 `);
 
-const getClassrooms = (accessToken: string) =>
-  graphQLClient?.request(GetClassrooms, undefined, {
-    Authorization: `Bearer ${accessToken}`,
-  });
+const getClassrooms = (search: string | undefined, accessToken: string) =>
+  graphQLClient?.request(
+    GetClassrooms,
+    { search },
+    {
+      Authorization: `Bearer ${accessToken}`,
+    }
+  );
 const getClassroom = (getClassrommId: number, accessToken: string) =>
   graphQLClient?.request(
     GetClassroom,

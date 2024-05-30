@@ -1,68 +1,196 @@
 {
-  "RootLayout": {
-    "home_link": "Home",
-    "about_link": "About",
-    "guestbook_link": "Guestbook",
-    "portfolio_link": "Portfolio",
-    "sign_in_link": "Sign in",
-    "sign_up_link": "Sign up"
+  "Login": {
+    "title": "Login",
+    "description": "Enter your email below to login toy our account",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login"
   },
-  "BaseTemplate": {
-    "description": "Starter code for your Nextjs Boilerplate with Tailwind CSS",
-    "made_with": "Made with"
+  "Navbar": {
+    "search": "Search ...",
+    "DropDown": {
+      "account": "My Account",
+      "settings": "Settings",
+      "logout": "Logout"
+    }
   },
-  "Index": {
-    "meta_title": "Next.js Boilerplate Presentation",
-    "meta_description": "Next js Boilerplate is the perfect starter code for your project. Build your React application with the Next.js framework."
+  "Sidebar": {
+    "home": "Home",
+    "classrooms": "Classrooms",
+    "teachers": "Teachers",
+    "students": "Students",
+    "courses": "Courses",
+    "subjects": "Subjects",
+    "preferences": "Preferences",
+    "settings": "Settings"
   },
-  "Guestbook": {
-    "meta_title": "Guestbook",
-    "meta_description": "An example of CRUD operation",
-    "database_powered_by": "Database powered by",
-    "loading_guestbook": "Loading guestbook..."
+  "Home": {
+    "addTopic": "Add Topic",
+    "editTopic": "Edit Topic",
+    "createTopic": "create a new Topic.",
+    "publish": "Publish",
+    "save": "Save",
+    "deleteAlertTitle": "Are you absolutely sure?",
+    "deleteAlertDescription": "This action cannot be undone. This will permanently delete this topic"
   },
-  "GuestbookForm": {
-    "username": "Username",
-    "body": "Body",
-    "save": "Save"
+  "Editor": {
+    "bold": "bold",
+    "italic": "italic",
+    "strike": "strike",
+    "code": "code",
+    "clearMarks": "clear marks",
+    "clearnNodes": "clear nodes",
+    "paragraph": "paragraph",
+    "bulletList": "bullet list",
+    "orderedList": "ordered list",
+    "codeBlock": "code block",
+    "blockquote": "blockquote",
+    "horizontalRule": "horizontal rule",
+    "hardBreak": "hard break",
+    "undo": "undo",
+    "redo": "redo",
+    "purple": "purple"
   },
-  "About": {
-    "meta_title": "About",
-    "meta_description": "About page description",
-    "about_paragraph": "Welcome to our About page! We are a team of passionate individuals dedicated to creating amazing software.",
-    "translation_powered_by": "Translation powered by"
+  "Alert": {
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   },
-  "Portfolio": {
-    "meta_title": "Portfolio",
-    "meta_description": "Welcome to my portfolio page!",
-    "presentation": "Welcome to my portfolio page! Here you will find a carefully curated collection of my work and accomplishments. Through this portfolio, I'm to showcase my expertise, creativity, and the value I can bring to your projects.",
-    "portfolio_name": "Portfolio {name}",
-    "monitoring_powered_by": "Monitoring powered by"
+  "Classrooms": {
+    "Alert": {
+      "title": "Are you absolutely sure ?",
+      "description": "This action cannot be undone. This will permanently delete classroom "
+    },
+    "Card": {
+      "students": "Students",
+      "description": "description :",
+      "subjects": "Subjects :",
+      "joined": "Joined"
+    },
+    "Form": {
+      "addClassroom": "Add Classroom",
+      "editClassroom": "Edit Classroom",
+      "addClassroomDescription": "Fill in the details to ",
+      "createClassroom": "create a new classroom.",
+      "name": "Name",
+      "description": "Description",
+      "teachers": "Teachers",
+      "students": "Students",
+      "emptyTeacherList": "No teacher found.",
+      "teacherName": "Teacher name",
+      "selectSubjects": "Select Subjects",
+      "selectStudents": "Select Students",
+      "searchTeacher": "Search Teacher...",
+      "create": "Create",
+      "save": "Save"
+    }
   },
-  "PortfolioSlug": {
-    "meta_title": "Portfolio {slug}",
-    "meta_description": "Portfolio {slug} description",
-    "header": "Portfolio {slug}",
-    "content": "Created a set of promotional materials and branding elements for a corporate event. Crafted a visually unified theme, encompassing a logo, posters, banners, and digital assets. Integrated the client's brand identity while infusing it with a contemporary and innovative approach. Garnered favorable responses from event attendees, resulting in a successful event with heightened participant engagement and increased brand visibility."
+  "Teachers": {
+    "Table": {
+      "title": "Teachers",
+      "description": "List of Teachers ",
+      "id": "ID",
+      "info": "Info",
+      "courses": "Courses",
+      "status": "Status",
+      "date": "Date"
+    },
+    "Form": {
+      "addTeacher": "Add Teacher",
+      "editTeacher": "Edit Teacher",
+      "addDescription": "Fill in the details to create a new Teacher.",
+      "editDescription": "Fill in the details to edit  Teacher.",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "userName": "UserName",
+      "email": "Email",
+      "password": "Password",
+      "create": "Create",
+      "save": "Save",
+      "addClassroom": "Add Classroom",
+      "classrooms": "Classrooms",
+      "classroom": "Classroom Name",
+      "noClassroom": "No Classroom found.",
+      "searchClassroom": "Search classroom...",
+      "selectSubjects": "Select Subjects"
+    }
   },
-  "SignIn": {
-    "meta_title": "Sign in",
-    "meta_description": "Seamlessly sign in to your account with our user-friendly login process."
+  "Students": {
+    "Table": {
+      "title": "Students",
+      "description": "List of Students ",
+      "id": "ID",
+      "info": "Info",
+      "classroom": "Classroom",
+      "status": "Status",
+      "date": "Date"
+    },
+    "Form": {
+      "addStudent": "Add Student",
+      "addDescription": "Fill in the details to create a new Student.",
+      "editDescription": "Fill in the details to edit  Student.",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "userName": "UserName",
+      "email": "Email",
+      "password": "Password",
+      "create": "Create",
+      "save": "Save",
+      "addClassroom": "Add Classroom",
+      "classroom": "Classroom",
+      "classroomName": "Classroom Name",
+      "noClassroom": "No Classroom found.",
+      "searchClassroom": "Search classroom...",
+      "selectSubjects": "Select Subjects"
+    }
   },
-  "SignUp": {
-    "meta_title": "Sign up",
-    "meta_description": "Effortlessly create an account through our intuitive sign-up process."
+  "Subjects": {
+    "Form": {
+      "placeHolder": "Subject Name",
+      "create": "Create",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "Alert": {
+      "title": "Are you absolutely sure ?",
+      "description": "This action cannot be undone. This will permanently delete {name} subject"
+    }
   },
-  "Dashboard": {
-    "meta_title": "Dashboard",
-    "hello_message": "Hello {email}!"
+  "Preferences": {
+    "Theme": {
+      "title": "Theme",
+      "description": "Select the theme for the dashboard.",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "Language": {
+      "title": "Language",
+      "description": "Select the language for the dashboard.",
+      "englishSHort": "En",
+      "frenshShort": "Fr",
+      "english": "English",
+      "frensh": "Frensh"
+    }
   },
-  "UserProfile": {
-    "meta_title": "User Profile"
+  "Settings": {
+    "Form": {
+      "title": "Personal information",
+      "description": "Personal information",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "userName": "UserName",
+      "email": "Email",
+      "password": "Password",
+      "userdescription": "Description",
+      "save": "Save"
+    }
   },
-  "DashboardLayout": {
-    "dashboard_link": "Dashboard",
-    "user_profile_link": "Manage your account",
-    "sign_out": "Sign out"
+  "Dropzone": {
+    "dnd": "drag & drop to upload",
+    "select": "select"
+  },
+  "Course": {
+    "empty": "this course has not started yet",
+    "title": "Are you absolutely sure ?",
+    "description": "This action cannot be undone. This will permanently delete this topic"
   }
 }

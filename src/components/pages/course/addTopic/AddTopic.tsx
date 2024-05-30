@@ -25,16 +25,22 @@ type Props = {
   classroom_id?: number;
   teacher_id?: number;
   subject_id?: number;
+  courseId: number;
 };
-const AddTopic = ({ classroom_id, subject_id, teacher_id }: Props) => {
+const AddTopic = ({
+  classroom_id,
+  subject_id,
+  teacher_id,
+  courseId,
+}: Props) => {
   const { data: session } = useSession();
   const [topic, setTopic] = useTopicAtom();
 
   const { mutate: createTopic, isPending: createIsPending } =
     useCreateTopicMutation({
       onSuccess() {
-        queryClient.invalidateQueries({ queryKey: ['courses'] });
-        toast?.success('Topic Edited Successfully');
+        queryClient.invalidateQueries({ queryKey: ['topics', courseId] });
+        toast?.success('Topic Add Successfully');
         setOpen(false);
       },
       onError(error) {
@@ -45,8 +51,8 @@ const AddTopic = ({ classroom_id, subject_id, teacher_id }: Props) => {
 
   const { mutate: editTopic, isPending: editIsPending } = useEditTopicMutation({
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ['courses'] });
-      toast?.success('Topic add Successfully');
+      queryClient.invalidateQueries({ queryKey: ['topics', courseId] });
+      toast?.success('Topic Edited Successfully');
       setOpen(false);
       setTopic(null);
     },
@@ -75,20 +81,17 @@ const AddTopic = ({ classroom_id, subject_id, teacher_id }: Props) => {
 
   const [open, setOpen] = useState(false);
 
-  const role = session?.user?.role;
-
-  if (role !== 'TEACHER') return null;
-
   return (
     <div className="flex justify-end">
       <Sheet
         open={open}
         onOpenChange={(open) => {
           setOpen(open);
+          setTopic(null);
         }}
       >
         <SheetTrigger asChild>
-          <Button variant="outline">
+          <Button variant="default">
             <BadgePlus className="mr-2 h-4 w-4" />
             Add Topic
           </Button>
