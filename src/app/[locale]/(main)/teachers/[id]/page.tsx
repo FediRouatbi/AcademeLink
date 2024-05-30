@@ -58,7 +58,7 @@ export default async function page({ params }: Props) {
 
             <Card x-chunk="dashboard-07-chunk-0">
               <CardHeader>
-                <CardTitle>Product Details</CardTitle>
+                <CardTitle> Details</CardTitle>
                 <CardDescription>
                   Lipsum dolor sit amet, consectetur adipiscing elit
                 </CardDescription>
@@ -76,14 +76,13 @@ export default async function page({ params }: Props) {
                   </div>
                   <div className="grid gap-3">
                     <Label htmlFor="description">Description</Label>
-                 
                   </div>
                 </div>
               </CardContent>
             </Card>
             <Card x-chunk="dashboard-07-chunk-1">
               <CardHeader>
-                <CardTitle>Stock</CardTitle>
+                <CardTitle>Lorem</CardTitle>
                 <CardDescription>
                   Lipsum dolor sit amet, consectetur adipiscing elit
                 </CardDescription>
@@ -137,7 +136,7 @@ export default async function page({ params }: Props) {
                       <TableCell className="font-semibold">GGPC-002</TableCell>
                       <TableCell>
                         <Label htmlFor="stock-2" className="sr-only">
-                          Stock
+                          Documents
                         </Label>
                         {/* <Input
                               id="stock-2"
@@ -171,7 +170,7 @@ export default async function page({ params }: Props) {
                       <TableCell className="font-semibold">GGPC-003</TableCell>
                       <TableCell>
                         <Label htmlFor="stock-3" className="sr-only">
-                          Stock
+                          Documents
                         </Label>
                         {/* <Input
                               id="stock-3"
@@ -181,7 +180,7 @@ export default async function page({ params }: Props) {
                       </TableCell>
                       <TableCell>
                         <Label htmlFor="price-3" className="sr-only">
-                          Stock
+                          Documents
                         </Label>
                         {/* <Input
                               id="price-3"
@@ -207,13 +206,13 @@ export default async function page({ params }: Props) {
               <CardFooter className="justify-center border-t p-4">
                 <Button size="sm" variant="ghost" className="gap-1">
                   <PlusCircle className="h-3.5 w-3.5" />
-                  Add Variant
+                  Add 
                 </Button>
               </CardFooter>
             </Card>
             <Card x-chunk="dashboard-07-chunk-2">
               <CardHeader>
-                <CardTitle>Product Category</CardTitle>
+                <CardTitle>Product </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-6 sm:grid-cols-3">
@@ -253,7 +252,7 @@ export default async function page({ params }: Props) {
           <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
             <Card x-chunk="dashboard-07-chunk-3">
               <CardHeader>
-                <CardTitle>Product Status</CardTitle>
+                <CardTitle> Status</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-6">
@@ -275,7 +274,7 @@ export default async function page({ params }: Props) {
             </Card>
             <Card className="overflow-hidden" x-chunk="dashboard-07-chunk-4">
               <CardHeader>
-                <CardTitle>Product Images</CardTitle>
+                <CardTitle> Images</CardTitle>
                 <CardDescription>
                   Lipsum dolor sit amet, consectetur adipiscing elit
                 </CardDescription>
@@ -283,7 +282,7 @@ export default async function page({ params }: Props) {
               <CardContent>
                 <div className="grid gap-2">
                   <Image
-                    alt="Product image"
+                    alt=" image"
                     className="aspect-square w-full rounded-md object-cover"
                     height="300"
                     src="/placeholder.svg"
@@ -292,7 +291,7 @@ export default async function page({ params }: Props) {
                   <div className="grid grid-cols-3 gap-2">
                     <button>
                       <Image
-                        alt="Product image"
+                        alt=" image"
                         className="aspect-square w-full rounded-md object-cover"
                         height="84"
                         src="/placeholder.svg"
@@ -301,7 +300,7 @@ export default async function page({ params }: Props) {
                     </button>
                     <button>
                       <Image
-                        alt="Product image"
+                        alt=" image"
                         className="aspect-square w-full rounded-md object-cover"
                         height="84"
                         src="/placeholder.svg"
@@ -318,7 +317,7 @@ export default async function page({ params }: Props) {
             </Card>
             <Card x-chunk="dashboard-07-chunk-5">
               <CardHeader>
-                <CardTitle>Archive Product</CardTitle>
+                <CardTitle>Archive </CardTitle>
                 <CardDescription>
                   Lipsum dolor sit amet, consectetur adipiscing elit.
                 </CardDescription>
@@ -326,7 +325,7 @@ export default async function page({ params }: Props) {
               <CardContent>
                 <div></div>
                 <Button size="sm" variant="secondary">
-                  Archive Product
+                  Archive
                 </Button>
               </CardContent>
             </Card>
@@ -336,7 +335,7 @@ export default async function page({ params }: Props) {
           <Button variant="outline" size="sm">
             Discard
           </Button>
-          <Button size="sm">Save Product</Button>
+          <Button size="sm">Save </Button>
         </div>
       </div>
     </HydrationBoundary>

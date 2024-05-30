@@ -13,6 +13,7 @@ const Classrooms = () => {
   const t = useTranslations('Classrooms.Alert');
 
   const [debouncedValue] = useSeachAtom();
+  const { data } = useGetClassroomsQuery({ search: debouncedValue });
 
   const { mutate } = useDeleteClassroomMutation({
     onSuccess() {
@@ -31,7 +32,6 @@ const Classrooms = () => {
 
   const [open, setOpen] = useState(false);
   const [classroom, setClassroom] = useEditClassroomAtom();
-  const { data } = useGetClassroomsQuery({ search: debouncedValue });
   const classrooms = data?.getClassrooms;
 
   const onClickDelete = (classroom: ClassroomType) => {

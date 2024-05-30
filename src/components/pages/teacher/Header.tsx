@@ -39,7 +39,7 @@ const Header = ({ teacherId }: { teacherId: number }) => {
         >
           Discard
         </Button>
-        <Button size="sm">Save Product</Button>
+        <Button size="sm">Save </Button>
       </div>
     </div>
   );

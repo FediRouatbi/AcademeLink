@@ -8,6 +8,7 @@ const useGetCoursesQuery = ({ search }: { search?: string }) => {
   const query = useQuery({
     queryKey: ['courses', search],
     queryFn: () => getCourses(search, accessToken || ''),
+    enabled: !!accessToken,
   });
   return query;
 };

@@ -17,9 +17,9 @@ import Image from 'next/image';
 import useGetMyProfile from '@/hooks/useGetMyProfile';
 
 const DropDown = () => {
-  const { data: queryData } = useGetMyProfile();
-
   const session = useSession();
+
+  const { data: queryData } = useGetMyProfile();
 
   const t = useTranslations('Navbar.DropDown');
   const { push, replace } = useRouter();
