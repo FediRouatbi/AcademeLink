@@ -1,4 +1,5 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth';
+import AddCourse from '@/components/pages/courses/AddClass';
 import Courses from '@/components/pages/courses/Courses';
 import { getCourses } from '@/services/courses';
 import {
@@ -20,6 +21,7 @@ const page = async () => {
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <AddCourse />
       <Courses />
     </HydrationBoundary>
   );

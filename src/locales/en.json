@@ -188,6 +188,26 @@
     "dnd": "drag & drop to upload",
     "select": "select"
   },
+  "Courses": {
+    "Form": {
+      "addCourse": "Add Course",
+      "addCourseDescription": "Add a new course",
+      "editCourse": "Edit Course",
+      "create": "Create",
+      "save": "Save",
+      "subjectName": "Subject",
+      "searchSubject": "Search Subject",
+      "emptySubjectList": "No Subject Found",
+
+      "classroomName": "Classroom",
+      "searchClassroom": "Search Classroom",
+      "emptyClassroomList": "No Classroom Found",
+
+      "teacherName": "Teacher",
+      "searchTeacher": "Search Teacher",
+      "emptyTeacherList": "No Teacher Found"
+    }
+  },
   "Course": {
     "empty": "this course has not started yet",
     "title": "Are you absolutely sure ?",

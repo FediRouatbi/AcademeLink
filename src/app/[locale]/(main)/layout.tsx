@@ -96,7 +96,6 @@ export default async function Layout({
               <nav className="grid items-start px-4 text-sm font-medium">
                 {routes.map((el) => (
                   <LinkItem
-                    role={session?.user?.role}
                     key={el.isActive}
                     href={el?.href}
                     isActive={el.isActive}

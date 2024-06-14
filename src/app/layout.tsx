@@ -7,8 +7,8 @@ import NextTopLoader from 'nextjs-toploader';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'AcademeLink',
-  description: 'AcademeLink Platform',
+  title: 'SmartLearn',
+  description: 'SmartLearn Platform',
 };
 const locales = ['en', 'fr'];
 
