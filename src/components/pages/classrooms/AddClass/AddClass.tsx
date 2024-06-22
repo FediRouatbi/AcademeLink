@@ -164,6 +164,7 @@ const AddClass = () => {
                   name="description"
                   id="description"
                   placeholder={t('description')}
+                  rows={6}
                 />
               </div>
               {mode !== 'EDIT' && open && (

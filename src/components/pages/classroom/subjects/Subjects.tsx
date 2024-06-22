@@ -12,6 +12,7 @@ const Subjects = ({ courses }: { courses: Courses }) => {
       <div className="grid grid-cols-4 pt-8 gap-10">
         {courses?.map((course) => (
           <Course
+        
             id={course?.id}
             key={course?.id}
             createdAt={course?.createdAt}

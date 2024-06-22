@@ -71,7 +71,10 @@ export function ClassCombobox() {
                     setValue(currentValue === value ? '' : currentValue);
                     setOpen(false);
 
-                    field.onChange({ classroom_id: classromm?.classroom_id });
+                    field.onChange({
+                      classroom_id:
+                        currentValue === value ? 0 : classromm?.classroom_id,
+                    });
                   }}
                 >
                   {`${classromm.classroom_name} (${classromm?.student?.length})`}

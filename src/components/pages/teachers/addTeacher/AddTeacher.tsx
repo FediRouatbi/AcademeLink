@@ -13,7 +13,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Input } from '@/components/ui/input';
+import { Input, PasswordInput } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { queryClient } from '@/providers/react-query-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -173,7 +173,7 @@ const AddTeacher = ({ className }: { className?: string }) => {
                 </div>
                 <div className="space-y-2 ">
                   <Label htmlFor="password">{t('password')}*</Label>
-                  <Input id="password" name="password" />
+                  <PasswordInput id="password" name="password" />
                 </div>
                 <TeacherClassrooms />
                 <SheetFooter className="pt-10">

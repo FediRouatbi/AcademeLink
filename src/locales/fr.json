@@ -187,5 +187,30 @@
   "Dropzone": {
     "dnd": "glisser-déposer pour télécharger",
     "select": "sélectionner"
+  },
+  "Courses": {
+    "Form": {
+      "addCourse": "Ajouter un cours",
+      "addCourseDescription": "Ajouter un nouveau cours",
+      "editCourse": "Modifier le cours",
+      "create": "Créer",
+      "save": "Enregistrer",
+      "subjectName": "Sujet",
+      "searchSubject": "Rechercher un sujet",
+      "emptySubjectList": "Aucun sujet trouvé",
+
+      "classroomName": "Salle de classe",
+      "searchClassroom": "Rechercher une salle de classe",
+      "emptyClassroomList": "Aucune salle de classe trouvée",
+
+      "teacherName": "Enseignant",
+      "searchTeacher": "Rechercher un enseignant",
+      "emptyTeacherList": "Aucun enseignant trouvé"
+    }
+  },
+  "Course": {
+    "empty": "Ce cours n'a pas encore commencé",
+    "title": "Êtes-vous absolument sûr ?",
+    "description": "Cette action est irréversible. Cela supprimera définitivement ce sujet"
   }
 }

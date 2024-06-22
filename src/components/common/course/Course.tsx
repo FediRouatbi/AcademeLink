@@ -1,12 +1,5 @@
 import { AvatarImage } from '@/components/ui/avatar';
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarTrigger,
-} from '@/components/ui/menubar';
+
 import {
   ContextMenu,
   ContextMenuContent,
@@ -26,7 +19,7 @@ type Props = {
   createdAt: string;
   user_name: string;
   image_url: string;
-  onClickDelete: (course: number) => void;
+  onClickDelete?: (course: number) => void;
 };
 const Course = ({
   id,
@@ -72,7 +65,7 @@ const Course = ({
         <ContextMenuContent>
           <ContextMenuItem
             className="justify-between"
-            onClick={() => onClickDelete(id)}
+            onClick={() => onClickDelete?.(id)}
           >
             Delete <Trash2 />
           </ContextMenuItem>

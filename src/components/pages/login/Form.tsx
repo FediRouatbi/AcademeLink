@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
+import { Input, PasswordInput } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 import { signIn } from 'next-auth/react';
 import { Loader2 } from 'lucide-react';
 import * as NProgress from 'nprogress';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Link, redirect, usePathname, useRouter } from '@/navigation';
 import {
   DropdownMenu,
@@ -19,6 +19,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import LangSelector from '@/components/common/langSelector/LangSelector';
 
 const LoginUpSchema = z.object({
   email: z.string().email(),
@@ -28,6 +29,7 @@ const LoginUpSchema = z.object({
 type LoginSchemaType = z.infer<typeof LoginUpSchema>;
 
 const Form = () => {
+  const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -79,38 +81,19 @@ const Form = () => {
               Forgot your password?
             </Link>
           </div>
-          <Input name="password" type="password" />
+          <PasswordInput id="password" name="password" />
         </div>
-        <div className="flex items-center space-x-2">
-          <Checkbox id="remember-me" />
-          <Label className="text-sm" htmlFor="remember-me">
-            Remember me
-          </Label>
+        <div className="flex items-center ">
+          <div className="flex items-center space-x-2">
+            <Checkbox id="remember-me" />
+            <Label className="text-sm" htmlFor="remember-me">
+              Remember me
+            </Label>
+          </div>
+          <div className="ml-auto">
+            <LangSelector />
+          </div>
         </div>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon">
-              EN
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() => {
-                router?.replace(pathname, { locale: 'en' });
-              }}
-            >
-              En
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {
-                router?.replace(pathname, { locale: 'fr' });
-              }}
-            >
-              Fr
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
 
         <Button className="w-full" type="submit" disabled={isLoading}>
           {isLoading ? (

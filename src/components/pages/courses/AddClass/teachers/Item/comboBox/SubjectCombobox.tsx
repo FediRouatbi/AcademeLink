@@ -39,7 +39,7 @@ export function SubjectCombobox({ selectedclassroomId }: Props) {
   const subjectsExist = classrooms?.getClassrooms
     ?.find((classroom) => classroom.classroom_id === selectedclassroomId)
     ?.course?.map((el) => el.subject?.id);
-
+   
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -56,7 +56,7 @@ export function SubjectCombobox({ selectedclassroomId }: Props) {
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder={t('searchSubject')} className="h-9" />
+          <CommandInput placeholder={t('searchSubject')} className="h-9" name='qsqsq' />
           <CommandList>
             <CommandEmpty>{t('emptySubjectList')}</CommandEmpty>
             <CommandGroup>
@@ -65,7 +65,7 @@ export function SubjectCombobox({ selectedclassroomId }: Props) {
                   disabled={subjectsExist?.includes(subject?.id)}
                   key={subject.id}
                   value={subject.name}
-                  onSelect={(currentValue) => {
+                  onSelect={(currentValue) => {                    
                     setValue(currentValue === value ? '' : currentValue);
                     setFormValue(
                       'subjectId',
