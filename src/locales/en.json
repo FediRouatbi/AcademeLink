@@ -92,7 +92,7 @@
       "info": "Info",
       "courses": "Courses",
       "status": "Status",
-      "date": "Date"
+      "date": "Created At"
     },
     "Form": {
       "addTeacher": "Add Teacher",

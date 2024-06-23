@@ -9,14 +9,14 @@ import { RoleCodeEnum } from '@/gql/graphql';
 type RoleCodeType = keyof typeof RoleCodeEnum;
 
 type Props = {
-  createdAt: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  updatedAt: string;
-  user_id: number;
-  user_name: string;
-  role: RoleCodeType;
+  createdAt?: string;
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  updatedAt?: string;
+  user_id?: number;
+  user_name?: string;
+  role?: RoleCodeType;
   image_url?: string | null | undefined;
 };
 const ProfileCard = (user: Props) => {
@@ -39,7 +39,7 @@ const ProfileCard = (user: Props) => {
           <AvatarImage
             alt="User Avatar"
             src={image_url || '/teacher.png'}
-            className=""
+            className='object-cover'
           />
           <AvatarFallback>JD</AvatarFallback>
         </Avatar>

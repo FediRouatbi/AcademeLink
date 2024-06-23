@@ -19,9 +19,11 @@ const page = async () => {
     queryFn: () => getCourses('', session?.token?.accessToken || ''),
     staleTime: 500,
   });
+  const role = session?.user.role;
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AddCourse />
+      {role === 'ADMIN' && <AddCourse />}
       <Courses />
     </HydrationBoundary>
   );

@@ -56,7 +56,7 @@ export default async function page({ params }: Props) {
           <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
             <TeacherProfileCard teacherId={teacherId} />
 
-            <Card x-chunk="dashboard-07-chunk-0">
+            <Card x-chunk="dashboard-07-chunk-0" className="blur-sm">
               <CardHeader>
                 <CardTitle> Details</CardTitle>
                 <CardDescription>
@@ -80,7 +80,7 @@ export default async function page({ params }: Props) {
                 </div>
               </CardContent>
             </Card>
-            <Card x-chunk="dashboard-07-chunk-1">
+            <Card x-chunk="dashboard-07-chunk-1" className="blur-sm">
               <CardHeader>
                 <CardTitle>Lorem</CardTitle>
                 <CardDescription>
@@ -206,11 +206,11 @@ export default async function page({ params }: Props) {
               <CardFooter className="justify-center border-t p-4">
                 <Button size="sm" variant="ghost" className="gap-1">
                   <PlusCircle className="h-3.5 w-3.5" />
-                  Add 
+                  Add
                 </Button>
               </CardFooter>
             </Card>
-            <Card x-chunk="dashboard-07-chunk-2">
+            <Card x-chunk="dashboard-07-chunk-2" className="blur-sm">
               <CardHeader>
                 <CardTitle>Product </CardTitle>
               </CardHeader>
@@ -250,7 +250,7 @@ export default async function page({ params }: Props) {
             </Card>
           </div>
           <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-            <Card x-chunk="dashboard-07-chunk-3">
+            <Card x-chunk="dashboard-07-chunk-3" className="blur-sm">
               <CardHeader>
                 <CardTitle> Status</CardTitle>
               </CardHeader>
@@ -272,7 +272,10 @@ export default async function page({ params }: Props) {
                 </div>
               </CardContent>
             </Card>
-            <Card className="overflow-hidden" x-chunk="dashboard-07-chunk-4">
+            <Card
+              className="overflow-hidden blur-sm"
+              x-chunk="dashboard-07-chunk-4"
+            >
               <CardHeader>
                 <CardTitle> Images</CardTitle>
                 <CardDescription>
@@ -315,7 +318,7 @@ export default async function page({ params }: Props) {
                 </div>
               </CardContent>
             </Card>
-            <Card x-chunk="dashboard-07-chunk-5">
+            <Card x-chunk="dashboard-07-chunk-5" className="blur-sm">
               <CardHeader>
                 <CardTitle>Archive </CardTitle>
                 <CardDescription>

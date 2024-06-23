@@ -33,7 +33,7 @@ export default function ClassCard({
   const role = session?.user?.role;
 
   return (
-    <Card className="max-w-sm mt-5 relative group hover:shadow-md transition-all">
+    <Card className="max-w-md mt-5 relative group hover:shadow-md transition-all">
       {role === 'ADMIN' && (
         <div className="absolute z-20 group-hover:opacity-100 transition-all opacity-0 top-5 right-5 flex gap-2">
           <Button
@@ -89,26 +89,31 @@ export default function ClassCard({
               return (
                 <li className="" key={i}>
                   <div className="flex items-center gap-5 ">
-                    {cours?.subject?.name}
+                    <p className="text-sm  ">{cours?.subject?.name}</p>
                     <HoverCard>
-                      <HoverCardTrigger className=" w-full">
+                      <HoverCardTrigger
+                        className=" size-6 relative"
+                        href={`/teachers/${cours?.teacher?.teacher_id}`}
+                      >
                         <Image
+                          objectFit="cover"
                           src={image_url}
-                          width={24}
-                          height={24}
+                          fill
                           alt="dsd "
                           className="rounded-full cursor-pointer"
                         />
                       </HoverCardTrigger>
-                      <HoverCardContent className="w-fit">
+                      <HoverCardContent className="w-fit max-w-80">
                         <div className="flex justify-between space-x-4">
-                          <Image
-                            src={image_url}
-                            width={60}
-                            height={60}
-                            alt="dsd "
-                            className="rounded-full flex-1 w-full"
-                          />
+                          <div className="size-14 relative flex-shrink-0">
+                            <Image
+                              src={image_url}
+                              objectFit="cover"
+                              fill
+                              alt="dsd "
+                              className="rounded-full flex-1 w-full"
+                            />
+                          </div>
                           <div className="space-y-1">
                             <h4 className="text-sm font-semibold">
                               @{cours?.teacher?.user?.user_name}

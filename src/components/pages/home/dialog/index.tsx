@@ -78,7 +78,7 @@ const AddArticle = () => {
             {t('addTopic')}
           </Button>
         </SheetTrigger>
-        <SheetContent className="!max-w-[700px] min-w-[25%]">
+        <SheetContent className="!max-w-[700px] min-w-[25%] overflow-y-auto">
           <SheetHeader>
             <SheetTitle>
               {mode === 'ADD' ? t('addTopic') : t('editTopic')}

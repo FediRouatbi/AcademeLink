@@ -37,7 +37,7 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 import { getStudent } from '@/services/student';
-import { Header } from '@/components/pages/student';
+import { Header, StudentProfileCard } from '@/components/pages/student';
 type Props = {
   params: { locale: 'fr' | 'en'; id: string };
 };
@@ -57,7 +57,8 @@ export default async function page({ params }: Props) {
         <Header studentId={studentId} />
         <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
           <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-            <Card x-chunk="dashboard-07-chunk-0">
+            <StudentProfileCard studentId={studentId} />
+            <Card x-chunk="dashboard-07-chunk-0" className="blur-sm">
               <CardHeader>
                 <CardTitle>Product Details</CardTitle>
                 <CardDescription>
@@ -77,12 +78,11 @@ export default async function page({ params }: Props) {
                   </div>
                   <div className="grid gap-3">
                     <Label htmlFor="description">Description</Label>
-                
                   </div>
                 </div>
               </CardContent>
             </Card>
-            <Card x-chunk="dashboard-07-chunk-1">
+            <Card x-chunk="dashboard-07-chunk-1" className="blur-sm">
               <CardHeader>
                 <CardTitle>Stock</CardTitle>
                 <CardDescription>
@@ -212,7 +212,7 @@ export default async function page({ params }: Props) {
                 </Button>
               </CardFooter>
             </Card>
-            <Card x-chunk="dashboard-07-chunk-2">
+            <Card x-chunk="dashboard-07-chunk-2" className="blur-sm">
               <CardHeader>
                 <CardTitle>Product Category</CardTitle>
               </CardHeader>
@@ -252,7 +252,7 @@ export default async function page({ params }: Props) {
             </Card>
           </div>
           <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-            <Card x-chunk="dashboard-07-chunk-3">
+            <Card x-chunk="dashboard-07-chunk-3" className="blur-sm">
               <CardHeader>
                 <CardTitle>Product Status</CardTitle>
               </CardHeader>
@@ -274,7 +274,10 @@ export default async function page({ params }: Props) {
                 </div>
               </CardContent>
             </Card>
-            <Card className="overflow-hidden" x-chunk="dashboard-07-chunk-4">
+            <Card
+              className="overflow-hidden blur-sm"
+              x-chunk="dashboard-07-chunk-4"
+            >
               <CardHeader>
                 <CardTitle>Product Images</CardTitle>
                 <CardDescription>
@@ -317,7 +320,7 @@ export default async function page({ params }: Props) {
                 </div>
               </CardContent>
             </Card>
-            <Card x-chunk="dashboard-07-chunk-5">
+            <Card x-chunk="dashboard-07-chunk-5" className="blur-sm">
               <CardHeader>
                 <CardTitle>Archive Product</CardTitle>
                 <CardDescription>

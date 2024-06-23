@@ -51,7 +51,7 @@ const Classrooms = () => {
     setOpen(false);
   };
   return (
-    <div className="grid md:grid-cols-4 gap-4 xl:gap-8">
+    <div className="grid md:grid-cols-3 gap-4 xl:gap-8">
       {classrooms?.map((classroom) => (
         <ClassCard
           classroom={classroom}

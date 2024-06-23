@@ -96,7 +96,7 @@ const AddTopic = ({
             Add Topic
           </Button>
         </SheetTrigger>
-        <SheetContent className="!max-w-[700px] min-w-[25%]">
+        <SheetContent className="!max-w-[700px] min-w-[25%] overflow-y-auto">
           <SheetHeader>
             <SheetTitle>
               {mode === 'ADD' ? 'Add Topic' : 'Edit Topic'}

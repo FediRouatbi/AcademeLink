@@ -9,7 +9,7 @@ const Subjects = ({ courses }: { courses: Courses }) => {
     <div className="py-10">
       <h2 className="text-lg">Subjects :</h2>
 
-      <div className="grid grid-cols-4 pt-8 gap-10">
+      <div className="grid grid-cols-3 pt-8 gap-10">
         {courses?.map((course) => (
           <Course
         

@@ -92,7 +92,7 @@
       "info": "Infos",
       "courses": "Cours",
       "status": "Statut",
-      "date": "Date"
+      "date": "Créé le"
     },
     "Form": {
       "addTeacher": "Ajouter un enseignant",
@@ -120,7 +120,7 @@
       "description": "Liste des étudiants",
       "id": "ID",
       "info": "Infos",
-      "classroom": "Salle de classe",
+      "classroom": "Classe",
       "status": "Statut",
       "date": "Date"
     },
@@ -136,7 +136,7 @@
       "create": "Créer",
       "save": "Enregistrer",
       "addClassroom": "Ajouter une salle de classe",
-      "classroom": "Salle de classe",
+      "classroom": "Classe",
       "classroomName": "Nom de la salle de classe",
       "noClassroom": "Aucune salle de classe trouvée.",
       "searchClassroom": "Rechercher une salle de classe...",
@@ -199,7 +199,7 @@
       "searchSubject": "Rechercher un sujet",
       "emptySubjectList": "Aucun sujet trouvé",
 
-      "classroomName": "Salle de classe",
+      "classroomName": "Classe",
       "searchClassroom": "Rechercher une salle de classe",
       "emptyClassroomList": "Aucune salle de classe trouvée",
 

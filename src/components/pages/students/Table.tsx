@@ -31,6 +31,7 @@ import * as NProgress from 'nprogress';
 import { useRouter } from '@/navigation';
 import { useTranslations } from 'next-intl';
 import { RoleCodeType } from '@/lib/next-auth';
+import CustomClipBoard from '@/components/common/CustomClipBoard';
 
 export default function StudentsTabel({
   role,
@@ -132,8 +133,10 @@ export default function StudentsTabel({
                       <div className="font-medium">
                         {student?.user?.user_name}
                       </div>
-                      <div className="hidden text-sm text-muted-foreground md:inline">
+
+                      <div className="hidden text-sm text-muted-foreground md:flex items-center gap-3 ">
                         {student?.user?.email}
+                        <CustomClipBoard text={student?.user?.email||""} />
                       </div>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">

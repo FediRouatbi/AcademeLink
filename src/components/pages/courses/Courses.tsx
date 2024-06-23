@@ -47,7 +47,7 @@ export default function Courses() {
             <h1 className="text-4xl">
               {classroom?.at(0)?.classroom?.classroom_name}
             </h1>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4 md:p-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 p-4 md:p-6">
               {classroom.map((el) => {
                 return (
                   <Course

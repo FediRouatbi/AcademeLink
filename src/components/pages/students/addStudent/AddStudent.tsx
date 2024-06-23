@@ -26,18 +26,22 @@ import {
   useEditStudentMutation,
   useCreateStudentMutation,
 } from '@/hooks/student/';
-import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
-const schema = z.object({
-  firstName: z.string().min(3),
-  lastName: z.string().min(3),
-  userName: z.string().min(3),
-  email: z.string().email(),
-  password: z.string().min(6),
-  classroomId: z.optional(z.object({ classroom_id: z.number() })),
-});
+const createStudentSchema = (edit: boolean) =>
+  z.object({
+    firstName: z.string().min(3),
+    lastName: z.string().min(3),
+    userName: z.string().min(3),
+    email: z.string().email(),
+    password: edit
+      ? z.string().refine((val) => val.length === 0 || val.length >= 6, {
+          message: 'Password must be empty or at least 6 char',
+        })
+      : z.string().min(6),
+    classroomId: z.optional(z.object({ classroom_id: z.number() })),
+  });
 
-type createStudentmType = z.infer<typeof schema>;
+type createStudentmType = z.infer<ReturnType<typeof createStudentSchema>>;
 
 const AddStudent = ({ className }: { className?: string }) => {
   const t = useTranslations('Students.Form');
@@ -74,9 +78,10 @@ const AddStudent = ({ className }: { className?: string }) => {
         toast?.error(error?.message.split(':')[0]);
       },
     });
+  console.log(student?.action);
 
   const methods = useForm<createStudentmType>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(createStudentSchema(student?.action === 'EDIT')),
     defaultValues,
   });
 
@@ -100,7 +105,7 @@ const AddStudent = ({ className }: { className?: string }) => {
       email: data?.email,
       first_name: data?.firstName,
       last_name: data?.lastName,
-      password: data?.password,
+      password: data?.password || '123456',
       user_name: data?.userName,
       ...classroom,
     });
@@ -172,8 +177,8 @@ const AddStudent = ({ className }: { className?: string }) => {
 
                 <div className="space-y-2 ">
                   <Label htmlFor="password">{t('password')}*</Label>
-               
-                  <PasswordInput id="password" name="password" />
+
+                  <PasswordInput id="password" name="password" placeholder='********' />
                 </div>
 
                 <div className="space-y-2 flex flex-col pt-5">

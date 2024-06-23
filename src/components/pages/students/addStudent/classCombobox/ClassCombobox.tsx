@@ -59,7 +59,7 @@ export function ClassCombobox() {
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search classroom..." className="h-9" />
+          <CommandInput placeholder="Search classroom..." className="h-9" name="classroomName" />
           <CommandList>
             <CommandEmpty>{t('noClassroom')}</CommandEmpty>
             <CommandGroup>

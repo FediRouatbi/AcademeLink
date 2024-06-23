@@ -39,12 +39,13 @@ const Course = ({
           key={id}
           className="flex flex-col cursor-pointer  border-gradient text-white p-5  rounded-lg  overflow-hidden aspect-video   hover:scale-105 transition-all"
         >
-          <div className="flex justify-between">
-            <div className="flex  items-center text-3xl">{subject_name}</div>
-            <div className="flex  items-center">
+          <div className="flex gap-10 justify-between items-start">
+            <div className=" text-xl  text-wrap">
+              {subject_name}
+            </div>
+            <div className="flex  items-center  shrink-0 text-sm">
               <CalendarIcon className="mr-2 h-4 w-4 " />
-
-              {dayjs(createdAt).format('DD MMMM YYYY')}
+              <p className="text-sm w-full">{dayjs(createdAt).format('DD-MM-YYYY')}</p>
             </div>
           </div>
           <div className="mt-auto flex justify-between">

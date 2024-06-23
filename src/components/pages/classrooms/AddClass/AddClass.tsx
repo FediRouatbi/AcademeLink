@@ -141,7 +141,7 @@ const AddClass = () => {
           {t('addClassroom')}
         </Button>
       </SheetTrigger>
-      <SheetContent className="!max-w-fit min-w-[25%]">
+      <SheetContent className="!max-w-fit min-w-[25%] overflow-y-auto">
         <SheetHeader>
           <SheetTitle>
             {mode === 'ADD' ? t('addClassroom') : t('editClassroom')}
